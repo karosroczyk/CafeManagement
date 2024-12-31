@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 50MB
+  application:
+    name: apigateway
+
+springdoc:
+  default-produces-media-type: application/json
+server:
+#  servlet:
+#    context-path: /api/v1/
+  port: 8088
+
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#  instance:
+#    instance-id: ${spring.application.name}:${random.value}

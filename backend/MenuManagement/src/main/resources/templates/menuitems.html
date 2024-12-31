@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Menu</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body class="container mt-5">
+<h1 class="mb-4 text-center">Menu</h1>
+
+
+<div th:each="category : ${categorizedMenuItems}">
+    <h2 th:text="${category.key}"></h2>
+    <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Item ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="menuItem : ${category.value}">
+            <td th:text="${menuItem.item_id}"></td>
+            <td th:text="${menuItem.name}"></td>
+            <td th:text="${menuItem.description}"></td>
+            <td th:text="${menuItem.price}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="text-center mt-4">
+    <a th:href="@{/}" class="btn btn-secondary">Back to Home</a>
+</div>
+
+<!-- Add Bootstrap JS for functionality -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
