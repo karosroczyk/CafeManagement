@@ -1,0 +1,31 @@
+<div class="d-flex flex-column gap-1">
+  <app-menu></app-menu>
+
+  <!--<div class="w-100 text-center mb-3">-->
+  <!--  <img src="home.jpg" alt="Cafe Photo" class="img-fluid" style="max-height: 300px; object-fit: cover;">-->
+  <!--</div>-->
+
+  <!-- About Us Section -->
+  <div class="menu-page">
+    <header class="menu-header">
+      <h1>About Us</h1>
+      <div class="menu-divider"></div>
+    </header>
+
+    <p>
+      Welcome to our cafe! We serve freshly brewed coffee, delicious pastries, and a warm atmosphere.
+      Our goal is to provide you with the best dining experience.
+    </p>
+
+    <!-- Centered Buttons -->
+    <div class="d-flex justify-content-center gap-2 p-2">
+      <button class="btn btn-secondary" style="background-color: #8a6b52;" (click)="handleButton1()">Open Menu</button>
+      <button class="btn btn-secondary" style="background-color: #8a6b52;" (click)="handleButton2()">Create an order</button>
+    </div>
+  </div>
+
+
+  <div class="pe-2 ps-2">
+    <router-outlet></router-outlet>
+  </div>
+</div>
