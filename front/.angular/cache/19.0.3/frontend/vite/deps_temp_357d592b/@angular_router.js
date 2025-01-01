@@ -1,7 +1,7 @@
-import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   Title
-} from "./chunk-3JJO6PDS.js";
+} from "./chunk-A7JJG5QZ.js";
+import "./chunk-N2I6BG32.js";
 import {
   DOCUMENT,
   HashLocationStrategy,
@@ -10,7 +10,7 @@ import {
   LocationStrategy,
   PathLocationStrategy,
   ViewportScroller
-} from "./chunk-DC5IT7NX.js";
+} from "./chunk-MWBCMSO3.js";
 import {
   APP_BOOTSTRAP_LISTENER,
   APP_INITIALIZER,
@@ -78,22 +78,49 @@ import {
   ɵɵloadQuery,
   ɵɵqueryRefresh,
   ɵɵsanitizeUrlOrResourceUrl
-} from "./chunk-PPX7WED5.js";
+} from "./chunk-WKAXLBS3.js";
+import "./chunk-WSXI74FV.js";
 import {
-  require_cjs
-} from "./chunk-TDK5NIWS.js";
+  defer,
+  isObservable
+} from "./chunk-LBBSG2YE.js";
 import {
-  require_operators
-} from "./chunk-WBQSER3X.js";
-import {
+  BehaviorSubject,
+  ConnectableObservable,
+  EMPTY,
+  EmptyError,
+  Subject,
+  Subscription,
   __spreadProps,
   __spreadValues,
-  __toESM
-} from "./chunk-YHCV7DAQ.js";
+  catchError,
+  combineLatest,
+  concat,
+  concatMap,
+  defaultIfEmpty,
+  filter,
+  finalize,
+  first,
+  from,
+  last,
+  map,
+  mapTo,
+  mergeAll,
+  mergeMap,
+  of,
+  pipe,
+  refCount,
+  scan,
+  startWith,
+  switchMap,
+  take,
+  takeLast,
+  takeUntil,
+  tap,
+  throwError
+} from "./chunk-NGNUV6BG.js";
 
 // node_modules/@angular/router/fesm2022/router.mjs
-var import_rxjs = __toESM(require_cjs(), 1);
-var import_operators = __toESM(require_operators(), 1);
 var PRIMARY_OUTLET = "primary";
 var RouteTitleKey = Symbol("RouteTitle");
 var ParamsAsMap = class {
@@ -184,17 +211,17 @@ function equalArraysOrString(a, b) {
     return a === b;
   }
 }
-function last(a) {
+function last2(a) {
   return a.length > 0 ? a[a.length - 1] : null;
 }
 function wrapIntoObservable(value) {
-  if ((0, import_rxjs.isObservable)(value)) {
+  if (isObservable(value)) {
     return value;
   }
   if (isPromise(value)) {
-    return (0, import_rxjs.from)(Promise.resolve(value));
+    return from(Promise.resolve(value));
   }
-  return (0, import_rxjs.of)(value);
+  return of(value);
 }
 var pathCompareMap = {
   "exact": equalSegmentGroups,
@@ -728,7 +755,7 @@ var Navigation = class {
       throw new RuntimeError(4003, (typeof ngDevMode === "undefined" || ngDevMode) && "Root segment cannot have matrix parameters");
     }
     const cmdWithOutlet = commands.find(isCommandWithOutlets);
-    if (cmdWithOutlet && cmdWithOutlet !== last(commands)) {
+    if (cmdWithOutlet && cmdWithOutlet !== last2(commands)) {
       throw new RuntimeError(4004, (typeof ngDevMode === "undefined" || ngDevMode) && "{outlets:{}} has to be the last command");
     }
   }
@@ -1572,11 +1599,11 @@ var RouterState = class extends Tree {
 };
 function createEmptyState(rootComponent) {
   const snapshot = createEmptyStateSnapshot(rootComponent);
-  const emptyUrl = new import_rxjs.BehaviorSubject([new UrlSegment("", {})]);
-  const emptyParams = new import_rxjs.BehaviorSubject({});
-  const emptyData = new import_rxjs.BehaviorSubject({});
-  const emptyQueryParams = new import_rxjs.BehaviorSubject({});
-  const fragment = new import_rxjs.BehaviorSubject("");
+  const emptyUrl = new BehaviorSubject([new UrlSegment("", {})]);
+  const emptyParams = new BehaviorSubject({});
+  const emptyData = new BehaviorSubject({});
+  const emptyQueryParams = new BehaviorSubject({});
+  const fragment = new BehaviorSubject("");
   const activated = new ActivatedRoute(emptyUrl, emptyParams, emptyQueryParams, fragment, emptyData, PRIMARY_OUTLET, rootComponent, snapshot.root);
   activated.snapshot = snapshot.root;
   return new RouterState(new TreeNode(activated, []), snapshot);
@@ -1629,7 +1656,7 @@ var ActivatedRoute = class {
     this.outlet = outlet;
     this.component = component;
     this._futureSnapshot = futureSnapshot;
-    this.title = this.dataSubject?.pipe((0, import_operators.map)((d) => d[RouteTitleKey])) ?? (0, import_rxjs.of)(void 0);
+    this.title = this.dataSubject?.pipe(map((d) => d[RouteTitleKey])) ?? of(void 0);
     this.url = urlSubject;
     this.params = paramsSubject;
     this.queryParams = queryParamsSubject;
@@ -1666,7 +1693,7 @@ var ActivatedRoute = class {
    * The map supports retrieving single and multiple values from the same parameter.
    */
   get paramMap() {
-    this._paramMap ??= this.params.pipe((0, import_operators.map)((p) => convertToParamMap(p)));
+    this._paramMap ??= this.params.pipe(map((p) => convertToParamMap(p)));
     return this._paramMap;
   }
   /**
@@ -1674,7 +1701,7 @@ var ActivatedRoute = class {
    * The map supports retrieving single and multiple values from the query parameter.
    */
   get queryParamMap() {
-    this._queryParamMap ??= this.queryParams.pipe((0, import_operators.map)((p) => convertToParamMap(p)));
+    this._queryParamMap ??= this.queryParams.pipe(map((p) => convertToParamMap(p)));
     return this._queryParamMap;
   }
   toString() {
@@ -2091,10 +2118,10 @@ var RoutedComponentInputBinder = class _RoutedComponentInputBinder {
     const {
       activatedRoute
     } = outlet;
-    const dataSubscription = (0, import_rxjs.combineLatest)([activatedRoute.queryParams, activatedRoute.params, activatedRoute.data]).pipe((0, import_operators.switchMap)(([queryParams, params, data], index) => {
+    const dataSubscription = combineLatest([activatedRoute.queryParams, activatedRoute.params, activatedRoute.data]).pipe(switchMap(([queryParams, params, data], index) => {
       data = __spreadValues(__spreadValues(__spreadValues({}, queryParams), params), data);
       if (index === 0) {
-        return (0, import_rxjs.of)(data);
+        return of(data);
       }
       return Promise.resolve(data);
     })).subscribe((data) => {
@@ -2164,7 +2191,7 @@ function createOrReuseChildren(routeReuseStrategy, curr, prevState) {
   });
 }
 function createActivatedRoute(c) {
-  return new ActivatedRoute(new import_rxjs.BehaviorSubject(c.url), new import_rxjs.BehaviorSubject(c.params), new import_rxjs.BehaviorSubject(c.queryParams), new import_rxjs.BehaviorSubject(c.fragment), new import_rxjs.BehaviorSubject(c.data), c.outlet, c.component, c);
+  return new ActivatedRoute(new BehaviorSubject(c.url), new BehaviorSubject(c.params), new BehaviorSubject(c.queryParams), new BehaviorSubject(c.fragment), new BehaviorSubject(c.data), c.outlet, c.component, c);
 }
 var RedirectCommand = class {
   redirectTo;
@@ -2201,7 +2228,7 @@ function isNavigationCancelingError(error) {
   return !!error && error[NAVIGATION_CANCELING_ERROR];
 }
 var warnedAboutUnsupportedInputBinding = false;
-var activateRoutes = (rootContexts, routeReuseStrategy, forwardEvent, inputBindingEnabled) => (0, import_operators.map)((t) => {
+var activateRoutes = (rootContexts, routeReuseStrategy, forwardEvent, inputBindingEnabled) => map((t) => {
   new ActivateRoutes(routeReuseStrategy, t.targetRouterState, t.currentRouterState, forwardEvent, inputBindingEnabled).activate(rootContexts);
   return t;
 });
@@ -2501,12 +2528,12 @@ function isCanMatch(guard) {
   return guard && isFunction(guard.canMatch);
 }
 function isEmptyError(e) {
-  return e instanceof import_rxjs.EmptyError || e?.name === "EmptyError";
+  return e instanceof EmptyError || e?.name === "EmptyError";
 }
 var INITIAL_VALUE = Symbol("INITIAL_VALUE");
 function prioritizedGuardValue() {
-  return (0, import_operators.switchMap)((obs) => {
-    return (0, import_rxjs.combineLatest)(obs.map((o) => o.pipe((0, import_operators.take)(1), (0, import_operators.startWith)(INITIAL_VALUE)))).pipe((0, import_operators.map)((results) => {
+  return switchMap((obs) => {
+    return combineLatest(obs.map((o) => o.pipe(take(1), startWith(INITIAL_VALUE)))).pipe(map((results) => {
       for (const result of results) {
         if (result === true) {
           continue;
@@ -2517,14 +2544,14 @@ function prioritizedGuardValue() {
         }
       }
       return true;
-    }), (0, import_operators.filter)((item) => item !== INITIAL_VALUE), (0, import_operators.take)(1));
+    }), filter((item) => item !== INITIAL_VALUE), take(1));
   });
 }
 function isRedirect(val) {
   return isUrlTree(val) || val instanceof RedirectCommand;
 }
 function checkGuards(injector, forwardEvent) {
-  return (0, import_operators.mergeMap)((t) => {
+  return mergeMap((t) => {
     const {
       targetSnapshot,
       currentSnapshot,
@@ -2534,26 +2561,26 @@ function checkGuards(injector, forwardEvent) {
       }
     } = t;
     if (canDeactivateChecks.length === 0 && canActivateChecks.length === 0) {
-      return (0, import_rxjs.of)(__spreadProps(__spreadValues({}, t), {
+      return of(__spreadProps(__spreadValues({}, t), {
         guardsResult: true
       }));
     }
-    return runCanDeactivateChecks(canDeactivateChecks, targetSnapshot, currentSnapshot, injector).pipe((0, import_operators.mergeMap)((canDeactivate) => {
-      return canDeactivate && isBoolean(canDeactivate) ? runCanActivateChecks(targetSnapshot, canActivateChecks, injector, forwardEvent) : (0, import_rxjs.of)(canDeactivate);
-    }), (0, import_operators.map)((guardsResult) => __spreadProps(__spreadValues({}, t), {
+    return runCanDeactivateChecks(canDeactivateChecks, targetSnapshot, currentSnapshot, injector).pipe(mergeMap((canDeactivate) => {
+      return canDeactivate && isBoolean(canDeactivate) ? runCanActivateChecks(targetSnapshot, canActivateChecks, injector, forwardEvent) : of(canDeactivate);
+    }), map((guardsResult) => __spreadProps(__spreadValues({}, t), {
       guardsResult
     })));
   });
 }
 function runCanDeactivateChecks(checks, futureRSS, currRSS, injector) {
-  return (0, import_rxjs.from)(checks).pipe((0, import_operators.mergeMap)((check) => runCanDeactivate(check.component, check.route, currRSS, futureRSS, injector)), (0, import_operators.first)((result) => {
+  return from(checks).pipe(mergeMap((check) => runCanDeactivate(check.component, check.route, currRSS, futureRSS, injector)), first((result) => {
     return result !== true;
   }, true));
 }
 function runCanActivateChecks(futureSnapshot, checks, injector, forwardEvent) {
-  return (0, import_rxjs.from)(checks).pipe((0, import_operators.concatMap)((check) => {
-    return (0, import_rxjs.concat)(fireChildActivationStart(check.route.parent, forwardEvent), fireActivationStart(check.route, forwardEvent), runCanActivateChild(futureSnapshot, check.path, injector), runCanActivate(futureSnapshot, check.route, injector));
-  }), (0, import_operators.first)((result) => {
+  return from(checks).pipe(concatMap((check) => {
+    return concat(fireChildActivationStart(check.route.parent, forwardEvent), fireActivationStart(check.route, forwardEvent), runCanActivateChild(futureSnapshot, check.path, injector), runCanActivate(futureSnapshot, check.route, injector));
+  }), first((result) => {
     return result !== true;
   }, true));
 }
@@ -2561,81 +2588,81 @@ function fireActivationStart(snapshot, forwardEvent) {
   if (snapshot !== null && forwardEvent) {
     forwardEvent(new ActivationStart(snapshot));
   }
-  return (0, import_rxjs.of)(true);
+  return of(true);
 }
 function fireChildActivationStart(snapshot, forwardEvent) {
   if (snapshot !== null && forwardEvent) {
     forwardEvent(new ChildActivationStart(snapshot));
   }
-  return (0, import_rxjs.of)(true);
+  return of(true);
 }
 function runCanActivate(futureRSS, futureARS, injector) {
   const canActivate = futureARS.routeConfig ? futureARS.routeConfig.canActivate : null;
-  if (!canActivate || canActivate.length === 0) return (0, import_rxjs.of)(true);
+  if (!canActivate || canActivate.length === 0) return of(true);
   const canActivateObservables = canActivate.map((canActivate2) => {
-    return (0, import_rxjs.defer)(() => {
+    return defer(() => {
       const closestInjector = getClosestRouteInjector(futureARS) ?? injector;
       const guard = getTokenOrFunctionIdentity(canActivate2, closestInjector);
       const guardVal = isCanActivate(guard) ? guard.canActivate(futureARS, futureRSS) : runInInjectionContext(closestInjector, () => guard(futureARS, futureRSS));
-      return wrapIntoObservable(guardVal).pipe((0, import_operators.first)());
+      return wrapIntoObservable(guardVal).pipe(first());
     });
   });
-  return (0, import_rxjs.of)(canActivateObservables).pipe(prioritizedGuardValue());
+  return of(canActivateObservables).pipe(prioritizedGuardValue());
 }
 function runCanActivateChild(futureRSS, path, injector) {
   const futureARS = path[path.length - 1];
   const canActivateChildGuards = path.slice(0, path.length - 1).reverse().map((p) => getCanActivateChild(p)).filter((_) => _ !== null);
   const canActivateChildGuardsMapped = canActivateChildGuards.map((d) => {
-    return (0, import_rxjs.defer)(() => {
+    return defer(() => {
       const guardsMapped = d.guards.map((canActivateChild) => {
         const closestInjector = getClosestRouteInjector(d.node) ?? injector;
         const guard = getTokenOrFunctionIdentity(canActivateChild, closestInjector);
         const guardVal = isCanActivateChild(guard) ? guard.canActivateChild(futureARS, futureRSS) : runInInjectionContext(closestInjector, () => guard(futureARS, futureRSS));
-        return wrapIntoObservable(guardVal).pipe((0, import_operators.first)());
+        return wrapIntoObservable(guardVal).pipe(first());
       });
-      return (0, import_rxjs.of)(guardsMapped).pipe(prioritizedGuardValue());
+      return of(guardsMapped).pipe(prioritizedGuardValue());
     });
   });
-  return (0, import_rxjs.of)(canActivateChildGuardsMapped).pipe(prioritizedGuardValue());
+  return of(canActivateChildGuardsMapped).pipe(prioritizedGuardValue());
 }
 function runCanDeactivate(component, currARS, currRSS, futureRSS, injector) {
   const canDeactivate = currARS && currARS.routeConfig ? currARS.routeConfig.canDeactivate : null;
-  if (!canDeactivate || canDeactivate.length === 0) return (0, import_rxjs.of)(true);
+  if (!canDeactivate || canDeactivate.length === 0) return of(true);
   const canDeactivateObservables = canDeactivate.map((c) => {
     const closestInjector = getClosestRouteInjector(currARS) ?? injector;
     const guard = getTokenOrFunctionIdentity(c, closestInjector);
     const guardVal = isCanDeactivate(guard) ? guard.canDeactivate(component, currARS, currRSS, futureRSS) : runInInjectionContext(closestInjector, () => guard(component, currARS, currRSS, futureRSS));
-    return wrapIntoObservable(guardVal).pipe((0, import_operators.first)());
+    return wrapIntoObservable(guardVal).pipe(first());
   });
-  return (0, import_rxjs.of)(canDeactivateObservables).pipe(prioritizedGuardValue());
+  return of(canDeactivateObservables).pipe(prioritizedGuardValue());
 }
 function runCanLoadGuards(injector, route, segments, urlSerializer) {
   const canLoad = route.canLoad;
   if (canLoad === void 0 || canLoad.length === 0) {
-    return (0, import_rxjs.of)(true);
+    return of(true);
   }
   const canLoadObservables = canLoad.map((injectionToken) => {
     const guard = getTokenOrFunctionIdentity(injectionToken, injector);
     const guardVal = isCanLoad(guard) ? guard.canLoad(route, segments) : runInInjectionContext(injector, () => guard(route, segments));
     return wrapIntoObservable(guardVal);
   });
-  return (0, import_rxjs.of)(canLoadObservables).pipe(prioritizedGuardValue(), redirectIfUrlTree(urlSerializer));
+  return of(canLoadObservables).pipe(prioritizedGuardValue(), redirectIfUrlTree(urlSerializer));
 }
 function redirectIfUrlTree(urlSerializer) {
-  return (0, import_rxjs.pipe)((0, import_operators.tap)((result) => {
+  return pipe(tap((result) => {
     if (typeof result === "boolean") return;
     throw redirectingNavigationError(urlSerializer, result);
-  }), (0, import_operators.map)((result) => result === true));
+  }), map((result) => result === true));
 }
 function runCanMatchGuards(injector, route, segments, urlSerializer) {
   const canMatch = route.canMatch;
-  if (!canMatch || canMatch.length === 0) return (0, import_rxjs.of)(true);
+  if (!canMatch || canMatch.length === 0) return of(true);
   const canMatchObservables = canMatch.map((injectionToken) => {
     const guard = getTokenOrFunctionIdentity(injectionToken, injector);
     const guardVal = isCanMatch(guard) ? guard.canMatch(route, segments) : runInInjectionContext(injector, () => guard(route, segments));
     return wrapIntoObservable(guardVal);
   });
-  return (0, import_rxjs.of)(canMatchObservables).pipe(prioritizedGuardValue(), redirectIfUrlTree(urlSerializer));
+  return of(canMatchObservables).pipe(prioritizedGuardValue(), redirectIfUrlTree(urlSerializer));
 }
 var NoMatch = class {
   segmentGroup;
@@ -2651,13 +2678,13 @@ var AbsoluteRedirect = class extends Error {
   }
 };
 function noMatch$1(segmentGroup) {
-  return (0, import_rxjs.throwError)(new NoMatch(segmentGroup));
+  return throwError(new NoMatch(segmentGroup));
 }
 function namedOutletsRedirect(redirectTo) {
-  return (0, import_rxjs.throwError)(new RuntimeError(4e3, (typeof ngDevMode === "undefined" || ngDevMode) && `Only absolute redirects can have named outlets. redirectTo: '${redirectTo}'`));
+  return throwError(new RuntimeError(4e3, (typeof ngDevMode === "undefined" || ngDevMode) && `Only absolute redirects can have named outlets. redirectTo: '${redirectTo}'`));
 }
 function canLoadFails(route) {
-  return (0, import_rxjs.throwError)(navigationCancelingError((typeof ngDevMode === "undefined" || ngDevMode) && `Cannot load children because the guard of the route "path: '${route.path}'" returned false`, NavigationCancellationCode.GuardRejected));
+  return throwError(navigationCancelingError((typeof ngDevMode === "undefined" || ngDevMode) && `Cannot load children because the guard of the route "path: '${route.path}'" returned false`, NavigationCancellationCode.GuardRejected));
 }
 var ApplyRedirects = class {
   urlSerializer;
@@ -2672,7 +2699,7 @@ var ApplyRedirects = class {
     while (true) {
       res = res.concat(c.segments);
       if (c.numberOfChildren === 0) {
-        return (0, import_rxjs.of)(res);
+        return of(res);
       }
       if (c.numberOfChildren > 1 || !c.children[PRIMARY_OUTLET]) {
         return namedOutletsRedirect(`${route.redirectTo}`);
@@ -2769,10 +2796,10 @@ var noMatch = {
 function matchWithChecks(segmentGroup, route, segments, injector, urlSerializer) {
   const result = match(segmentGroup, route, segments);
   if (!result.matched) {
-    return (0, import_rxjs.of)(result);
+    return of(result);
   }
   injector = getOrCreateRouteInjectorIfNeeded(route, injector);
-  return runCanMatchGuards(injector, route, segments, urlSerializer).pipe((0, import_operators.map)((v) => v === true ? result : __spreadValues({}, noMatch)));
+  return runCanMatchGuards(injector, route, segments, urlSerializer).pipe(map((v) => v === true ? result : __spreadValues({}, noMatch)));
 }
 function match(segmentGroup, route, segments) {
   if (route.path === "**") {
@@ -2810,7 +2837,7 @@ function match(segmentGroup, route, segments) {
 function createWildcardMatchResult(segments) {
   return {
     matched: true,
-    parameters: segments.length > 0 ? last(segments).parameters : {},
+    parameters: segments.length > 0 ? last2(segments).parameters : {},
     consumedSegments: segments,
     remainingSegments: [],
     positionalParamSegments: {}
@@ -2905,7 +2932,7 @@ var Recognizer = class {
   }
   recognize() {
     const rootSegmentGroup = split(this.urlTree.root, [], [], this.config).segmentGroup;
-    return this.match(rootSegmentGroup).pipe((0, import_operators.map)(({
+    return this.match(rootSegmentGroup).pipe(map(({
       children,
       rootSnapshot
     }) => {
@@ -2922,12 +2949,12 @@ var Recognizer = class {
   }
   match(rootSegmentGroup) {
     const rootSnapshot = new ActivatedRouteSnapshot([], Object.freeze({}), Object.freeze(__spreadValues({}, this.urlTree.queryParams)), this.urlTree.fragment, Object.freeze({}), PRIMARY_OUTLET, this.rootComponentType, null, {});
-    return this.processSegmentGroup(this.injector, this.config, rootSegmentGroup, PRIMARY_OUTLET, rootSnapshot).pipe((0, import_operators.map)((children) => {
+    return this.processSegmentGroup(this.injector, this.config, rootSegmentGroup, PRIMARY_OUTLET, rootSnapshot).pipe(map((children) => {
       return {
         children,
         rootSnapshot
       };
-    }), (0, import_operators.catchError)((e) => {
+    }), catchError((e) => {
       if (e instanceof AbsoluteRedirect) {
         this.urlTree = e.urlTree;
         return this.match(e.urlTree.root);
@@ -2942,7 +2969,7 @@ var Recognizer = class {
     if (segmentGroup.segments.length === 0 && segmentGroup.hasChildren()) {
       return this.processChildren(injector, config, segmentGroup, parentRoute);
     }
-    return this.processSegment(injector, config, segmentGroup, segmentGroup.segments, outlet, true, parentRoute).pipe((0, import_operators.map)((child) => child instanceof TreeNode ? [child] : []));
+    return this.processSegment(injector, config, segmentGroup, segmentGroup.segments, outlet, true, parentRoute).pipe(map((child) => child instanceof TreeNode ? [child] : []));
   }
   /**
    * Matches every child outlet in the `segmentGroup` to a `Route` in the config. Returns `null` if
@@ -2961,35 +2988,35 @@ var Recognizer = class {
         childOutlets.push(child);
       }
     }
-    return (0, import_rxjs.from)(childOutlets).pipe((0, import_operators.concatMap)((childOutlet) => {
+    return from(childOutlets).pipe(concatMap((childOutlet) => {
       const child = segmentGroup.children[childOutlet];
       const sortedConfig = sortByMatchingOutlets(config, childOutlet);
       return this.processSegmentGroup(injector, sortedConfig, child, childOutlet, parentRoute);
-    }), (0, import_operators.scan)((children, outletChildren) => {
+    }), scan((children, outletChildren) => {
       children.push(...outletChildren);
       return children;
-    }), (0, import_operators.defaultIfEmpty)(null), (0, import_operators.last)(), (0, import_operators.mergeMap)((children) => {
+    }), defaultIfEmpty(null), last(), mergeMap((children) => {
       if (children === null) return noMatch$1(segmentGroup);
       const mergedChildren = mergeEmptyPathMatches(children);
       if (typeof ngDevMode === "undefined" || ngDevMode) {
         checkOutletNameUniqueness(mergedChildren);
       }
       sortActivatedRouteSnapshots(mergedChildren);
-      return (0, import_rxjs.of)(mergedChildren);
+      return of(mergedChildren);
     }));
   }
   processSegment(injector, routes, segmentGroup, segments, outlet, allowRedirects, parentRoute) {
-    return (0, import_rxjs.from)(routes).pipe((0, import_operators.concatMap)((r) => {
-      return this.processSegmentAgainstRoute(r._injector ?? injector, routes, r, segmentGroup, segments, outlet, allowRedirects, parentRoute).pipe((0, import_operators.catchError)((e) => {
+    return from(routes).pipe(concatMap((r) => {
+      return this.processSegmentAgainstRoute(r._injector ?? injector, routes, r, segmentGroup, segments, outlet, allowRedirects, parentRoute).pipe(catchError((e) => {
         if (e instanceof NoMatch) {
-          return (0, import_rxjs.of)(null);
+          return of(null);
         }
         throw e;
       }));
-    }), (0, import_operators.first)((x) => !!x), (0, import_operators.catchError)((e) => {
+    }), first((x) => !!x), catchError((e) => {
       if (isEmptyError(e)) {
         if (noLeftoversInUrl(segmentGroup, segments, outlet)) {
-          return (0, import_rxjs.of)(new NoLeftoversInUrl());
+          return of(new NoLeftoversInUrl());
         }
         return noMatch$1(segmentGroup);
       }
@@ -3032,7 +3059,7 @@ This is currently a dev mode only error but will become a call stack size exceed
     currentSnapshot.params = Object.freeze(inherited.params);
     currentSnapshot.data = Object.freeze(inherited.data);
     const newTree = this.applyRedirects.applyRedirectCommands(consumedSegments, route.redirectTo, positionalParamSegments, currentSnapshot, injector);
-    return this.applyRedirects.lineralizeSegments(route, newTree).pipe((0, import_operators.mergeMap)((newSegments) => {
+    return this.applyRedirects.lineralizeSegments(route, newTree).pipe(mergeMap((newSegments) => {
       return this.processSegment(injector, routes, segmentGroup, newSegments.concat(remainingSegments), outlet, false, parentRoute);
     }));
   }
@@ -3041,12 +3068,12 @@ This is currently a dev mode only error but will become a call stack size exceed
     if (route.path === "**") {
       rawSegment.children = {};
     }
-    return matchResult.pipe((0, import_operators.switchMap)((result) => {
+    return matchResult.pipe(switchMap((result) => {
       if (!result.matched) {
         return noMatch$1(rawSegment);
       }
       injector = route._injector ?? injector;
-      return this.getChildConfig(injector, route, segments).pipe((0, import_operators.switchMap)(({
+      return this.getChildConfig(injector, route, segments).pipe(switchMap(({
         routes: childConfig
       }) => {
         const childInjector = route._loadedInjector ?? injector;
@@ -3064,15 +3091,15 @@ This is currently a dev mode only error but will become a call stack size exceed
           slicedSegments
         } = split(rawSegment, consumedSegments, remainingSegments, childConfig);
         if (slicedSegments.length === 0 && segmentGroup.hasChildren()) {
-          return this.processChildren(childInjector, childConfig, segmentGroup, snapshot).pipe((0, import_operators.map)((children) => {
+          return this.processChildren(childInjector, childConfig, segmentGroup, snapshot).pipe(map((children) => {
             return new TreeNode(snapshot, children);
           }));
         }
         if (childConfig.length === 0 && slicedSegments.length === 0) {
-          return (0, import_rxjs.of)(new TreeNode(snapshot, []));
+          return of(new TreeNode(snapshot, []));
         }
         const matchedOnOutlet = getOutlet(route) === outlet;
-        return this.processSegment(childInjector, childConfig, segmentGroup, slicedSegments, matchedOnOutlet ? PRIMARY_OUTLET : outlet, true, snapshot).pipe((0, import_operators.map)((child) => {
+        return this.processSegment(childInjector, childConfig, segmentGroup, slicedSegments, matchedOnOutlet ? PRIMARY_OUTLET : outlet, true, snapshot).pipe(map((child) => {
           return new TreeNode(snapshot, child instanceof TreeNode ? [child] : []);
         }));
       }));
@@ -3080,21 +3107,21 @@ This is currently a dev mode only error but will become a call stack size exceed
   }
   getChildConfig(injector, route, segments) {
     if (route.children) {
-      return (0, import_rxjs.of)({
+      return of({
         routes: route.children,
         injector
       });
     }
     if (route.loadChildren) {
       if (route._loadedRoutes !== void 0) {
-        return (0, import_rxjs.of)({
+        return of({
           routes: route._loadedRoutes,
           injector: route._loadedInjector
         });
       }
-      return runCanLoadGuards(injector, route, segments, this.urlSerializer).pipe((0, import_operators.mergeMap)((shouldLoadResult) => {
+      return runCanLoadGuards(injector, route, segments, this.urlSerializer).pipe(mergeMap((shouldLoadResult) => {
         if (shouldLoadResult) {
-          return this.configLoader.loadChildren(injector, route).pipe((0, import_operators.tap)((cfg) => {
+          return this.configLoader.loadChildren(injector, route).pipe(tap((cfg) => {
             route._loadedRoutes = cfg.routes;
             route._loadedInjector = cfg.injector;
           }));
@@ -3102,7 +3129,7 @@ This is currently a dev mode only error but will become a call stack size exceed
         return canLoadFails(route);
       }));
     }
-    return (0, import_rxjs.of)({
+    return of({
       routes: [],
       injector
     });
@@ -3160,7 +3187,7 @@ function getResolve(route) {
   return route.resolve || {};
 }
 function recognize(injector, configLoader, rootComponentType, config, serializer, paramsInheritanceStrategy) {
-  return (0, import_operators.mergeMap)((t) => recognize$1(injector, configLoader, rootComponentType, config, t.extractedUrl, serializer, paramsInheritanceStrategy).pipe((0, import_operators.map)(({
+  return mergeMap((t) => recognize$1(injector, configLoader, rootComponentType, config, t.extractedUrl, serializer, paramsInheritanceStrategy).pipe(map(({
     state: targetSnapshot,
     tree: urlAfterRedirects
   }) => {
@@ -3171,7 +3198,7 @@ function recognize(injector, configLoader, rootComponentType, config, serializer
   })));
 }
 function resolveData(paramsInheritanceStrategy, injector) {
-  return (0, import_operators.mergeMap)((t) => {
+  return mergeMap((t) => {
     const {
       targetSnapshot,
       guards: {
@@ -3179,7 +3206,7 @@ function resolveData(paramsInheritanceStrategy, injector) {
       }
     } = t;
     if (!canActivateChecks.length) {
-      return (0, import_rxjs.of)(t);
+      return of(t);
     }
     const routesWithResolversToRun = new Set(canActivateChecks.map((check) => check.route));
     const routesNeedingDataUpdates = /* @__PURE__ */ new Set();
@@ -3192,14 +3219,14 @@ function resolveData(paramsInheritanceStrategy, injector) {
       }
     }
     let routesProcessed = 0;
-    return (0, import_rxjs.from)(routesNeedingDataUpdates).pipe((0, import_operators.concatMap)((route) => {
+    return from(routesNeedingDataUpdates).pipe(concatMap((route) => {
       if (routesWithResolversToRun.has(route)) {
         return runResolve(route, targetSnapshot, paramsInheritanceStrategy, injector);
       } else {
         route.data = getInherited(route, route.parent, paramsInheritanceStrategy).resolve;
-        return (0, import_rxjs.of)(void 0);
+        return of(void 0);
       }
-    }), (0, import_operators.tap)(() => routesProcessed++), (0, import_operators.takeLast)(1), (0, import_operators.mergeMap)((_) => routesProcessed === routesNeedingDataUpdates.size ? (0, import_rxjs.of)(t) : import_rxjs.EMPTY));
+    }), tap(() => routesProcessed++), takeLast(1), mergeMap((_) => routesProcessed === routesNeedingDataUpdates.size ? of(t) : EMPTY));
   });
 }
 function flattenRouteTree(route) {
@@ -3212,7 +3239,7 @@ function runResolve(futureARS, futureRSS, paramsInheritanceStrategy, injector) {
   if (config?.title !== void 0 && !hasStaticTitle(config)) {
     resolve[RouteTitleKey] = config.title;
   }
-  return resolveNode(resolve, futureARS, futureRSS, injector).pipe((0, import_operators.map)((resolvedData) => {
+  return resolveNode(resolve, futureARS, futureRSS, injector).pipe(map((resolvedData) => {
     futureARS._resolvedData = resolvedData;
     futureARS.data = getInherited(futureARS, futureARS.parent, paramsInheritanceStrategy).resolve;
     return null;
@@ -3221,15 +3248,15 @@ function runResolve(futureARS, futureRSS, paramsInheritanceStrategy, injector) {
 function resolveNode(resolve, futureARS, futureRSS, injector) {
   const keys = getDataKeys(resolve);
   if (keys.length === 0) {
-    return (0, import_rxjs.of)({});
+    return of({});
   }
   const data = {};
-  return (0, import_rxjs.from)(keys).pipe((0, import_operators.mergeMap)((key) => getResolver(resolve[key], futureARS, futureRSS, injector).pipe((0, import_operators.first)(), (0, import_operators.tap)((value) => {
+  return from(keys).pipe(mergeMap((key) => getResolver(resolve[key], futureARS, futureRSS, injector).pipe(first(), tap((value) => {
     if (value instanceof RedirectCommand) {
       throw redirectingNavigationError(new DefaultUrlSerializer(), value);
     }
     data[key] = value;
-  }))), (0, import_operators.takeLast)(1), (0, import_operators.mapTo)(data), (0, import_operators.catchError)((e) => isEmptyError(e) ? import_rxjs.EMPTY : (0, import_rxjs.throwError)(e)));
+  }))), takeLast(1), mapTo(data), catchError((e) => isEmptyError(e) ? EMPTY : throwError(e)));
 }
 function getResolver(injectionToken, futureARS, futureRSS, injector) {
   const closestInjector = getClosestRouteInjector(futureARS) ?? injector;
@@ -3238,12 +3265,12 @@ function getResolver(injectionToken, futureARS, futureRSS, injector) {
   return wrapIntoObservable(resolverValue);
 }
 function switchTap(next) {
-  return (0, import_operators.switchMap)((v) => {
+  return switchMap((v) => {
     const nextResult = next(v);
     if (nextResult) {
-      return (0, import_rxjs.from)(nextResult).pipe((0, import_operators.map)(() => v));
+      return from(nextResult).pipe(map(() => v));
     }
-    return (0, import_rxjs.of)(v);
+    return of(v);
   });
 }
 var TitleStrategy = class _TitleStrategy {
@@ -3373,21 +3400,21 @@ var RouterConfigLoader = class _RouterConfigLoader {
     if (this.componentLoaders.get(route)) {
       return this.componentLoaders.get(route);
     } else if (route._loadedComponent) {
-      return (0, import_rxjs.of)(route._loadedComponent);
+      return of(route._loadedComponent);
     }
     if (this.onLoadStartListener) {
       this.onLoadStartListener(route);
     }
-    const loadRunner = wrapIntoObservable(route.loadComponent()).pipe((0, import_operators.map)(maybeUnwrapDefaultExport), (0, import_operators.tap)((component) => {
+    const loadRunner = wrapIntoObservable(route.loadComponent()).pipe(map(maybeUnwrapDefaultExport), tap((component) => {
       if (this.onLoadEndListener) {
         this.onLoadEndListener(route);
       }
       (typeof ngDevMode === "undefined" || ngDevMode) && assertStandalone(route.path ?? "", component);
       route._loadedComponent = component;
-    }), (0, import_operators.finalize)(() => {
+    }), finalize(() => {
       this.componentLoaders.delete(route);
     }));
-    const loader = new import_rxjs.ConnectableObservable(loadRunner, () => new import_rxjs.Subject()).pipe((0, import_operators.refCount)());
+    const loader = new ConnectableObservable(loadRunner, () => new Subject()).pipe(refCount());
     this.componentLoaders.set(route, loader);
     return loader;
   }
@@ -3395,7 +3422,7 @@ var RouterConfigLoader = class _RouterConfigLoader {
     if (this.childrenLoaders.get(route)) {
       return this.childrenLoaders.get(route);
     } else if (route._loadedRoutes) {
-      return (0, import_rxjs.of)({
+      return of({
         routes: route._loadedRoutes,
         injector: route._loadedInjector
       });
@@ -3404,10 +3431,10 @@ var RouterConfigLoader = class _RouterConfigLoader {
       this.onLoadStartListener(route);
     }
     const moduleFactoryOrRoutes$ = loadChildren(route, this.compiler, parentInjector, this.onLoadEndListener);
-    const loadRunner = moduleFactoryOrRoutes$.pipe((0, import_operators.finalize)(() => {
+    const loadRunner = moduleFactoryOrRoutes$.pipe(finalize(() => {
       this.childrenLoaders.delete(route);
     }));
-    const loader = new import_rxjs.ConnectableObservable(loadRunner, () => new import_rxjs.Subject()).pipe((0, import_operators.refCount)());
+    const loader = new ConnectableObservable(loadRunner, () => new Subject()).pipe(refCount());
     this.childrenLoaders.set(route, loader);
     return loader;
   }
@@ -3429,13 +3456,13 @@ var RouterConfigLoader = class _RouterConfigLoader {
   }], null, null);
 })();
 function loadChildren(route, compiler, parentInjector, onLoadEndListener) {
-  return wrapIntoObservable(route.loadChildren()).pipe((0, import_operators.map)(maybeUnwrapDefaultExport), (0, import_operators.mergeMap)((t) => {
+  return wrapIntoObservable(route.loadChildren()).pipe(map(maybeUnwrapDefaultExport), mergeMap((t) => {
     if (t instanceof NgModuleFactory$1 || Array.isArray(t)) {
-      return (0, import_rxjs.of)(t);
+      return of(t);
     } else {
-      return (0, import_rxjs.from)(compiler.compileModuleAsync(t));
+      return from(compiler.compileModuleAsync(t));
     }
-  }), (0, import_operators.map)((factoryOrRoutes) => {
+  }), map((factoryOrRoutes) => {
     if (onLoadEndListener) {
       onLoadEndListener(route);
     }
@@ -3562,11 +3589,11 @@ var NavigationTransitions = class _NavigationTransitions {
    * Router wants to respond to these events in various ways. Because the `NavigationTransition`
    * class is not public, this event subject is not publicly exposed.
    */
-  events = new import_rxjs.Subject();
+  events = new Subject();
   /**
    * Used to abort the current transition with an error.
    */
-  transitionAbortSubject = new import_rxjs.Subject();
+  transitionAbortSubject = new Subject();
   configLoader = inject(RouterConfigLoader);
   environmentInjector = inject(EnvironmentInjector);
   urlSerializer = inject(UrlSerializer);
@@ -3598,7 +3625,7 @@ var NavigationTransitions = class _NavigationTransitions {
    *
    * @internal
    */
-  afterPreactivation = () => (0, import_rxjs.of)(void 0);
+  afterPreactivation = () => of(void 0);
   /** @internal */
   rootComponentType = null;
   constructor() {
@@ -3617,7 +3644,7 @@ var NavigationTransitions = class _NavigationTransitions {
     }));
   }
   setupNavigations(router, initialUrlTree, initialRouterState) {
-    this.transitions = new import_rxjs.BehaviorSubject({
+    this.transitions = new BehaviorSubject({
       id: 0,
       currentUrlTree: initialUrlTree,
       currentRawUrl: initialUrlTree,
@@ -3643,21 +3670,21 @@ var NavigationTransitions = class _NavigationTransitions {
       guardsResult: null
     });
     return this.transitions.pipe(
-      (0, import_operators.filter)((t) => t.id !== 0),
+      filter((t) => t.id !== 0),
       // Extract URL
-      (0, import_operators.map)((t) => __spreadProps(__spreadValues({}, t), {
+      map((t) => __spreadProps(__spreadValues({}, t), {
         extractedUrl: this.urlHandlingStrategy.extract(t.rawUrl)
       })),
       // Using switchMap so we cancel executing navigations when a new one comes in
-      (0, import_operators.switchMap)((overallTransitionState) => {
+      switchMap((overallTransitionState) => {
         let completed = false;
         let errored = false;
-        return (0, import_rxjs.of)(overallTransitionState).pipe(
-          (0, import_operators.switchMap)((t) => {
+        return of(overallTransitionState).pipe(
+          switchMap((t) => {
             if (this.navigationId > overallTransitionState.id) {
               const cancellationReason = typeof ngDevMode === "undefined" || ngDevMode ? `Navigation ID ${overallTransitionState.id} is not equal to the current navigation id ${this.navigationId}` : "";
               this.cancelNavigationTransition(overallTransitionState, cancellationReason, NavigationCancellationCode.SupersededByNewNavigation);
-              return import_rxjs.EMPTY;
+              return EMPTY;
             }
             this.currentTransition = overallTransitionState;
             this.currentNavigation = {
@@ -3677,23 +3704,23 @@ var NavigationTransitions = class _NavigationTransitions {
               const reason = typeof ngDevMode === "undefined" || ngDevMode ? `Navigation to ${t.rawUrl} was ignored because it is the same as the current Router URL.` : "";
               this.events.next(new NavigationSkipped(t.id, this.urlSerializer.serialize(t.rawUrl), reason, NavigationSkippedCode.IgnoredSameUrlNavigation));
               t.resolve(false);
-              return import_rxjs.EMPTY;
+              return EMPTY;
             }
             if (this.urlHandlingStrategy.shouldProcessUrl(t.rawUrl)) {
-              return (0, import_rxjs.of)(t).pipe(
+              return of(t).pipe(
                 // Fire NavigationStart event
-                (0, import_operators.switchMap)((t2) => {
+                switchMap((t2) => {
                   const transition = this.transitions?.getValue();
                   this.events.next(new NavigationStart(t2.id, this.urlSerializer.serialize(t2.extractedUrl), t2.source, t2.restoredState));
                   if (transition !== this.transitions?.getValue()) {
-                    return import_rxjs.EMPTY;
+                    return EMPTY;
                   }
                   return Promise.resolve(t2);
                 }),
                 // Recognize
                 recognize(this.environmentInjector, this.configLoader, this.rootComponentType, router.config, this.urlSerializer, this.paramsInheritanceStrategy),
                 // Update URL if in `eager` update mode
-                (0, import_operators.tap)((t2) => {
+                tap((t2) => {
                   overallTransitionState.targetSnapshot = t2.targetSnapshot;
                   overallTransitionState.urlAfterRedirects = t2.urlAfterRedirects;
                   this.currentNavigation = __spreadProps(__spreadValues({}, this.currentNavigation), {
@@ -3723,27 +3750,27 @@ var NavigationTransitions = class _NavigationTransitions {
                 })
               });
               this.currentNavigation.finalUrl = extractedUrl;
-              return (0, import_rxjs.of)(overallTransitionState);
+              return of(overallTransitionState);
             } else {
               const reason = typeof ngDevMode === "undefined" || ngDevMode ? `Navigation was ignored because the UrlHandlingStrategy indicated neither the current URL ${t.currentRawUrl} nor target URL ${t.rawUrl} should be processed.` : "";
               this.events.next(new NavigationSkipped(t.id, this.urlSerializer.serialize(t.extractedUrl), reason, NavigationSkippedCode.IgnoredByUrlHandlingStrategy));
               t.resolve(false);
-              return import_rxjs.EMPTY;
+              return EMPTY;
             }
           }),
           // --- GUARDS ---
-          (0, import_operators.tap)((t) => {
+          tap((t) => {
             const guardsStart = new GuardsCheckStart(t.id, this.urlSerializer.serialize(t.extractedUrl), this.urlSerializer.serialize(t.urlAfterRedirects), t.targetSnapshot);
             this.events.next(guardsStart);
           }),
-          (0, import_operators.map)((t) => {
+          map((t) => {
             this.currentTransition = overallTransitionState = __spreadProps(__spreadValues({}, t), {
               guards: getAllRouteGuards(t.targetSnapshot, t.currentSnapshot, this.rootContexts)
             });
             return overallTransitionState;
           }),
           checkGuards(this.environmentInjector, (evt) => this.events.next(evt)),
-          (0, import_operators.tap)((t) => {
+          tap((t) => {
             overallTransitionState.guardsResult = t.guardsResult;
             if (t.guardsResult && typeof t.guardsResult !== "boolean") {
               throw redirectingNavigationError(this.urlSerializer, t.guardsResult);
@@ -3751,7 +3778,7 @@ var NavigationTransitions = class _NavigationTransitions {
             const guardsEnd = new GuardsCheckEnd(t.id, this.urlSerializer.serialize(t.extractedUrl), this.urlSerializer.serialize(t.urlAfterRedirects), t.targetSnapshot, !!t.guardsResult);
             this.events.next(guardsEnd);
           }),
-          (0, import_operators.filter)((t) => {
+          filter((t) => {
             if (!t.guardsResult) {
               this.cancelNavigationTransition(t, "", NavigationCancellationCode.GuardRejected);
               return false;
@@ -3761,12 +3788,12 @@ var NavigationTransitions = class _NavigationTransitions {
           // --- RESOLVE ---
           switchTap((t) => {
             if (t.guards.canActivateChecks.length) {
-              return (0, import_rxjs.of)(t).pipe((0, import_operators.tap)((t2) => {
+              return of(t).pipe(tap((t2) => {
                 const resolveStart = new ResolveStart(t2.id, this.urlSerializer.serialize(t2.extractedUrl), this.urlSerializer.serialize(t2.urlAfterRedirects), t2.targetSnapshot);
                 this.events.next(resolveStart);
-              }), (0, import_operators.switchMap)((t2) => {
+              }), switchMap((t2) => {
                 let dataResolved = false;
-                return (0, import_rxjs.of)(t2).pipe(resolveData(this.paramsInheritanceStrategy, this.environmentInjector), (0, import_operators.tap)({
+                return of(t2).pipe(resolveData(this.paramsInheritanceStrategy, this.environmentInjector), tap({
                   next: () => dataResolved = true,
                   complete: () => {
                     if (!dataResolved) {
@@ -3774,7 +3801,7 @@ var NavigationTransitions = class _NavigationTransitions {
                     }
                   }
                 }));
-              }), (0, import_operators.tap)((t2) => {
+              }), tap((t2) => {
                 const resolveEnd = new ResolveEnd(t2.id, this.urlSerializer.serialize(t2.extractedUrl), this.urlSerializer.serialize(t2.urlAfterRedirects), t2.targetSnapshot);
                 this.events.next(resolveEnd);
               }));
@@ -3786,27 +3813,27 @@ var NavigationTransitions = class _NavigationTransitions {
             const loadComponents = (route) => {
               const loaders = [];
               if (route.routeConfig?.loadComponent && !route.routeConfig._loadedComponent) {
-                loaders.push(this.configLoader.loadComponent(route.routeConfig).pipe((0, import_operators.tap)((loadedComponent) => {
+                loaders.push(this.configLoader.loadComponent(route.routeConfig).pipe(tap((loadedComponent) => {
                   route.component = loadedComponent;
-                }), (0, import_operators.map)(() => void 0)));
+                }), map(() => void 0)));
               }
               for (const child of route.children) {
                 loaders.push(...loadComponents(child));
               }
               return loaders;
             };
-            return (0, import_rxjs.combineLatest)(loadComponents(t.targetSnapshot.root)).pipe((0, import_operators.defaultIfEmpty)(null), (0, import_operators.take)(1));
+            return combineLatest(loadComponents(t.targetSnapshot.root)).pipe(defaultIfEmpty(null), take(1));
           }),
           switchTap(() => this.afterPreactivation()),
-          (0, import_operators.switchMap)(() => {
+          switchMap(() => {
             const {
               currentSnapshot,
               targetSnapshot
             } = overallTransitionState;
             const viewTransitionStarted = this.createViewTransition?.(this.environmentInjector, currentSnapshot.root, targetSnapshot.root);
-            return viewTransitionStarted ? (0, import_rxjs.from)(viewTransitionStarted).pipe((0, import_operators.map)(() => overallTransitionState)) : (0, import_rxjs.of)(overallTransitionState);
+            return viewTransitionStarted ? from(viewTransitionStarted).pipe(map(() => overallTransitionState)) : of(overallTransitionState);
           }),
-          (0, import_operators.map)((t) => {
+          map((t) => {
             const targetRouterState = createRouterState(router.routeReuseStrategy, t.targetSnapshot, t.currentRouterState);
             this.currentTransition = overallTransitionState = __spreadProps(__spreadValues({}, t), {
               targetRouterState
@@ -3814,15 +3841,15 @@ var NavigationTransitions = class _NavigationTransitions {
             this.currentNavigation.targetRouterState = targetRouterState;
             return overallTransitionState;
           }),
-          (0, import_operators.tap)(() => {
+          tap(() => {
             this.events.next(new BeforeActivateRoutes());
           }),
           activateRoutes(this.rootContexts, router.routeReuseStrategy, (evt) => this.events.next(evt), this.inputBindingEnabled),
           // Ensure that if some observable used to drive the transition doesn't
           // complete, the navigation still finalizes This should never happen, but
           // this is done as a safety measure to avoid surfacing this error (#49567).
-          (0, import_operators.take)(1),
-          (0, import_operators.tap)({
+          take(1),
+          tap({
             next: (t) => {
               completed = true;
               this.lastSuccessfulNavigation = this.currentNavigation;
@@ -3841,10 +3868,10 @@ var NavigationTransitions = class _NavigationTransitions {
           // required in the future to support something like the abort signal of the
           // Navigation API where the navigation gets aborted from outside the
           // transition.
-          (0, import_operators.takeUntil)(this.transitionAbortSubject.pipe((0, import_operators.tap)((err) => {
+          takeUntil(this.transitionAbortSubject.pipe(tap((err) => {
             throw err;
           }))),
-          (0, import_operators.finalize)(() => {
+          finalize(() => {
             if (!completed && !errored) {
               const cancelationReason = typeof ngDevMode === "undefined" || ngDevMode ? `Navigation ID ${overallTransitionState.id} is not equal to the current navigation id ${this.navigationId}` : "";
               this.cancelNavigationTransition(overallTransitionState, cancelationReason, NavigationCancellationCode.SupersededByNewNavigation);
@@ -3854,7 +3881,7 @@ var NavigationTransitions = class _NavigationTransitions {
               this.currentTransition = null;
             }
           }),
-          (0, import_operators.catchError)((e) => {
+          catchError((e) => {
             errored = true;
             if (isNavigationCancelingError(e)) {
               this.events.next(new NavigationCancel(overallTransitionState.id, this.urlSerializer.serialize(overallTransitionState.extractedUrl), e.message, e.cancellationCode));
@@ -3886,7 +3913,7 @@ var NavigationTransitions = class _NavigationTransitions {
                 }
               }
             }
-            return import_rxjs.EMPTY;
+            return EMPTY;
           })
         );
       })
@@ -4190,13 +4217,13 @@ var NavigationResult;
   NavigationResult2[NavigationResult2["REDIRECTING"] = 2] = "REDIRECTING";
 })(NavigationResult || (NavigationResult = {}));
 function afterNextNavigation(router, action) {
-  router.events.pipe((0, import_operators.filter)((e) => e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError || e instanceof NavigationSkipped), (0, import_operators.map)((e) => {
+  router.events.pipe(filter((e) => e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError || e instanceof NavigationSkipped), map((e) => {
     if (e instanceof NavigationEnd || e instanceof NavigationSkipped) {
       return NavigationResult.COMPLETE;
     }
     const redirecting = e instanceof NavigationCancel ? e.code === NavigationCancellationCode.Redirect || e.code === NavigationCancellationCode.SupersededByNewNavigation : false;
     return redirecting ? NavigationResult.REDIRECTING : NavigationResult.FAILED;
-  }), (0, import_operators.filter)((result) => result !== NavigationResult.REDIRECTING), (0, import_operators.take)(1)).subscribe(() => {
+  }), filter((result) => result !== NavigationResult.REDIRECTING), take(1)).subscribe(() => {
     action();
   });
 }
@@ -4237,7 +4264,7 @@ var Router = class _Router {
    * to push events to. The separate field allows us to expose separate types in the public API
    * (i.e., an Observable rather than the Subject).
    */
-  _events = new import_rxjs.Subject();
+  _events = new Subject();
   /**
    * An event stream for routing events.
    */
@@ -4293,7 +4320,7 @@ var Router = class _Router {
     });
     this.subscribeToNavigationEvents();
   }
-  eventsSubscription = new import_rxjs.Subscription();
+  eventsSubscription = new Subscription();
   subscribeToNavigationEvents() {
     const subscription = this.navigationTransitions.events.subscribe((e) => {
       try {
@@ -4753,7 +4780,7 @@ var RouterLink = class _RouterLink {
   isAnchorElement;
   subscription;
   /** @internal */
-  onChanges = new import_rxjs.Subject();
+  onChanges = new Subject();
   constructor(router, route, tabIndexAttribute, renderer, el, locationStrategy) {
     this.router = router;
     this.route = route;
@@ -5079,7 +5106,7 @@ var RouterLinkActive = class _RouterLinkActive {
   }
   /** @nodoc */
   ngAfterContentInit() {
-    (0, import_rxjs.of)(this.links.changes, (0, import_rxjs.of)(null)).pipe((0, import_operators.mergeAll)()).subscribe((_) => {
+    of(this.links.changes, of(null)).pipe(mergeAll()).subscribe((_) => {
       this.update();
       this.subscribeToEachLinkOnChanges();
     });
@@ -5087,7 +5114,7 @@ var RouterLinkActive = class _RouterLinkActive {
   subscribeToEachLinkOnChanges() {
     this.linkInputChangesSubscription?.unsubscribe();
     const allLinkChanges = [...this.links.toArray(), this.link].filter((link) => !!link).map((link) => link.onChanges);
-    this.linkInputChangesSubscription = (0, import_rxjs.from)(allLinkChanges).pipe((0, import_operators.mergeAll)()).subscribe((link) => {
+    this.linkInputChangesSubscription = from(allLinkChanges).pipe(mergeAll()).subscribe((link) => {
       if (this._isActive !== this.isLinkActive(this.router)(link)) {
         this.update();
       }
@@ -5219,7 +5246,7 @@ var PreloadingStrategy = class {
 };
 var PreloadAllModules = class _PreloadAllModules {
   preload(route, fn) {
-    return fn().pipe((0, import_operators.catchError)(() => (0, import_rxjs.of)(null)));
+    return fn().pipe(catchError(() => of(null)));
   }
   static ɵfac = function PreloadAllModules_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _PreloadAllModules)();
@@ -5240,7 +5267,7 @@ var PreloadAllModules = class _PreloadAllModules {
 })();
 var NoPreloading = class _NoPreloading {
   preload(route, fn) {
-    return (0, import_rxjs.of)(null);
+    return of(null);
   }
   static ɵfac = function NoPreloading_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _NoPreloading)();
@@ -5272,7 +5299,7 @@ var RouterPreloader = class _RouterPreloader {
     this.loader = loader;
   }
   setUpPreloading() {
-    this.subscription = this.router.events.pipe((0, import_operators.filter)((e) => e instanceof NavigationEnd), (0, import_operators.concatMap)(() => this.preload())).subscribe(() => {
+    this.subscription = this.router.events.pipe(filter((e) => e instanceof NavigationEnd), concatMap(() => this.preload())).subscribe(() => {
     });
   }
   preload() {
@@ -5299,7 +5326,7 @@ var RouterPreloader = class _RouterPreloader {
         res.push(this.processRoutes(injectorForChildren, route.children ?? route._loadedRoutes));
       }
     }
-    return (0, import_rxjs.from)(res).pipe((0, import_operators.mergeAll)());
+    return from(res).pipe(mergeAll());
   }
   preloadConfig(injector, route) {
     return this.preloadingStrategy.preload(route, () => {
@@ -5307,11 +5334,11 @@ var RouterPreloader = class _RouterPreloader {
       if (route.loadChildren && route.canLoad === void 0) {
         loadedChildren$ = this.loader.loadChildren(injector, route);
       } else {
-        loadedChildren$ = (0, import_rxjs.of)(null);
+        loadedChildren$ = of(null);
       }
-      const recursiveLoadChildren$ = loadedChildren$.pipe((0, import_operators.mergeMap)((config) => {
+      const recursiveLoadChildren$ = loadedChildren$.pipe(mergeMap((config) => {
         if (config === null) {
-          return (0, import_rxjs.of)(void 0);
+          return of(void 0);
         }
         route._loadedRoutes = config.routes;
         route._loadedInjector = config.injector;
@@ -5319,7 +5346,7 @@ var RouterPreloader = class _RouterPreloader {
       }));
       if (route.loadComponent && !route._loadedComponent) {
         const loadComponent$ = this.loader.loadComponent(route);
-        return (0, import_rxjs.from)([recursiveLoadChildren$, loadComponent$]).pipe((0, import_operators.mergeAll)());
+        return from([recursiveLoadChildren$, loadComponent$]).pipe(mergeAll());
       } else {
         return recursiveLoadChildren$;
       }
@@ -5539,7 +5566,7 @@ function getBootstrapListener() {
 }
 var BOOTSTRAP_DONE = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "bootstrap done indicator" : "", {
   factory: () => {
-    return new import_rxjs.Subject();
+    return new Subject();
   }
 });
 var INITIAL_NAVIGATION = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "initial navigation" : "", {
@@ -5568,7 +5595,7 @@ function withEnabledBlockingInitialNavigation() {
             });
             injector.get(NavigationTransitions).afterPreactivation = () => {
               resolve(true);
-              return bootstrapDone.closed ? (0, import_rxjs.of)(void 0) : bootstrapDone;
+              return bootstrapDone.closed ? of(void 0) : bootstrapDone;
             };
             router.initialNavigation();
           });
@@ -5857,85 +5884,85 @@ function getLoadedRoutes(route) {
   return route._loadedRoutes;
 }
 publishExternalGlobalUtil("ɵgetLoadedRoutes", getLoadedRoutes);
-
 export {
-  PRIMARY_OUTLET,
-  convertToParamMap,
-  defaultUrlMatcher,
-  UrlTree,
-  UrlSegmentGroup,
-  UrlSegment,
-  UrlSerializer,
-  DefaultUrlSerializer,
-  createUrlTreeFromSnapshot,
-  EventType,
-  RouterEvent,
-  NavigationStart,
-  NavigationEnd,
-  NavigationCancellationCode,
-  NavigationSkippedCode,
-  NavigationCancel,
-  NavigationSkipped,
-  NavigationError,
-  RoutesRecognized,
-  GuardsCheckStart,
-  GuardsCheckEnd,
-  ResolveStart,
-  ResolveEnd,
-  RouteConfigLoadStart,
-  RouteConfigLoadEnd,
-  ChildActivationStart,
-  ChildActivationEnd,
-  ActivationStart,
-  ActivationEnd,
-  Scroll,
-  OutletContext,
-  ChildrenOutletContexts,
-  RouterState,
   ActivatedRoute,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  ROUTER_OUTLET_DATA,
-  RouterOutlet,
-  RedirectCommand,
-  TitleStrategy,
-  DefaultTitleStrategy,
-  ROUTER_CONFIGURATION,
-  ɵEmptyOutletComponent,
-  ROUTES,
-  loadChildren,
-  UrlHandlingStrategy,
-  RouteReuseStrategy,
+  ActivationEnd,
+  ActivationStart,
   BaseRouteReuseStrategy,
-  afterNextNavigation,
+  ChildActivationEnd,
+  ChildActivationStart,
+  ChildrenOutletContexts,
+  DefaultTitleStrategy,
+  DefaultUrlSerializer,
+  EventType,
+  GuardsCheckEnd,
+  GuardsCheckStart,
+  NavigationCancel,
+  NavigationCancellationCode,
+  NavigationEnd,
+  NavigationError,
+  NavigationSkipped,
+  NavigationSkippedCode,
+  NavigationStart,
+  NoPreloading,
+  OutletContext,
+  PRIMARY_OUTLET,
+  PreloadAllModules,
+  PreloadingStrategy,
+  ROUTER_CONFIGURATION,
+  ROUTER_INITIALIZER,
+  ROUTER_OUTLET_DATA,
+  ROUTES,
+  RedirectCommand,
+  ResolveEnd,
+  ResolveStart,
+  RouteConfigLoadEnd,
+  RouteConfigLoadStart,
+  RouteReuseStrategy,
   Router,
+  RouterEvent,
   RouterLink,
   RouterLinkActive,
-  PreloadingStrategy,
-  PreloadAllModules,
-  NoPreloading,
-  RouterPreloader,
-  provideRouter,
-  provideRoutes,
-  withInMemoryScrolling,
-  withEnabledBlockingInitialNavigation,
-  withDisabledInitialNavigation,
-  withDebugTracing,
-  withPreloading,
-  withRouterConfig,
-  withHashLocation,
-  withNavigationErrorHandler,
-  withComponentInputBinding,
-  withViewTransitions,
-  ROUTER_PROVIDERS,
+  RouterLink as RouterLinkWithHref,
   RouterModule,
-  ROUTER_INITIALIZER,
-  mapToCanMatch,
+  RouterOutlet,
+  RouterPreloader,
+  RouterState,
+  RouterStateSnapshot,
+  RoutesRecognized,
+  Scroll,
+  TitleStrategy,
+  UrlHandlingStrategy,
+  UrlSegment,
+  UrlSegmentGroup,
+  UrlSerializer,
+  UrlTree,
+  VERSION,
+  convertToParamMap,
+  createUrlTreeFromSnapshot,
+  defaultUrlMatcher,
   mapToCanActivate,
   mapToCanActivateChild,
   mapToCanDeactivate,
+  mapToCanMatch,
   mapToResolve,
-  VERSION
+  provideRouter,
+  provideRoutes,
+  withComponentInputBinding,
+  withDebugTracing,
+  withDisabledInitialNavigation,
+  withEnabledBlockingInitialNavigation,
+  withHashLocation,
+  withInMemoryScrolling,
+  withNavigationErrorHandler,
+  withPreloading,
+  withRouterConfig,
+  withViewTransitions,
+  ɵEmptyOutletComponent,
+  ROUTER_PROVIDERS as ɵROUTER_PROVIDERS,
+  afterNextNavigation as ɵafterNextNavigation,
+  loadChildren as ɵloadChildren
 };
 /*! Bundled license information:
 
@@ -5946,4 +5973,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-O7E7X7IN.js.map
+//# sourceMappingURL=@angular_router.js.map
