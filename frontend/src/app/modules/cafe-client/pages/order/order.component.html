@@ -1,0 +1,80 @@
+<body>
+<app-menu></app-menu>
+<div class="menu-page">
+    <header class="menu-header">
+        <h1>Menu</h1>
+        <div class="menu-divider"></div>
+    </header>
+
+    <nav class="menu-nav">
+        <ul>
+            <li *ngFor="let category of pageResponseCategoryResponse?.data">
+                <a [href]="'/cafe-client/order#category-' + category.id">{{ category.name }}</a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="menu-section" [id]="'category-' + category.id" *ngFor="let category of pageResponseCategoryResponse.data">
+        <header class="menu-header">
+            <h2>{{ category.name }}</h2>
+            <div class="menu-divider"></div>
+        </header>
+
+        <div *ngFor="let menuItem of menuItemsByCategory[category.name]?.data" class="menu-item">
+            <h3>{{ menuItem.name }}</h3>
+            <p>{{ menuItem.description }}</p>
+            <div class="menu-item-details">
+                <span class="price">PLN {{ menuItem.price }}</span>
+                <div class="actions">
+                    <!-- Quantity Input -->
+                    <button (click)="decrementQuantity(menuItem)" class="add-to-basket-btn" [disabled]="!menuItem.available"
+                            [ngStyle]="{
+                                'background-color': menuItem.available ? '#8a6b52' : '#ccc'
+                              }">-</button>
+                    <input
+                            type="number"
+                            [(ngModel)]="menuItem.quantity"
+                            min="0"
+                            class="quantity-input"
+                            [value]="menuItem.quantity || 0"
+                            placeholder="0"
+                    />
+                    <button (click)="incrementQuantity(menuItem)" class="add-to-basket-btn" [disabled]="!menuItem.available"
+                            [ngStyle]="{
+                                'background-color': menuItem.available ? '#8a6b52' : '#ccc'
+                              }">+</button>
+                    <!-- Add to Basket Button -->
+                    <button
+                            (click)="addToBasket(menuItem)"
+                            class="add-to-basket-btn"
+                            [disabled]="!menuItem.available"
+                            [ngStyle]="{
+                                'background-color': menuItem.available ? '#8a6b52' : '#ccc'
+                              }"
+                    >
+                        Add to Basket
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="basket">
+        <header class="menu-header">
+            <h2>Basket</h2>
+            <div class="menu-divider"></div>
+        </header>
+
+        <div *ngFor="let item of basket; let i = index" class="basket-item">
+            <h3>{{ item.name }}: {{ item.quantity }}</h3>
+            <button (click)="removeFromBasket(i)">Remove from Basket</button>
+        </div>
+    </section>
+
+    <!-- Add Place Order Button -->
+    <div class="place-order">
+        <button (click)="placeOrder()" class="place-order-btn">Place Order</button>
+    </div>
+
+</div>
+</body>

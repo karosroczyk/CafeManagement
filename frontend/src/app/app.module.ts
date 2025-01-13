@@ -7,10 +7,13 @@ import { LoginComponent } from './pages/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './pages/register/register.component';
 import { ActivateAccountComponent } from './pages/activate-account/activate-account.component';
-import {CodeInputModule} from 'angular-code-input';
+import { CodeInputModule } from 'angular-code-input';
 import { CafehomeComponent } from './pages/cafehome/cafehome.component';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
-import {HttpTokenInterceptor} from './services/interceptor/http-token.interceptor';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpTokenInterceptor } from './services/interceptor/http-token.interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatDialogModule } from '@angular/material/dialog';
+import { OrderDialogComponent } from './components/order-dialog/order-dialog.component';
 
 @NgModule({
   declarations: [
@@ -18,14 +21,16 @@ import {HttpTokenInterceptor} from './services/interceptor/http-token.intercepto
     LoginComponent,
     RegisterComponent,
     ActivateAccountComponent,
-    CafehomeComponent
+    CafehomeComponent,
+    OrderDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    CodeInputModule
+    CodeInputModule,
+    MatDialogModule
   ],
   providers: [
     HttpClient,
@@ -33,7 +38,8 @@ import {HttpTokenInterceptor} from './services/interceptor/http-token.intercepto
       provide: HTTP_INTERCEPTORS,
       useClass: HttpTokenInterceptor,
       multi: true
-    }
+    },
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

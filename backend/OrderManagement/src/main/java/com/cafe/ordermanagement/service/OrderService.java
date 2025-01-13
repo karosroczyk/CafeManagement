@@ -16,7 +16,7 @@ public interface OrderService {
     PaginatedResponse<MenuItem> getAllMenuItemsByCategory(int page, int size, String[] sortBy, String[] direction, String category);
     Map<String, List<MenuItem>> getMenuItemsGroupedByCategory(int page, int size, String[] sortBy, String[] direction);
     Order createOrder(Order menuItem);
-    Order placeOrder(Order order, List<Integer> menuItemIds, List<Integer> quantities);
+    Order placeOrder(Integer customerId, List<Integer> menuItemIds, List<Integer> quantities);
     Order updateOrder(Integer id, Order menuItem);
     void deleteOrder(Integer id);
 }

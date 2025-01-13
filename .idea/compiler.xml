@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="book-network" />
         <module name="DiscoveryServer" />
+        <module name="menumanagement (1)" />
         <module name="menumanagement" />
         <module name="inventory" />
       </profile>
@@ -18,6 +19,7 @@
       <module name="DiscoveryServer" target="17" />
       <module name="inventory" target="17" />
       <module name="menumanagement" target="17" />
+      <module name="menumanagement (1)" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -26,6 +28,7 @@
       <module name="book-network" options="-parameters" />
       <module name="inventory" options="-parameters" />
       <module name="menumanagement" options="-parameters" />
+      <module name="menumanagement (1)" options="-parameters" />
     </option>
   </component>
 </project>

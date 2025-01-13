@@ -60,6 +60,13 @@ public class Order {
         this.menuItems = new ArrayList<>();
     }
 
+    public Order(Integer customerId) {
+        this.status = "PENDING";
+        this.total_price = 0.0;
+        this.customerId = customerId;
+        this.menuItems = new ArrayList<>();
+    }
+
     public Order(String status, Double total_price, Integer customerId) {
         this.status = status;
         this.total_price = total_price;

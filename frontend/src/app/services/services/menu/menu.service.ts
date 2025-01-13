@@ -3,23 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseService } from '../../base-service';
 import { ApiConfiguration } from '../../api-configuration';
-
-interface PaginatedResponse<T> {
-  content: T[];
-  totalElements: number;
-  totalPages: number;
-  size: number;
-  number: number;
-}
-
-interface MenuItem {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  // Add other properties of MenuItem here
-}
+import { MenuResponse } from '../../models/menu-response';
+import { PageResponse } from '../../models/page-response'; // You might need to create this model
 
 @Injectable({
   providedIn: 'root'
@@ -40,21 +25,21 @@ export class MenuService extends BaseService {
     size: number = 2,
     sortBy: string[] = ['name'],
     direction: string[] = ['asc']
-  ): Observable<PaginatedResponse<MenuItem>> {
+  ): Observable<PageResponse<MenuResponse>> {
     let params = new HttpParams()
       .set('page', page)
       .set('size', size)
       .set('sortBy', sortBy.join(','))
       .set('direction', direction.join(','));
 
-    return this.http.get<PaginatedResponse<MenuItem>>(this.baseUrl, { params });
+    return this.http.get<PageResponse<MenuResponse>>(this.baseUrl, { params });
   }
 
   /**
    * Get a menu item by ID.
    */
-  getMenuItemById(id: number): Observable<MenuItem> {
-    return this.http.get<MenuItem>(`${this.baseUrl}/${id}`);
+  getMenuItemById(id: number): Observable<MenuResponse> {
+    return this.http.get<MenuResponse>(`${this.baseUrl}/${id}`);
   }
 
   /**
@@ -73,7 +58,7 @@ export class MenuService extends BaseService {
     size: number = 2,
     sortBy: string[] = ['name'],
     direction: string[] = ['asc']
-  ): Observable<PaginatedResponse<MenuItem>> {
+  ): Observable<PageResponse<MenuResponse>> {
     let params = new HttpParams()
       .set('categoryName', categoryName)
       .set('page', page)
@@ -81,21 +66,21 @@ export class MenuService extends BaseService {
       .set('sortBy', sortBy.join(','))
       .set('direction', direction.join(','));
 
-    return this.http.get<PaginatedResponse<MenuItem>>(`${this.baseUrl}/filter/category-name`, { params });
+    return this.http.get<PageResponse<MenuResponse>>(`${this.baseUrl}/filter/category-name`, { params });
   }
 
   /**
    * Create a new menu item.
    */
-  createMenuItem(menuItem: MenuItem): Observable<MenuItem> {
-    return this.http.post<MenuItem>(this.baseUrl, menuItem);
+  createMenuItem(menuItem: MenuResponse): Observable<MenuResponse> {
+    return this.http.post<MenuResponse>(this.baseUrl, menuItem);
   }
 
   /**
    * Update a menu item by ID.
    */
-  updateMenuItem(id: number, menuItem: MenuItem): Observable<MenuItem> {
-    return this.http.put<MenuItem>(`${this.baseUrl}/${id}`, menuItem);
+  updateMenuItem(id: number, menuItem: MenuResponse): Observable<MenuResponse> {
+    return this.http.put<MenuResponse>(`${this.baseUrl}/${id}`, menuItem);
   }
 
   /**

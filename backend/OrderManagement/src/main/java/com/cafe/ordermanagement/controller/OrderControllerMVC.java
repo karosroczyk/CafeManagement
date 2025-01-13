@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/api/orders")
+@RequestMapping("/api/ordersMVC")
 public class OrderControllerMVC {
     private final OrderService orderService;
     private String inventoryServiceUrl;
@@ -93,14 +93,14 @@ public class OrderControllerMVC {
 
     @PostMapping
     public String placeOrder(
-            @Valid @ModelAttribute("order") Order order,
+            @Valid @ModelAttribute("order") Integer customerId,
             @RequestParam List<Integer> menuItemIds,
             @RequestParam List<Integer> quantitiesOfMenuItems,
             BindingResult result) {
         if (result.hasErrors())
             throw new InvalidInputException("Invalid Order provided: " + result.getFieldError().getDefaultMessage());
 
-        Order placedOrder = this.orderService.placeOrder(order, menuItemIds, quantitiesOfMenuItems);
+        Order placedOrder = this.orderService.placeOrder(customerId, menuItemIds, quantitiesOfMenuItems);
         return "redirect:/orders/" + placedOrder.getId();
     }
 

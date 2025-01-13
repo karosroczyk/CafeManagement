@@ -3,20 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseService } from '../../base-service';
 import { ApiConfiguration } from '../../api-configuration';
-
-export interface PaginatedResponse<T> {
-  data: T[];
-  totalPages: number;
-  totalElements: number;
-  currentPage: number;
-  pageSize: number;
-}
-
-export interface Category {
-  id?: number;
-  name: string;
-  description: string;
-}
+import { CategoryResponse } from '../../models/category-response';
+import { PageResponse } from '../../models/page-response'; // You might need to create this model
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +23,7 @@ export class CategoryService extends BaseService {
     size: number = 20,
     sortBy: string[] = ['name'],
     direction: string[] = ['asc']
-  ): Observable<PaginatedResponse<Category>> {
+  ): Observable<PageResponse<CategoryResponse>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
@@ -45,22 +33,22 @@ export class CategoryService extends BaseService {
       params = params.append('direction', direction[index]);
     });
 
-    return this.http.get<PaginatedResponse<Category>>(this.apiUrl, { params });
+    return this.http.get<PageResponse<CategoryResponse>>(this.apiUrl, { params });
   }
 
   // Fetch a single category by ID
-  getCategoryById(id: number): Observable<Category> {
-    return this.http.get<Category>(`${this.apiUrl}/${id}`);
+  getCategoryById(id: number): Observable<CategoryResponse> {
+    return this.http.get<CategoryResponse>(`${this.apiUrl}/${id}`);
   }
 
   // Create a new category
-  createCategory(category: Category): Observable<Category> {
-    return this.http.post<Category>(this.apiUrl, category);
+  createCategory(category: CategoryResponse): Observable<CategoryResponse> {
+    return this.http.post<CategoryResponse>(this.apiUrl, category);
   }
 
   // Update an existing category
-  updateCategory(id: number, category: Category): Observable<Category> {
-    return this.http.put<Category>(`${this.apiUrl}/${id}`, category);
+  updateCategory(id: number, category: CategoryResponse): Observable<CategoryResponse> {
+    return this.http.put<CategoryResponse>(`${this.apiUrl}/${id}`, category);
   }
 
   // Delete a category by ID

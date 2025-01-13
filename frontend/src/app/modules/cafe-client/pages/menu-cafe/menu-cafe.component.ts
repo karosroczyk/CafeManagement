@@ -28,23 +28,38 @@ export class MenuCafeComponent implements OnInit {
   getAllCategories() {
     this.categoryService.getAllCategories().subscribe({
       next: (res) => {
-        this.pageResponseCategoryResponse = res;
-
-        // Fetch menu items for each category
-        res.data.forEach((category: any) => {
-          this.getMenuItemsByCategoryName(category.name);
-        });
+        if (res && res.data) {
+          this.pageResponseCategoryResponse = res;
+          res.data.forEach((category: any) => {
+            this.getMenuItemsByCategoryName(category.name);
+            console.log(res.data)
+          });
+        } else {
+          console.error('Category response data is undefined or empty.');
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching categories:', err);
       }
     });
   }
 
-  getMenuItemsByCategoryName(categoryName: string) {
-    this.menuService.getMenuItemsByCategoryName(categoryName).subscribe({
-      next: (res) => {
-          this.pageResponseMenuResponse = res;
-          console.log(res);
-         this.menuItemsByCategory[categoryName] = res;
-      }
-    });
-  }
+getMenuItemsByCategoryName(categoryName: string) {
+  this.menuService.getMenuItemsByCategoryName(categoryName).subscribe({
+    next: (res) => {
+      this.menuItemsByCategory[categoryName] = res;
+
+      const menuItemIds = this.menuItemsByCategory[categoryName].data.map(
+        (item: { item_id: number }) => item.item_id
+      );
+      const quantities = this.menuItemsByCategory[categoryName].data.map(
+        (item: { quantity?: number }) => item.quantity || 0
+      );
+
+    },
+    error: (err) => {
+      console.error('Error fetching menu items:', err);
+    },
+  });
+}
 }

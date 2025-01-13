@@ -173,7 +173,7 @@ public class OrderServiceImpl implements OrderService{
     // TODO: update readme then we can remove this comment
     @Override
     @Transactional
-    public Order placeOrder(Order order,
+    public Order placeOrder(Integer customerId,
                             List<Integer> menuItemIds,
                             List<Integer> quantitiesOfMenuItems) {
 
@@ -181,7 +181,7 @@ public class OrderServiceImpl implements OrderService{
                 .filter(quantity -> !quantity.equals(0))
                 .collect(Collectors.toList());
 
-        Order placedOrder = createOrder(order);
+        Order placedOrder = createOrder(new Order(customerId));
         menuItemIds.stream().forEach(menuItemId -> {
             OrderMenuItemId orderMenuItemId = new OrderMenuItemId(
                     new OrderMenuItemIdKey(placedOrder.getId(), menuItemId, filteredQuantities.get(menuItemIds.indexOf(menuItemId))));
@@ -245,11 +245,11 @@ public class OrderServiceImpl implements OrderService{
                             .retrieve()
                             .bodyToMono(Double.class)
                             .block();
-                    return price != null ? price : 0.0;
+                    return price != null ? price * menuItemId.getOrderMenuItemIdKey().getQuantity() : 0.0;
                 })
                 .sum();
-        order.setTotal_price(totalPrice);
-        order.setStatus("PENDING");
+        placedOrder.setTotal_price(totalPrice);
+        placedOrder.setStatus("PENDING");
 
         return placedOrder;
     }

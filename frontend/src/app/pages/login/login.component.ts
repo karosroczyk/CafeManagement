@@ -27,10 +27,11 @@ export class LoginComponent {
       }).subscribe({
         next: (res) => {
           this.tokenService.token = res.token as string;
+          console.log("here")
           this.router.navigate(['cafe-client']);
         },
         error: (err) => {
-          console.log(err);
+          console.log("myerror: " + err);
           if (err.error.validationErrors) {
             this.errorMsg = err.error.validationErrors;
           } else {

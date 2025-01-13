@@ -17,6 +17,6 @@ handleButton1(){
   this.router.navigate(['cafe-client/menucafe']);
 }
 handleButton2(){
-  this.router.navigate(['cafe-client/menucafe']);
+  this.router.navigate(['cafe-client/order']);
 }
 }

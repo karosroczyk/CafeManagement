@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ordersREST")
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
     public OrderController(OrderService orderService){
@@ -62,14 +62,14 @@ public class OrderController {
     }
 
     @PostMapping("/placeOrder")
-    public ResponseEntity<Order> placeOrder(@Valid @RequestBody Order order,
+    public ResponseEntity<Order> placeOrder(@Valid @RequestBody Integer customerId,
                                             @RequestParam List<Integer> menuItemIds,
                                             @RequestParam List<Integer> quantitiesOfMenuItems,
                                             BindingResult result){
         if (result.hasErrors())
             throw new InvalidInputException(result.getFieldError().getDefaultMessage());
 
-        Order createdOrder = this.orderService.placeOrder(order, menuItemIds, quantitiesOfMenuItems);
+        Order createdOrder = this.orderService.placeOrder(customerId, menuItemIds, quantitiesOfMenuItems);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
