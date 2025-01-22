@@ -9,6 +9,7 @@ import com.cafe.ordermanagement.service.PaginatedResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,6 +55,15 @@ public class OrderControllerMVC {
         Order order = this.orderService.getOrderById(id);
         model.addAttribute("order", order);
         return "orders/detail";
+    }
+
+    @GetMapping("/customer/{customer_id}")
+    public ResponseEntity<List<Order>> getOrdersByCustomerId(@PathVariable Integer customer_id){
+        if(customer_id < 0)
+            throw new InvalidInputException("Invalid customer id: " + customer_id + " provided.");
+
+        List<Order> orders = this.orderService.getOrdersByCustomerId(customer_id);
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/menuitemsByCategories")

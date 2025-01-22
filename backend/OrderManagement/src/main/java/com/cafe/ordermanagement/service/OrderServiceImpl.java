@@ -71,6 +71,12 @@ public class OrderServiceImpl implements OrderService{
                 .orElseThrow(() -> new ResourceNotFoundException("MenuItem with id: " + id + " not found."));
     }
 
+    @Override
+    public List<Order> getOrdersByCustomerId(Integer customer_id) {
+        return this.orderDAOJPA.findOrdersByCustomerId(customer_id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer with id: " + customer_id + " not found."));
+    }
+
     public PaginatedResponse<MenuItem> getAllMenuItems(int page, int size, String[] sortBy, String[] direction) {
         String uri = UriComponentsBuilder.fromHttpUrl(menuServiceUrl + "/api/menuitems")
                 .queryParam("page", page)

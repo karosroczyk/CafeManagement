@@ -41,6 +41,15 @@ public class OrderController {
         return ResponseEntity.ok(order);
     }
 
+    @GetMapping("/customer/{customer_id}")
+    public ResponseEntity<List<Order>> getOrdersByCustomerId(@PathVariable Integer customer_id){
+        if(customer_id < 0)
+            throw new InvalidInputException("Invalid customer id: " + customer_id + " provided.");
+
+        List<Order> orders = this.orderService.getOrdersByCustomerId(customer_id);
+        return ResponseEntity.ok(orders);
+    }
+
     @GetMapping("/menuitems")
     public ResponseEntity<PaginatedResponse<MenuItem>> getAllMenuItems(
             @RequestParam(defaultValue = "0") int page,

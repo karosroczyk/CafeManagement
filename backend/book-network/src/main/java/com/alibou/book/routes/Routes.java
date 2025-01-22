@@ -91,6 +91,15 @@ public class Routes {
     }
 
     @Bean
+    public RouterFunction<ServerResponse> orderGetByCustomerIdServiceRoute() {
+        return GatewayRouterFunctions.route("orderGetByCustomerid")
+                .route(RequestPredicates.path("/orders/customer/*"), HandlerFunctions.http("http://localhost:8083"))
+//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
+//                        URI.create("forward:/fallbackRoute")))
+                .build();
+    }
+
+    @Bean
     public RouterFunction<ServerResponse> orderGet2ServiceRoute() {
         return GatewayRouterFunctions.route("orderGet2")
                 .route(RequestPredicates.path("/orders"), HandlerFunctions.http("http://localhost:8083"))
@@ -121,6 +130,15 @@ public class Routes {
     public RouterFunction<ServerResponse> orderSecondServiceRoute() {
         return GatewayRouterFunctions.route("orderSec")
                 .route(RequestPredicates.path("/orders/placeOrder/*"), HandlerFunctions.http("http://localhost:8083"))
+//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
+//                        URI.create("forward:/fallbackRoute")))
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> getOrderMenuItemIdKeyByOrderIdRoute() {
+        return GatewayRouterFunctions.route("orderMenuItemIdKeyByOrderId")
+                .route(RequestPredicates.path("/orderMenuItemIdKeys/order/*"), HandlerFunctions.http("http://localhost:8083"))
 //                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
 //                        URI.create("forward:/fallbackRoute")))
                 .build();

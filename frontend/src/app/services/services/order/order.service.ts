@@ -28,6 +28,11 @@ export class OrderService extends BaseService {
     return this.http.get<OrderResponse>(`${this.apiUrl}/${id}`);
   }
 
+  // Get orders by customer ID
+  getOrdersByCustomerId(customerId: number): Observable<OrderResponse[]> {
+    return this.http.get<OrderResponse[]>(`${this.apiUrl}/customer/${customerId}`);
+  }
+
   // Get all menu items with pagination
   getAllMenuItems(page: number = 0, size: number = 2, sortBy: string[] = ['customerId'], direction: string[] = ['asc']): Observable<PageResponse<MenuResponse>> {
     let params = new HttpParams()
