@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { InventoryService } from '../../../../services/services/inventory/inventory.service';
 import { MenuService } from '../../../../services/services/menu/menu.service';
 import { OrderService } from '../../../../services/services/order/order.service';
 import { OrderMenuItemService } from '../../../../services/services/orderMenuItem/order-menu-item.service';
@@ -23,7 +22,6 @@ export class OrderHistoryComponent implements OnInit{
     menuItemNameMap: { [menuItemId: number]: MenuResponse } = {};
 
     constructor(
-      private inventoryService: InventoryService,
       private menuService: MenuService,
       private orderService: OrderService,
       private orderMenuItemService: OrderMenuItemService){
@@ -32,14 +30,6 @@ export class OrderHistoryComponent implements OnInit{
     ngOnInit(): void{
       this.fetchOrders();
     }
-
-    getAllInventoryItems(){
-      this.inventoryService.getAllInventoryItems().subscribe({
-        next: (res) => {
-        this.pageResponseInventoryResponse = res;
-        }});
-    }
-
       fetchOrders() {
         this.orderService.getOrdersByCustomerId(5).subscribe({
           next: (res) => {

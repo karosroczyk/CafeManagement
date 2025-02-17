@@ -41,8 +41,6 @@ export class MenuComponent implements OnInit {
     this.menuService.getAllMenuItems().subscribe({
       next: (res) => {
       this.pageResponseMenuResponse = res;
-      console.log(this.pageResponseMenuResponse.data);
-      console.log(this.pageResponseMenuResponse.size);
       }});
   }
 

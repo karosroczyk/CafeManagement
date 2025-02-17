@@ -4,11 +4,10 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './pages/register/register.component';
 import { ActivateAccountComponent } from './pages/activate-account/activate-account.component';
 import { CodeInputModule } from 'angular-code-input';
-import { CafehomeComponent } from './pages/cafehome/cafehome.component';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpTokenInterceptor } from './services/interceptor/http-token.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -21,12 +20,12 @@ import { OrderDialogComponent } from './components/order-dialog/order-dialog.com
     LoginComponent,
     RegisterComponent,
     ActivateAccountComponent,
-    CafehomeComponent,
     OrderDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
     CodeInputModule,
