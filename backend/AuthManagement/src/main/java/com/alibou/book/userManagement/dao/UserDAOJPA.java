@@ -1,0 +1,10 @@
+package com.alibou.book.userManagement.dao;
+
+import com.alibou.book.userManagement.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface UserDAOJPA extends JpaRepository<User, Integer> {
+    Optional<User> findByEmail(String username);
+}

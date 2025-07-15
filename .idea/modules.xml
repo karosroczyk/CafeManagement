@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/BookManagement.iml" filepath="$PROJECT_DIR$/.idea/BookManagement.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/DiscoveryServer/DiscoveryServer.iml" filepath="$PROJECT_DIR$/backend/DiscoveryServer/DiscoveryServer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/book-network/book-network.iml" filepath="$PROJECT_DIR$/backend/book-network/book-network.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/InventoryManagement/inventory.iml" filepath="$PROJECT_DIR$/backend/InventoryManagement/inventory.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/AuthManagement/auth.iml" filepath="$PROJECT_DIR$/backend/AuthManagement/auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/DiscoveryServer/discoveryServer.iml" filepath="$PROJECT_DIR$/backend/DiscoveryServer/discoveryServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/InventoryManagement/inventorymanagement.iml" filepath="$PROJECT_DIR$/backend/InventoryManagement/inventorymanagement.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/MenuManagement/menumanagement.iml" filepath="$PROJECT_DIR$/backend/MenuManagement/menumanagement.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/OrderManagement/menumanagement (1).iml" filepath="$PROJECT_DIR$/backend/OrderManagement/menumanagement (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/OrderManagement/ordermanagement.iml" filepath="$PROJECT_DIR$/backend/OrderManagement/ordermanagement.iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7412f433-051c-43fa-bc31-ff6f7b655196" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/controller/MenuControllerMVC.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/resources/templates/menuitems.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/menumanagement (1).iml" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/ordermanagement.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/controller/OrderControllerMVC.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/resources/static/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/resources/templates/orders/create.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/resources/templates/orders/detail.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/resources/templates/orders/edit.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/resources/templates/orders/list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/controller/OrderController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/BookNetworkApiApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/auth/AuthenticationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/auth/AuthenticationRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/auth/AuthenticationResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/auth/AuthenticationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/auth/RegistrationRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/config/BeansConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/email/EmailService/EmailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/email/EmailService/EmailTemplateName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/handler/BusinessErrorCodes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/handler/ExceptionResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/handler/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/role/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/role/RoleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/routes/Routes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/security/JwtFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/security/JwtService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/security/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/security/UserDetailsServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/user/Token.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/user/TokenRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/user/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/java/com/alibou/book/user/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/resources/application-dev.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/main/resources/templates/activate_account.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/book-network/src/test/java/com/alibou/book/BookNetworkApiApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cafehomepage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectId" id="2zuW0zdgFFqaZxASbMVI2uabZP2" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/ravko/Java_z_Karo/CafeManagement",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7412f433-051c-43fa-bc31-ff6f7b655196" name="Changes" comment="" />
+      <created>1752581219392</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1752581219392</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

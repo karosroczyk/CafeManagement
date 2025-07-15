@@ -7,28 +7,30 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="book-network" />
-        <module name="DiscoveryServer" />
-        <module name="menumanagement (1)" />
+        <module name="ordermanagement" />
         <module name="menumanagement" />
-        <module name="inventory" />
+        <module name="inventorymanagement" />
+        <module name="discoveryServer" />
+        <module name="auth" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="book-network" target="17" />
-      <module name="DiscoveryServer" target="17" />
-      <module name="inventory" target="17" />
+      <module name="auth" target="17" />
+      <module name="authmanagement" target="17" />
+      <module name="discoveryServer" target="17" />
+      <module name="inventorymanagement" target="17" />
       <module name="menumanagement" target="17" />
-      <module name="menumanagement (1)" target="17" />
+      <module name="ordermanagement" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="DiscoveryServer" options="-parameters" />
-      <module name="book-network" options="-parameters" />
-      <module name="inventory" options="-parameters" />
+      <module name="auth" options="-parameters" />
+      <module name="authmanagement" options="-parameters" />
+      <module name="discoveryServer" options="-parameters" />
+      <module name="inventorymanagement" options="-parameters" />
       <module name="menumanagement" options="-parameters" />
-      <module name="menumanagement (1)" options="-parameters" />
+      <module name="ordermanagement" options="-parameters" />
     </option>
   </component>
 </project>

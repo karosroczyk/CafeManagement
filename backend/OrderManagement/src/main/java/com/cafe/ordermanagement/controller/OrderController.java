@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/orders")
 public class OrderController {
     private final OrderService orderService;
     public OrderController(OrderService orderService){
@@ -50,6 +50,7 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
+    //TODO: Is it used/working?
     @GetMapping("/menuitems")
     public ResponseEntity<PaginatedResponse<MenuItem>> getAllMenuItems(
             @RequestParam(defaultValue = "0") int page,

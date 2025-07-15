@@ -20,7 +20,6 @@ import java.util.stream.IntStream;
 @Service
 public class MenuItemServiceImpl implements MenuItemService{
     private final MenuItemDAOJPA menuItemDAOJPA;
-
     @Autowired
     private EurekaClient discoveryClient;
     public MenuItemServiceImpl(MenuItemDAOJPA menuItemDAOJPA, EurekaClient discoveryClient){
