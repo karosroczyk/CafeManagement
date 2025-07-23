@@ -46,6 +46,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByEmail(String email){
+        return this.userDAOJPA.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User with email: " + email + " not found."));
+    }
+
+    @Override
     public User createUser(User user){
         try {
             return this.userDAOJPA.save(user);

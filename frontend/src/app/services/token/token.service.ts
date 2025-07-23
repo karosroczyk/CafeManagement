@@ -33,4 +33,12 @@ export class TokenService {
    isTokenNotValid() {
      return !this.isTokenValid();
    }
+
+   getEmailFromToken(): string {
+       const token = this.token;
+       const payload = token.split('.')[1];
+       const decoded = atob(payload);
+       const jwt = JSON.parse(decoded);
+       return jwt.sub;
+     }
 }

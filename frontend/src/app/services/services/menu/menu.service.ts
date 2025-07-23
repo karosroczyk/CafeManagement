@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { BaseService } from '../../base-service';
 import { ApiConfiguration } from '../../api-configuration';
 import { MenuResponse } from '../../models/menu-response';
-import { PageResponse } from '../../models/page-response'; // You might need to create this model
+import { PageResponse } from '../../models/page-response';
 
 @Injectable({
   providedIn: 'root'

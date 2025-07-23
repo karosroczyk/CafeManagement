@@ -27,7 +27,6 @@ export class LoginComponent {
       }).subscribe({
         next: (res) => {
           this.tokenService.token = res.token as string;
-          console.log("here")
           this.router.navigate(['cafe-client']);
         },
         error: (err) => {

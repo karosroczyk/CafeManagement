@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../../../../services/services/menu/menu.service';
+import { AuthService } from '../../../../services/auth/auth.service';
 import { PageResponse } from '../../../../services/models/page-response';
 import { MenuResponse } from '../../../../services/models/menu-response';
-import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-menu',
@@ -14,8 +14,8 @@ import { Router } from "@angular/router";
 export class MenuComponent implements OnInit {
   pageResponseMenuResponse: PageResponse<MenuResponse> = {};
   constructor(
-    private router: Router,
-    private menuService: MenuService){
+    private menuService: MenuService,
+    private authService: AuthService){
   }
 
   ngOnInit(): void {
@@ -34,7 +34,7 @@ export class MenuComponent implements OnInit {
   }
 
   logout(){
-    this.router.navigate(['login']);
+    this.authService.logout();
   }
 
   getAllMenuItems(){

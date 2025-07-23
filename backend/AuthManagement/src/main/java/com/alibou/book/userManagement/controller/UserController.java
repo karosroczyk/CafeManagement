@@ -1,6 +1,7 @@
 package com.alibou.book.userManagement.controller;
 
 import com.alibou.book.exception.InvalidInputException;
+import com.alibou.book.userManagement.entity.EmailRequest;
 import com.alibou.book.userManagement.entity.User;
 import com.alibou.book.userManagement.service.PaginatedResponse;
 import com.alibou.book.userManagement.service.UserService;
@@ -37,6 +38,16 @@ public class UserController {
             throw new InvalidInputException("Invalid id: " + id + " provided.");
 
         User user = this.userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/email")
+    public ResponseEntity<User> getUserByEmail(@RequestBody EmailRequest emailRequest){
+        String email = emailRequest.getEmail();
+        if(email == null || email.isBlank())
+            throw new InvalidInputException("Invalid email: " + email + " provided.");
+
+        User user = this.userService.getUserByEmail(email);
         return ResponseEntity.ok(user);
     }
 
