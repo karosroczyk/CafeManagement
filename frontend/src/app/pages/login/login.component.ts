@@ -30,7 +30,6 @@ export class LoginComponent {
           this.router.navigate(['cafe-client']);
         },
         error: (err) => {
-          console.log("myerror: " + err);
           if (err.error.validationErrors) {
             this.errorMsg = err.error.validationErrors;
           } else {

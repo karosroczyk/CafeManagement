@@ -39,6 +39,22 @@
             <label>Password</label>
             <input type="password" [(ngModel)]="user.password" name="password" required />
         </div>
+
+        <div class="form-group role-selector">
+            <label>Role</label>
+            <div class="role-dots">
+                <label *ngFor="let role of availableRoles">
+                    <input
+                            type="radio"
+                            name="role"
+                            [value]="role.id"
+                            [(ngModel)]="selectedRoleId"
+                    />
+                    <span class="dot" [class.selected]="selectedRoleId === role.id"></span>
+                    <span class="role-name">{{ role.name }}</span>
+                </label>
+            </div>
+        </div>
     </form>
 
     <div class="button-group">

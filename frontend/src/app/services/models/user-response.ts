@@ -8,8 +8,7 @@ export interface UserResponse {
   email?: string;
   password?: string;
   accountLocked?: boolean;
-  enabled?: boolean;
-//   roles?: Role[];
+  enabled?: boolean;   roles?: Role[];
   createdDate?: string;
   lastModifiedDate?: string;
 }

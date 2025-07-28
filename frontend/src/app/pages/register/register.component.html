@@ -21,12 +21,22 @@
     <input [(ngModel)]="registerRequest.password" type="password" class="form-control" id="password" placeholder="Password">
   </div>
   <div class="d-flex justify-content-between mb-3">
-    <button (click)="register()" type="button" class="btn btn-primary">
-      <em class="fas fa-sign-in-alt">&nbsp;Create an account</em>
+<!--    <button (click)="register()" type="button" class="btn btn-primary">-->
+<!--      <em class="fas fa-sign-in-alt">&nbsp;Create an account</em>-->
+<!--    </button>-->
+<!--    <div>-->
+<!--      Already have an account?&nbsp;-->
+<!--      <button (click)="login()" type="button" class="btn btn-link">-->
+<!--        Login-->
+<!--      </button>-->
+<!--    </div>-->
+
+    <button (click)="register()" type="button" class="btn" style="background-color: #8a6b52; color: white; border-color: #8a6b52;">
+      <em class="fas fa-sign-in-alt">&nbsp;Create an accountn</em>
     </button>
     <div>
       Already have an account?&nbsp;
-      <button (click)="login()" type="button" class="btn btn-link">
+      <button (click)="login()" type="button" class="custom-register-btn">
         Login
       </button>
     </div>

@@ -90,6 +90,52 @@ body {
   }
 }
 
+.role-selector {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.role-dots {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.role-dots label {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: lightgray;
+  border: 2px solid #ccc;
+  margin: 0 auto;
+  display: block;
+  box-sizing: border-box;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.dot.selected {
+  background-color: #8a6b52;
+  border-color: #8a6b52;
+}
+
+.role-name {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  display: block;
+}
+
 .update {
   text-align: center;
   margin-top: 20px;
