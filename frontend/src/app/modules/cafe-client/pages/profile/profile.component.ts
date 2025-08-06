@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../services/services/user/user.service';
+import { RoleService } from '../../../../services/services/role/role.service';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { TokenService } from '../../../../services/token/token.service';
 import { PageResponse } from '../../../../services/models/page-response';
 import { UserResponse } from '../../../../services/models/user-response';
+import { RoleResponse } from '../../../../services/models/role';
 
 @Component({
   selector: 'app-profile',
@@ -15,16 +17,15 @@ export class ProfileComponent implements OnInit {
   user: UserResponse = {};
   pageResponseUserResponse: PageResponse<UserResponse> = {};
 
-  availableRoles = [
-      { id: 1, name: 'USER' },
-      { id: 2, name: 'ADMIN' },
-      { id: 3, name: 'MANAGER' }
-    ];
+  availableRoles : RoleResponse[] = [];
 
   selectedRoleId: number = 1; // default to USER
+  successMessage: string = '';
+  failureMessage: string = '';
 
   constructor(
     private userService: UserService,
+    private roleService: RoleService,
     private authService: AuthService,
     private tokenService: TokenService) {}
 
@@ -33,12 +34,22 @@ export class ProfileComponent implements OnInit {
       this.userService.getUserByEmail(userEmail).subscribe({
         next: user => {
           this.user = user;
-          console.log('Current user:', user);
         },
         error: err => {
           console.error('Failed to load user', err);
         }
       });
+
+    this.roleService.getAllRoles().subscribe({
+      next: response => {
+        this.availableRoles = response.data ?? [];
+        console.log(response.data)
+      },
+      error: err => {
+        console.error('Failed to load availableRoles', err);
+      }
+    });
+
     this.selectedRoleId = this.user.roles?.[0]?.id ?? 1;
   }
 
@@ -59,14 +70,14 @@ export class ProfileComponent implements OnInit {
       roles: [this.availableRoles.find(role => role.id === this.selectedRoleId)!],
     };
 
-    console.log('Current after update:', updatedUser);
-
     this.userService.updateUser(userId, updatedUser).subscribe({
       next: () => {
-        console.log('Account updated successfully.');
+        this.successMessage = 'Profile updated successfully.';
+        setTimeout(() => this.successMessage = '', 5000);
       },
       error: err => {
-        console.error('Failed to update account', err);
+        this.failureMessage = 'Failed to update account.';
+        setTimeout(() => this.failureMessage = '', 5000);
       }
     });
   }
@@ -80,11 +91,13 @@ export class ProfileComponent implements OnInit {
 
       this.userService.deleteUser(userId).subscribe({
         next: () => {
-          console.log('Account deleted successfully.');
-          this.authService.logout();
+            this.successMessage = 'Account deleted successfully.';
+            setTimeout(() => this.successMessage = '', 5000);
+            this.authService.logout();
         },
         error: err => {
-          console.error('Failed to delete account', err);
+            this.failureMessage = 'Failed to delete account.';
+            setTimeout(() => this.failureMessage = '', 5000);
         }
       });
     }

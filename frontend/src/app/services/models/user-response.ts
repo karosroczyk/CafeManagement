@@ -1,4 +1,4 @@
-import { Role } from './role';
+import { RoleResponse } from './role';
 
 export interface UserResponse {
   id?: number;
@@ -8,7 +8,7 @@ export interface UserResponse {
   email?: string;
   password?: string;
   accountLocked?: boolean;
-  enabled?: boolean;   roles?: Role[];
+  enabled?: boolean;   roles?: RoleResponse[];
   createdDate?: string;
   lastModifiedDate?: string;
 }

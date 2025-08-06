@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../../../../services/services/menu/menu.service';
 import { CategoryService } from '../../../../services/services/category/category.service';
+import { AuthService } from '../../../../services/auth/auth.service';
 import { PageResponse } from '../../../../services/models/page-response';
 import { MenuResponse } from '../../../../services/models/menu-response';
 import { CategoryResponse } from '../../../../services/models/category-response';
@@ -18,7 +19,8 @@ export class MenuCafeComponent implements OnInit {
 
   constructor(
     private menuService: MenuService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {

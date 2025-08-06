@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService {
         foundUser.setDateOfBirth(user.getDateOfBirth());
         foundUser.setEmail(user.getEmail());
         foundUser.setPassword(user.getPassword());
+        foundUser.setRoles(user.getRoles());
 
         try {
             return this.userDAOJPA.save(foundUser);

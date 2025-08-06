@@ -1,4 +1,4 @@
-export interface Role {
+export interface RoleResponse {
   id?: number;
   name?: string;
   createdDate?: string;

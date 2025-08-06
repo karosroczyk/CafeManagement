@@ -52,8 +52,8 @@ export class UserService extends BaseService {
     /**
      * Create a new user.
      */
-    createUser(menuItem: UserResponse): Observable<UserResponse> {
-      return this.http.post<UserResponse>(this.baseUrl, menuItem);
+    createUser(user: UserResponse): Observable<UserResponse> {
+      return this.http.post<UserResponse>(this.baseUrl, user);
     }
     
     /**

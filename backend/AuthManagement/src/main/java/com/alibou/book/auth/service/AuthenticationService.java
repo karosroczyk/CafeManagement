@@ -7,7 +7,7 @@ import com.alibou.book.auth.AuthenticationResponse;
 import com.alibou.book.auth.RegistrationRequest;
 import com.alibou.book.email.EmailService.EmailService;
 import com.alibou.book.email.EmailService.EmailTemplateName;
-import com.alibou.book.roleManagement.dao.RoleRepository;
+import com.alibou.book.roleManagement.dao.RoleDAOJPA;
 import com.alibou.book.security.JwtService;
 import com.alibou.book.tokenManagement.entity.Token;
 import com.alibou.book.tokenManagement.dao.TokenRepository;
@@ -35,14 +35,14 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final RoleRepository roleRepository;
+    private final RoleDAOJPA roleDAOJPA;
     private final EmailService emailService;
     private final TokenRepository tokenRepository;
 
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
     public void register(RegistrationRequest request) throws MessagingException {
-        var userRole = roleRepository.findByName("USER")
+        var userRole = roleDAOJPA.findByName("USER")
                 // todo - better exception handling
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initiated"));
         var user = User.builder()

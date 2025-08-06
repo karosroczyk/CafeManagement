@@ -12,11 +12,6 @@ import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouter
 
 @Configuration
 public class Routes {
-//    @Value("${product.service.url}")
-//    private String productServiceUrl;
-//    @Value("${order.service.url}")
-//    private String orderServiceUrl;
-//    @Value("${inventory.service.url}")
     private String inventoryServiceUrl;
 
     @Bean

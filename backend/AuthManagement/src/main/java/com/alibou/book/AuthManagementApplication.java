@@ -1,7 +1,7 @@
 package com.alibou.book;
 
 import com.alibou.book.roleManagement.entity.Role;
-import com.alibou.book.roleManagement.dao.RoleRepository;
+import com.alibou.book.roleManagement.dao.RoleDAOJPA;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,10 +19,10 @@ public class AuthManagementApplication {
 	}
 
 	@Bean
-	public CommandLineRunner runner(RoleRepository roleRepository){
+	public CommandLineRunner runner(RoleDAOJPA roleDAOJPA){
 		return args -> {
-			if(roleRepository.findByName("USER").isEmpty()){
-				roleRepository.save(Role.builder().name("USER").build());
+			if(roleDAOJPA.findByName("USER").isEmpty()){
+				roleDAOJPA.save(Role.builder().name("USER").build());
 			}
 		};
 	}

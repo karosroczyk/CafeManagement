@@ -14,6 +14,10 @@
     <div class="menu-divider"></div>
   </header>
 
+  <button *ngIf="authService.hasRole('ADMIN')">
+    Add New Menu Item
+  </button>
+
   <nav class="menu-nav">
     <ul>
       <li *ngFor="let category of pageResponseCategoryResponse?.data">

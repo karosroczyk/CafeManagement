@@ -7,6 +7,7 @@ import com.cafe.menumanagement.service.PaginatedResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class MenuItemController {
 
     public MenuItemController(MenuItemService menuItemService) { this.menuItemService = menuItemService; }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<PaginatedResponse<MenuItem>> getAllMenuItems(
             @RequestParam(defaultValue = "0") int page,

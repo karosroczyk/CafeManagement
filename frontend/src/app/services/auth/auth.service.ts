@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -11,4 +12,23 @@ export class AuthService {
   logout(): void {
     this.router.navigate(['login']);
   }
+
+    getUserRoles(): string[] {
+      const token = localStorage.getItem('token');
+      if (!token) return [];
+      const decoded: any = jwtDecode(token);
+      return decoded.authorities || [];
+    }
+
+hasRole(expectedRole: string | string[]): boolean {
+  const userRoles = this.getUserRoles();
+  console.log('User Roles:', userRoles);
+  console.log('Expected Role(s):', expectedRole);
+
+  if (Array.isArray(expectedRole)) {
+    return expectedRole.some(role => userRoles.includes(role));
+  } else {
+    return userRoles.includes(expectedRole);
+  }
+}
 }

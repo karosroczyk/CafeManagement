@@ -5,16 +5,18 @@ import { MenuCafeComponent } from './pages/menu-cafe/menu-cafe.component';
 import { OrderComponent } from './pages/order/order.component';
 import { OrderHistoryComponent } from './pages/order-history/order-history.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-
+import {roleGuard} from '../../services/guard/roles/roles.guard';
 const routes: Routes = [
   {
     path: '',
     component: MainComponent
   },
-  {
+ {
     path: 'menucafe',
-    component: MenuCafeComponent
-  },
+    component: MenuCafeComponent,
+    canActivate: [roleGuard],
+    data: { role: ['ADMIN'] }
+ },
   {
     path: 'order',
     component: OrderComponent

@@ -4,6 +4,7 @@ import {LoginComponent} from './pages/login/login.component';
 import {RegisterComponent} from './pages/register/register.component';
 import {ActivateAccountComponent} from './pages/activate-account/activate-account.component';
 import {authGuard} from './services/guard/auth.guard';
+import {roleGuard} from './services/guard/roles/roles.guard';
 
 const routes: Routes = [  {
                             path: 'login',
@@ -20,7 +21,6 @@ const routes: Routes = [  {
                           {
                              path: 'cafe-client',
                              loadChildren: () => import('./modules/cafe-client/cafe-client.module').then(m => m.CafeClientModule),
-//                              component: MenuComponent,
                              canActivate: [authGuard]
                           }
                        ];
