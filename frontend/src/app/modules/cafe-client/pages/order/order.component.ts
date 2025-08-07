@@ -8,7 +8,7 @@ import { MenuResponse } from '../../../../services/models/menu-response';
 import { OrderResponse } from '../../../../services/models/order-response';
 import { CategoryResponse } from '../../../../services/models/category-response';
 import { MatDialog } from '@angular/material/dialog';
-import { OrderDialogComponent } from '../../../../components/order-dialog/order-dialog.component'; // Import the dialog component
+import { OrderDialogComponent } from '../../../../components/shared/order-dialog/order-dialog.component';
 
 @Component({
   selector: 'app-menu-cafe',

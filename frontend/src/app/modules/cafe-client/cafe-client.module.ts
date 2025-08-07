@@ -9,6 +9,7 @@ import { MenuCafeComponent } from './pages/menu-cafe/menu-cafe.component';
 import { OrderComponent } from './pages/order/order.component';
 import { OrderHistoryComponent } from './pages/order-history/order-history.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { SharedModule } from '../../components/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
   imports: [
     CommonModule,
     CafeClientRoutingModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class CafeClientModule { }

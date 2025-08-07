@@ -10,7 +10,7 @@ export const roleGuard: CanActivateFn = (route) => {
   console.log(authService.hasRole(expectedRole))
 
   if (expectedRole && !authService.hasRole(expectedRole)) {
-    router.navigate(['login']);
+    router.navigate(['cafe-client']);
     return false;
   }
 

@@ -12,15 +12,13 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 import { HttpTokenInterceptor } from './services/interceptor/http-token.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatDialogModule } from '@angular/material/dialog';
-import { OrderDialogComponent } from './components/order-dialog/order-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    ActivateAccountComponent,
-    OrderDialogComponent
+    ActivateAccountComponent
   ],
   imports: [
     BrowserModule,

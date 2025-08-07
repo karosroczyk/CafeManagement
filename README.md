@@ -32,4 +32,21 @@ Each DAOJPA extends JpaRepository.
 OrderManagement Service contain WebClient.Builder used for comunicating with other modules e.g. Menu, Inventory.
 Modular approach.
 
-To be removed:
+ROLES:
+1. CLIENT can access:
+   - HOME, CAFE-MENU (read only), CREATE AN ORDER, MY ORDERS, MY PROFILE (BEZ OPCJI ZMIANY ROLE)
+2. EMPLOYEE can access:
+   - HOME, CAFE-MENU (crud), ALL ORDERS, MY PROFILE (BEZ OPCJI ZMIANY ROLE)
+3. ADMIN can access:
+   - HOME, (ALL PROFILES z opcja zmiany ROLE)
+
+
+NOTE: cafe-client/components/menu mozna przeniesc do app/components
+NOTE: Change name from OrderDialogComponent to DialogComponent
+MODULES:
+1. cafe-client
+   - main(home), menu-cafe, order, order-history, profile
+2. cafe-employee - TODO
+3. cafe-admin - TODO
+
+
