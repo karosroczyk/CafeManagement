@@ -1,12 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
-
+import { CafeEmployeeRoutingModule } from './cafe-employee-routing.module';
+import { MainComponent } from './pages/main/main.component';
+import { SharedModule } from '../../components/shared/shared.module';
+import { MenuComponent } from './components/menu/menu.component';
+import { MenuCafeComponent } from './pages/menu-cafe/menu-cafe.component';
+import { OrderHistoryComponent } from './pages/order-history/order-history.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+      MainComponent,
+      MenuComponent,
+      MenuCafeComponent,
+      OrderHistoryComponent,
+      ProfileComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    CafeEmployeeRoutingModule,
+    FormsModule,
+    SharedModule
   ]
 })
 export class CafeEmployeeModule { }

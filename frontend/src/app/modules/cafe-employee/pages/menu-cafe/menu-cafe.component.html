@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu</title>
+  <link rel="stylesheet" href="menu-cafe.component.scss">
+</head>
+<body>
+<app-menu></app-menu>
+<div class="menu-page">
+  <header class="menu-header">
+    <h1>Menu</h1>
+    <div class="menu-divider"></div>
+  </header>
+
+  <button *ngIf="authService.hasRole('ADMIN')">
+    Add New Menu Item
+  </button>
+
+  <nav class="menu-nav">
+    <ul>
+      <li *ngFor="let category of pageResponseCategoryResponse?.data">
+        <a [href]="'/cafe-client/menucafe#category-' + category.id">{{ category.name }}</a>
+      </li>
+    </ul>
+  </nav>
+
+  <section class="menu-section" [id]="'category-' + category.id" *ngFor="let category of pageResponseCategoryResponse.data">
+    <header class="menu-header">
+      <h2>{{ category.name }}</h2>
+      <div class="menu-divider"></div>
+    </header>
+
+    <div *ngFor="let menuItem of menuItemsByCategory[category.name]?.data" class="menu-item">
+      <h3>{{ menuItem.name }} <span></span></h3>
+      <p>{{ menuItem.description }}</p>
+      <span class="price">PLN {{ menuItem.price }}</span>
+    </div>
+  </section>
+</div>
+</body>
+</html>

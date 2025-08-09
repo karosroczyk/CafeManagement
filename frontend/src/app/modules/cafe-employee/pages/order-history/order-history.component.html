@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders History</title>
+    <link rel="stylesheet" href="order-history.component.scss">
+</head>
+<body>
+<app-menu></app-menu>
+
+<div class="menu-page">
+    <header class="menu-header">
+        <h1>Your Orders</h1>
+        <div class="menu-divider"></div>
+    </header>
+
+    <table class="order-table">
+        <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let order of pageResponseOrderResponse; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ order.total_price }} PLN</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.createdAt }}</td>
+            <td>{{ order.updatedAt }}</td>
+            <td>
+                <details>
+                    <summary (click)="getOrderMenuItemIdKeyByOrderId(order.id)">View Details</summary>
+                    <div class="order-details">
+                        <p><strong>Items:</strong></p>
+                            <ul>
+                                <li *ngFor="let item of orderMenuItemsMap[order.id]">
+                                    <p *ngIf="menuItemNameMap[item.menuItemId]; else loading">
+                                        <strong>{{ menuItemNameMap[item.menuItemId].name }}: </strong> {{ item.quantity }}
+                                    </p>
+                                    <ng-template #loading>
+                                        <p>Loading...</p>
+                                    </ng-template>
+                                </li>
+                            </ul>
+                    </div>
+                </details>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

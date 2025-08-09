@@ -1,0 +1,17 @@
+li > a {
+  &:hover {
+    background-color: #d9baa0;
+    border-radius: 5px;
+    text-decoration: underline;
+  }
+  &.active {
+    color: #959f84;
+    border-radius: 5px;
+  }
+  .custom-navbar {
+    background-color: #8a6b52;
+  }
+
+}
+
+

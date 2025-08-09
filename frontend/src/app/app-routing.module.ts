@@ -22,7 +22,17 @@ const routes: Routes = [  {
                              path: 'cafe-client',
                              loadChildren: () => import('./modules/cafe-client/cafe-client.module').then(m => m.CafeClientModule),
                              canActivate: [authGuard]
-                          }
+                          },
+                         {
+                            path: 'cafe-admin',
+                            loadChildren: () => import('./modules/cafe-admin/cafe-admin.module').then(m => m.CafeAdminModule),
+                            canActivate: [authGuard]
+                         },
+                         {
+                            path: 'cafe-employee',
+                            loadChildren: () => import('./modules/cafe-employee/cafe-employee.module').then(m => m.CafeEmployeeModule),
+                            canActivate: [authGuard]
+                         }
                        ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

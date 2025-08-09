@@ -1,0 +1,105 @@
+$primary-color: #000000;
+$accent-color: #8a6b52; // d9baa0;
+$font-family: 'Arial', sans-serif;
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family;
+}
+
+.menu-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  .menu-header {
+    text-align: center;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .menu-divider {
+      margin: 10px auto;
+      width: 50px;
+      height: 3px;
+      background-color: $accent-color;
+    }
+  }
+
+  .menu-nav {
+    margin: 20px 0;
+
+    ul {
+      list-style: none;
+      display: flex; /* Align items horizontally */
+      justify-content: center; /* Center the categories */
+      gap: 20px; /* Add space between categories */
+      padding: 0;
+
+      li {
+        margin: 0;
+
+        a {
+          text-decoration: none;
+          color: $primary-color;
+          font-size: 1.1rem;
+          font-weight: bold;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: $accent-color;
+          }
+        }
+      }
+    }
+  }
+
+  .menu-section {
+    margin: 20px 0;
+
+    .menu-item {
+      margin-bottom: 20px;
+      border-bottom: 1px dotted $primary-color;
+      padding-bottom: 10px;
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+
+        span {
+          font-size: 1rem;
+          font-weight: normal;
+        }
+      }
+
+      p {
+        margin: 10px 0;
+        font-size: 1rem;
+      }
+
+      .price {
+        font-size: 1.25rem;
+        color: $accent-color;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .menu-image {
+    text-align: center;
+    margin-top: 30px;
+
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+  }
+}
