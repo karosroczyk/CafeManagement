@@ -8,20 +8,27 @@ import {roleGuard} from '../../services/guard/roles/roles.guard';
 const routes: Routes = [
   {
     path: '',
-    component: MainComponent
+    component: MainComponent,
+   canActivate: [roleGuard],
+   data: { role: ['EMPLOYEE'] }
    },
     {
        path: 'menucafe',
        component: MenuCafeComponent,
-       canActivate: [roleGuard]
+       canActivate: [roleGuard],
+       data: { role: ['EMPLOYEE'] }
     },
      {
        path: 'orders',
-       component: OrderHistoryComponent
+       component: OrderHistoryComponent,
+       canActivate: [roleGuard],
+       data: { role: ['EMPLOYEE'] }
      },
   {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+   canActivate: [roleGuard],
+   data: { role: ['EMPLOYEE'] }
   }
 ];
 @NgModule({

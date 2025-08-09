@@ -6,11 +6,15 @@ import {roleGuard} from '../../services/guard/roles/roles.guard';
 const routes: Routes = [
   {
     path: '',
-    component: MainComponent
+    component: MainComponent,
+    canActivate: [roleGuard],
+    data: { role: ['ADMIN'] }
    },
   {
     path: 'profiles',
-    component: ProfileComponent
+    component: ProfileComponent,
+   canActivate: [roleGuard],
+   data: { role: ['ADMIN'] }
   }
 ];
 @NgModule({

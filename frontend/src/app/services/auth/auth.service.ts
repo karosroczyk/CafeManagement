@@ -13,12 +13,12 @@ export class AuthService {
     this.router.navigate(['login']);
   }
 
-    getUserRoles(): string[] {
-      const token = localStorage.getItem('token');
-      if (!token) return [];
-      const decoded: any = jwtDecode(token);
-      return decoded.authorities || [];
-    }
+getUserRoles(): string[] {
+  const token = localStorage.getItem('token');
+  if (!token) return [];
+  const decoded: any = jwtDecode(token);
+  return decoded.authorities || [];
+}
 
 hasRole(expectedRole: string | string[]): boolean {
   const userRoles = this.getUserRoles();

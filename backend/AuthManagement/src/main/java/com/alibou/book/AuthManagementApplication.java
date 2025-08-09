@@ -21,8 +21,8 @@ public class AuthManagementApplication {
 	@Bean
 	public CommandLineRunner runner(RoleDAOJPA roleDAOJPA){
 		return args -> {
-			if(roleDAOJPA.findByName("USER").isEmpty()){
-				roleDAOJPA.save(Role.builder().name("USER").build());
+			if(roleDAOJPA.findByName("CLIENT").isEmpty()){
+				roleDAOJPA.save(Role.builder().name("CLIENT").build());
 			}
 		};
 	}

@@ -42,9 +42,9 @@ public class AuthenticationService {
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
     public void register(RegistrationRequest request) throws MessagingException {
-        var userRole = roleDAOJPA.findByName("USER")
+        var userRole = roleDAOJPA.findByName("CLIENT")
                 // todo - better exception handling
-                .orElseThrow(() -> new IllegalStateException("ROLE USER was not initiated"));
+                .orElseThrow(() -> new IllegalStateException("ROLE CLIENT was not initiated"));
         var user = User.builder()
                 .first_name(request.getFirst_name())
                 .last_name(request.getLast_name())
