@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu</title>
+  <link rel="stylesheet" href="main.component.scss">
+</head>
+<body>
+<div class="menu-page">
+    <header class="menu-header">
+      <h1>About Us</h1>
+      <div class="menu-divider"></div>
+    </header>
+
+    <p>
+      Welcome to our cafe! We serve freshly brewed coffee, delicious pastries, and a warm atmosphere.
+      Our goal is to provide you with the best dining experience.
+    </p>
+
+    <!-- Centered Buttons -->
+    <div class="d-flex justify-content-center gap-2 p-2" *ngIf="authService.hasRole('CLIENT') || authService.hasRole('EMPLOYEE')">
+      <button class="btn btn-secondary" style="background-color: #8a6b52;" (click)="handleButton1()">Open Menu</button>
+      <button class="btn btn-secondary" style="background-color: #8a6b52;" (click)="handleButton2()">{{ button2Label }}</button>
+    </div>
+
+
+  <div class="pe-2 ps-2">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+$primary-color: #000000;
+$accent-color: #8a6b52; //d9baa0;
+$font-family: 'Arial', sans-serif;
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family;
+}
+
+.menu-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  .menu-header {
+    text-align: center;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    .menu-divider {
+      margin: 10px auto;
+      width: 50px;
+      height: 3px;
+      background-color: $accent-color;
+    }
+  }
+
+  .menu-image {
+    text-align: center;
+    margin-top: 30px;
+
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+  }
+}

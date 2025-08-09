@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { CafeClientRoutingModule } from './cafe-client-routing.module';
-import { MainComponent } from './pages/main/main.component';
+import { CafeClientMainPage } from './pages/main/main.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { MenuCafeComponent } from './pages/menu-cafe/menu-cafe.component';
 import { OrderComponent } from './pages/order/order.component';
@@ -13,8 +13,8 @@ import { SharedModule } from '../../components/shared/shared.module';
 
 @NgModule({
   declarations: [
-    MainComponent,
     MenuComponent,
+    CafeClientMainPage,
     MenuCafeComponent,
     OrderComponent,
     OrderHistoryComponent,

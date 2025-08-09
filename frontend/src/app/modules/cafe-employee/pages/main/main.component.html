@@ -8,27 +8,6 @@
 </head>
 <body>
 <app-menu></app-menu>
-<div class="menu-page">
-    <header class="menu-header">
-      <h1>About Us</h1>
-      <div class="menu-divider"></div>
-    </header>
-
-    <p>
-      Welcome to our cafe! We serve freshly brewed coffee, delicious pastries, and a warm atmosphere.
-      Our goal is to provide you with the best dining experience.
-    </p>
-
-    <!-- Centered Buttons -->
-    <div class="d-flex justify-content-center gap-2 p-2">
-      <button class="btn btn-secondary" style="background-color: #8a6b52;" (click)="handleButton1()">Open Menu</button>
-      <button class="btn btn-secondary" style="background-color: #8a6b52;" (click)="handleButton2()">Create an order</button>
-    </div>
-
-
-  <div class="pe-2 ps-2">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<app-main [firstButton]="'cafe-employee/menucafe'" [secondButton]="'cafe-employee/orders'"></app-main>
 </body>
 </html>
