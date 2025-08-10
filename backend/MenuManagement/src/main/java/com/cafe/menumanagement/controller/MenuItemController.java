@@ -19,7 +19,6 @@ public class MenuItemController {
 
     public MenuItemController(MenuItemService menuItemService) { this.menuItemService = menuItemService; }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<PaginatedResponse<MenuItem>> getAllMenuItems(
             @RequestParam(defaultValue = "0") int page,

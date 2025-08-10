@@ -17,7 +17,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity(securedEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
      private final JwtFilter jwtAuthFilter;
@@ -43,6 +43,10 @@ public class SecurityConfig {
                                         "/swagger-ui.html"
                                 )
                                 .permitAll()
+                                .requestMatchers("/api/menuitems/**").hasAnyRole("CLIENT", "EMPLOYEE")
+                                .requestMatchers("/api/categories/**").hasAnyRole("CLIENT", "EMPLOYEE")
+                                .requestMatchers("/api/orders/**").hasAnyRole("CLIENT", "EMPLOYEE")
+                                .requestMatchers("/api/inventory/**").hasAnyRole("CLIENT", "EMPLOYEE")
                                 .anyRequest()
                                 .authenticated()
                 )

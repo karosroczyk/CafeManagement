@@ -17,7 +17,12 @@ getUserRoles(): string[] {
   const token = localStorage.getItem('token');
   if (!token) return [];
   const decoded: any = jwtDecode(token);
-  return decoded.authorities || [];
+  const authorities: string[] = decoded.authorities || [];
+
+  // Remove ROLE_ prefix if present
+  return authorities.map(role =>
+    role.startsWith('ROLE_') ? role.substring(5) : role
+  );
 }
 
 hasRole(expectedRole: string | string[]): boolean {
