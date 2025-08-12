@@ -30,15 +30,21 @@ export class ProfileComponent implements OnInit {
     private tokenService: TokenService) {}
 
   ngOnInit(): void {
-    const userEmail = this.tokenService.getEmailFromToken();
-      this.userService.getUserByEmail(userEmail).subscribe({
-        next: user => {
-          this.user = user;
-        },
-        error: err => {
-          console.error('Failed to load user', err);
-        }
-      });
+    const userEmail = this.tokenService.getEmail();
+    if (!userEmail) {
+      console.error('No email found in token');
+      return;
+    }
+
+    this.userService.getUserByEmail(userEmail).subscribe({
+      next: user => {
+        this.user = user;
+        this.selectedRoleId = this.user.roles?.[0]?.id ?? 1;
+      },
+      error: err => {
+        console.error('Failed to load user', err);
+      }
+    });
 
     this.roleService.getAllRoles().subscribe({
       next: response => {

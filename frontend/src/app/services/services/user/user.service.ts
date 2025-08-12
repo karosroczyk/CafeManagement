@@ -5,6 +5,7 @@ import { BaseService } from '../../base-service';
 import { ApiConfiguration } from '../../api-configuration';
 import { UserResponse } from '../../models/user-response';
 import { PageResponse } from '../../models/page-response';
+import { TokenService } from '../../token/token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,13 @@ export class UserService extends BaseService {
 
   private readonly baseUrl = this.rootUrl + '/api/user';
 
-  constructor(config: ApiConfiguration, http: HttpClient) {
-    super(config, http);
-  }
+    constructor(
+        config: ApiConfiguration,
+        http: HttpClient,
+        private tokenService: TokenService
+        ) {
+        super(config, http);
+    }
   
     /**
      * Get all users with pagination.
@@ -47,6 +52,18 @@ export class UserService extends BaseService {
      */
     getUserByEmail(email: string): Observable<UserResponse> {
       return this.http.post<UserResponse>(`${this.baseUrl}/email`, { email });
+    }
+
+    /**
+    * Get the current logged-in user based on the token email.
+    * Returns an Observable of UserResponse or an error if no email found.
+    */
+    getCurrentUser(): Observable<UserResponse> {
+        const userEmail = this.tokenService.getEmail();
+        if (!userEmail) {
+            console.error('No email found in token');
+        }
+        return this.getUserByEmail(userEmail);
     }
     
     /**

@@ -12,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.List;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -26,7 +28,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(withDefaults())
+                .cors(cors -> cors.configurationSource(request -> {
+                    var config = new org.springframework.web.cors.CorsConfiguration();
+                    config.setAllowedOrigins(List.of("http://localhost:4200"));
+                    config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+                    config.setAllowedHeaders(List.of("Authorization","Content-Type"));
+                    config.setAllowCredentials(true);
+                    return config;
+                }))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(
@@ -43,10 +52,10 @@ public class SecurityConfig {
                                         "/swagger-ui.html"
                                 )
                                 .permitAll()
-                                .requestMatchers("/api/menuitems/**").hasAnyRole("CLIENT", "EMPLOYEE")
-                                .requestMatchers("/api/categories/**").hasAnyRole("CLIENT", "EMPLOYEE")
-                                .requestMatchers("/api/orders/**").hasAnyRole("CLIENT", "EMPLOYEE")
-                                .requestMatchers("/api/inventory/**").hasAnyRole("CLIENT", "EMPLOYEE")
+//                                .requestMatchers("/api/menuitems/**").hasAnyRole("CLIENT", "EMPLOYEE")
+//                                .requestMatchers("/api/categories/**").hasAnyRole("CLIENT", "EMPLOYEE")
+//                                .requestMatchers("/api/orders/**").hasAnyRole("CLIENT", "EMPLOYEE")
+//                                .requestMatchers("/api/inventory/**").hasAnyRole("CLIENT", "EMPLOYEE")
                                 .anyRequest()
                                 .authenticated()
                 )

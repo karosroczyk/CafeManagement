@@ -1,44 +1,52 @@
 import { Injectable } from '@angular/core';
-import {JwtHelperService} from '@auth0/angular-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
+  private readonly TOKEN_KEY = 'token';
+  private jwtHelper = new JwtHelperService();
 
-  set token(token: string) {
-    localStorage.setItem('token', token);
+  setToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
   }
 
-  get token() {
-    return localStorage.getItem('token') as string;
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  isTokenValid() {
-    const token = this.token;
-    if (!token) {
-      return false;
-    }
-    // decode the token
-    const jwtHelper = new JwtHelperService();
-    // check expiry date
-    const isTokenExpired = jwtHelper.isTokenExpired(token);
-    if (isTokenExpired) {
-      localStorage.clear();
+  clearToken(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+  }
+
+  isValid(): boolean {
+    const token = this.getToken();
+    if (!token) return false;
+
+    if (this.jwtHelper.isTokenExpired(token)) {
+      this.clearToken();
       return false;
     }
     return true;
   }
 
-   isTokenNotValid() {
-     return !this.isTokenValid();
-   }
+  decodeToken(): any | null {
+    const token = this.getToken();
+    return token ? jwtDecode(token) : null;
+  }
 
-   getEmailFromToken(): string {
-       const token = this.token;
-       const payload = token.split('.')[1];
-       const decoded = atob(payload);
-       const jwt = JSON.parse(decoded);
-       return jwt.sub;
-     }
+  getEmail(): string{
+    const decoded = this.decodeToken();
+    return decoded?.sub;
+  }
+
+  getRoles(): string[] {
+    const decoded = this.decodeToken();
+    if (!decoded?.authorities) return [];
+    return decoded.authorities.map((role: string) =>
+      role.startsWith('ROLE_') ? role.substring(5) : role
+    );
+  }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../../../../services/services/menu/menu.service';
 import { OrderService } from '../../../../services/services/order/order.service';
+import { UserService } from '../../../../services/services/user/user.service';
 import { OrderMenuItemService } from '../../../../services/services/orderMenuItem/order-menu-item.service';
 import { PageResponse } from '../../../../services/models/page-response';
 import { InventoryResponse } from '../../../../services/models/inventory-response';
@@ -24,18 +25,32 @@ export class OrderHistoryComponent implements OnInit{
     constructor(
       private menuService: MenuService,
       private orderService: OrderService,
+      private userService: UserService,
       private orderMenuItemService: OrderMenuItemService){
     }
 
     ngOnInit(): void{
       this.fetchOrders();
     }
-      fetchOrders() {
-        this.orderService.getOrdersByCustomerId(5).subscribe({
-          next: (res) => {
-            this.pageResponseOrderResponse = res;
-          }});
-      }
+
+    fetchOrders() {
+        this.userService.getCurrentUser().subscribe({
+            next: (user) => {
+            if (user && user.id !== undefined) {
+                const userId = user.id;
+                this.orderService.getOrdersByCustomerId(userId).subscribe({
+                    next: (res) => {
+                    this.pageResponseOrderResponse = res;
+                }});
+            } else {
+                console.error('User not found');
+            }
+            },
+                error: (err) => {
+                console.error('Error fetching user', err);
+            }
+        });
+    }
 
     getOrderMenuItemIdKeyByOrderId(orderId: number){
       this.orderMenuItemService.getOrderMenuItemIdKeyByOrderId(orderId).subscribe({

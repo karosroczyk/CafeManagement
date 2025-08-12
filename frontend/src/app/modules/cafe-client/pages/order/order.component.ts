@@ -3,6 +3,7 @@ import { MenuService } from '../../../../services/services/menu/menu.service';
 import { CategoryService } from '../../../../services/services/category/category.service';
 import { OrderService } from '../../../../services/services/order/order.service';
 import { InventoryService } from '../../../../services/services/inventory/inventory.service';
+import { UserService } from '../../../../services/services/user/user.service';
 import { PageResponse } from '../../../../services/models/page-response';
 import { MenuResponse } from '../../../../services/models/menu-response';
 import { OrderResponse } from '../../../../services/models/order-response';
@@ -27,6 +28,7 @@ export class OrderComponent implements OnInit {
     private menuService: MenuService,
     private categoryService: CategoryService,
     private inventoryService: InventoryService,
+    private userService: UserService,
     private orderService: OrderService,
     private dialog: MatDialog
   ) {}
@@ -145,28 +147,37 @@ getMenuItemsByCategoryName(categoryName: string) {
       const menuItemIds = this.basket.map(item => item.item_id || 0);
       const quantitiesOfMenuItems = this.basket.map(item => item.quantity || 0);
 
-      console.log(this.basket);
-
-      // TODO: replace 5 with actual customerId
-      this.orderService.placeOrder(5, menuItemIds, quantitiesOfMenuItems).subscribe(
-        () => {
-          this.dialog.open(OrderDialogComponent, {
-            data: {
-              title: 'Order Placed',
-              message: 'Your order has been placed successfully!',
-            },
-          });
+      this.userService.getCurrentUser().subscribe({
+        next: (user) => {
+          if (user && user.id !== undefined) {
+              const userId = user.id;
+              this.orderService.placeOrder(userId, menuItemIds, quantitiesOfMenuItems).subscribe(
+                () => {
+                      this.dialog.open(OrderDialogComponent, {
+                      data: {
+                      title: 'Order Placed',
+                      message: 'Your order has been placed successfully!',
+                    },
+                  });
+                },
+                (error) => {
+                    const errorMessage = error?.error?.message || 'An unexpected error occurred.';
+                    this.dialog.open(OrderDialogComponent, {
+                      data: {
+                      title: 'Order Failed',
+                      message: errorMessage,
+                  },
+                });
+              }
+            );
+          } else {
+            console.error('User not found');
+          }
         },
-        (error) => {
-          const errorMessage = error?.error?.message || 'An unexpected error occurred.';
-          this.dialog.open(OrderDialogComponent, {
-            data: {
-              title: 'Order Failed',
-              message: errorMessage,
-            },
-          });
+          error: (err) => {
+          console.error('Error fetching user', err);
         }
-      );
+      });
     }
 }
 

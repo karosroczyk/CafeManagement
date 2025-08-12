@@ -55,9 +55,12 @@ export class OrderService extends BaseService {
       .set('menuItemIds', menuItemIds.join(','))
       .set('quantitiesOfMenuItems', quantitiesOfMenuItems.join(','));
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
+  const token = localStorage.getItem('token');
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  });
 
     return this.http.post<OrderResponse>(`${this.apiUrl}/placeOrder`,
         customerId, { params, headers });

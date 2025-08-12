@@ -26,19 +26,18 @@ export class ProfileComponent implements OnInit {
   constructor(
     private userService: UserService,
     private roleService: RoleService,
-    private authService: AuthService,
-    private tokenService: TokenService) {}
+    private authService: AuthService) {}
 
   ngOnInit(): void {
-    const userEmail = this.tokenService.getEmailFromToken();
-      this.userService.getUserByEmail(userEmail).subscribe({
-        next: user => {
-          this.user = user;
-        },
-        error: err => {
-          console.error('Failed to load user', err);
-        }
-      });
+    this.userService.getCurrentUser().subscribe({
+      next: user => {
+        this.user = user;
+        this.selectedRoleId = this.user.roles?.[0]?.id ?? 1;
+      },
+      error: err => {
+        console.error('Failed to load user', err);
+      }
+    });
 
     this.roleService.getAllRoles().subscribe({
       next: response => {
