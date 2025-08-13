@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../services/services/user/user.service';
-import { RoleService } from '../../../../services/services/role/role.service';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { TokenService } from '../../../../services/token/token.service';
 import { PageResponse } from '../../../../services/models/page-response';
@@ -16,16 +15,11 @@ import { RoleResponse } from '../../../../services/models/role';
 export class ProfileComponent implements OnInit {
   user: UserResponse = {};
   pageResponseUserResponse: PageResponse<UserResponse> = {};
-
-  availableRoles : RoleResponse[] = [];
-
-  selectedRoleId: number = 1; // default to USER
   successMessage: string = '';
   failureMessage: string = '';
 
   constructor(
     private userService: UserService,
-    private roleService: RoleService,
     private authService: AuthService,
     private tokenService: TokenService) {}
 
@@ -39,24 +33,11 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserByEmail(userEmail).subscribe({
       next: user => {
         this.user = user;
-        this.selectedRoleId = this.user.roles?.[0]?.id ?? 1;
       },
       error: err => {
         console.error('Failed to load user', err);
       }
     });
-
-    this.roleService.getAllRoles().subscribe({
-      next: response => {
-        this.availableRoles = response.data ?? [];
-        console.log(response.data)
-      },
-      error: err => {
-        console.error('Failed to load availableRoles', err);
-      }
-    });
-
-    this.selectedRoleId = this.user.roles?.[0]?.id ?? 1;
   }
 
   updateProfile(): void {
@@ -73,7 +54,7 @@ export class ProfileComponent implements OnInit {
       email: this.user.email,
       password: this.user.password,
       dateOfBirth: this.user.dateOfBirth,
-      roles: [this.availableRoles.find(role => role.id === this.selectedRoleId)!],
+      roles: this.user.roles,
     };
 
     this.userService.updateUser(userId, updatedUser).subscribe({

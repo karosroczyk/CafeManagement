@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CafeAdminMainPage } from './pages/main/main.component';
+import { roleGuard } from '../../services/guard/roles/roles.guard';
+import { ProfileListComponent } from './pages/profile-list/profile-list.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import {roleGuard} from '../../services/guard/roles/roles.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -12,10 +14,16 @@ const routes: Routes = [
    },
   {
     path: 'profiles',
-    component: ProfileComponent,
+    component: ProfileListComponent,
    canActivate: [roleGuard],
    data: { role: ['ADMIN'] }
-  }
+  },
+{
+    path: 'profile/:id',
+    component: ProfileComponent,
+    canActivate: [roleGuard],
+    data: { role: ['ADMIN'] }
+}
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

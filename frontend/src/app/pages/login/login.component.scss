@@ -1,6 +1,8 @@
+$accent-color: #8a6b52;
+
 .btn-primary {
-  background-color: #8a6b52;
-  border-color: #8a6b52;
+  background-color: $accent-color;
+  border-color: $accent-color;
 }
 
 .btn-primary:hover,
@@ -10,13 +12,13 @@
 }
 
 .custom-login-btn {
-  background-color: #8a6b52;
+  background-color: $accent-color;
   color: #fff;
   border: none;
 }
 
 .custom-register-btn {
-  color: #8a6b52;
+  color: $accent-color;
   font-weight: 500;
   text-decoration: underline;
   background: none;
@@ -24,3 +26,8 @@
   padding: 0;
 }
 
+.login-container input:focus {
+  border-color: #959f84;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(149, 159, 132, 0.25);
+}

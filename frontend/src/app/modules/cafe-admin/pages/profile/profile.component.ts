@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../../services/services/user/user.service';
 import { RoleService } from '../../../../services/services/role/role.service';
 import { AuthService } from '../../../../services/auth/auth.service';
@@ -16,40 +17,34 @@ import { RoleResponse } from '../../../../services/models/role';
 export class ProfileComponent implements OnInit {
   user: UserResponse = {};
   pageResponseUserResponse: PageResponse<UserResponse> = {};
-
   availableRoles : RoleResponse[] = [];
-
   selectedRoleId: number = 1; // default to USER
   successMessage: string = '';
   failureMessage: string = '';
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private userService: UserService,
     private roleService: RoleService,
     private authService: AuthService,
     private tokenService: TokenService) {}
 
   ngOnInit(): void {
-    const userEmail = this.tokenService.getEmail();
-    if (!userEmail) {
-      console.error('No email found in token');
-      return;
-    }
-
-    this.userService.getUserByEmail(userEmail).subscribe({
-      next: user => {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+      if (id) {
+        this.userService.getUserById(id).subscribe(user => {
         this.user = user;
         this.selectedRoleId = this.user.roles?.[0]?.id ?? 1;
-      },
-      error: err => {
-        console.error('Failed to load user', err);
+        });
       }
-    });
 
     this.roleService.getAllRoles().subscribe({
       next: response => {
-        this.availableRoles = response.data ?? [];
-        console.log(response.data);
+        this.availableRoles = (response.data ?? []).map(role => ({
+        ...role,
+        name: (role.name ?? '').replace(/^ROLE_/, '')
+        }));
       },
       error: err => {
         console.error('Failed to load available roles', err);

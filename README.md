@@ -40,6 +40,14 @@ ROLES:
 3. ADMIN can access:
    - HOME, (ALL PROFILES z opcja zmiany ROLE)
 
+NOTE: cafe-client/components/menu mozna przeniesc do app/components
+NOTE: Change name from OrderDialogComponent to DialogComponent
+MODULES:
+1. cafe-client
+   - main(home), menu-cafe, order, order-history, profile
+2. cafe-employee - DONE: home, profile TODO: menu, orders
+3. cafe-admin - home, profile-list, profile
+
 role based security in backend:
 .requestMatchers("/api/menuitems/**").hasAnyRole("CLIENT", "EMPLOYEE")
 .requestMatchers("/api/categories/**").hasAnyRole("CLIENT", "EMPLOYEE")
@@ -49,14 +57,8 @@ role based security in backend:
 .authenticated()
 
 role based security in frontend:
--based on jwt tocker decoding
+-based on jwt token decoding
 
-NOTE: cafe-client/components/menu mozna przeniesc do app/components
-NOTE: Change name from OrderDialogComponent to DialogComponent
-MODULES:
-1. cafe-client
-   - main(home), menu-cafe, order, order-history, profile
-2. cafe-employee - TODO
-3. cafe-admin - TODO
+
 
 

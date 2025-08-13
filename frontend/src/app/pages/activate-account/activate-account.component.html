@@ -21,7 +21,9 @@
                   [code]="'number'"
                   (codeCompleted)="onCodeCompleted($event)">
       </code-input>
-      <button class="btn btn-primary mt-3" (click)="redirectToLogin()">Go to Login</button>
+      <button (click)="redirectToLogin()" type="button" class="btn btn-primary mt-3" style="background-color: #8a6b52; color: white; border-color: #8a6b52;">
+        <em class="fas fa-sign-in-alt">&nbsp;Go to Login</em>
+      </button>
     </div>
   </div>
 </ng-template>

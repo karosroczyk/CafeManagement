@@ -27,8 +27,8 @@ export class UserService extends BaseService {
      */
     getAllUsers(
       page: number = 0,
-      size: number = 2,
-      sortBy: string[] = ['last_name'],
+      size: number = 20,
+      sortBy: string[] = ['id'],
       direction: string[] = ['asc']
     ): Observable<PageResponse<UserResponse>> {
       let params = new HttpParams()

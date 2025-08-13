@@ -23,3 +23,9 @@
   border: none;
   padding: 0;
 }
+
+.login-container input:focus {
+  border-color: #959f84;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(149, 159, 132, 0.25);
+}

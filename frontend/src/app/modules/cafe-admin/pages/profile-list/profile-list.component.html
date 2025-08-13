@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="stylesheet" href="profile-list.component.scss">
+</head>
+<body>
+<app-menu></app-menu>
+<div class="menu-page">
+    <header class="menu-header">
+        <h1>Profiles</h1>
+        <div class="menu-divider"></div>
+    </header>
+
+    <table class="order-table">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>User ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ user.id }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                <button
+                        *ngIf="user.id != null"
+                        (click)="editProfile(user.id)"
+                        class="update-btn">
+                    Edit Profile
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
