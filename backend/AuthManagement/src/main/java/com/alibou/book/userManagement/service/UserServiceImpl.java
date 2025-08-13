@@ -10,17 +10,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.IntStream;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserDAOJPA userDAOJPA;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserDAOJPA userDAOJPA){
+    public UserServiceImpl(UserDAOJPA userDAOJPA, PasswordEncoder passwordEncoder){
         this.userDAOJPA = userDAOJPA;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -69,7 +74,7 @@ public class UserServiceImpl implements UserService {
         foundUser.setLast_name(user.getLast_name());
         foundUser.setDateOfBirth(user.getDateOfBirth());
         foundUser.setEmail(user.getEmail());
-        foundUser.setPassword(user.getPassword());
+        foundUser.setPassword(passwordEncoder.encode(user.getPassword()));
         foundUser.setRoles(user.getRoles());
 
         try {
