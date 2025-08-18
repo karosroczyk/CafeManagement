@@ -107,7 +107,13 @@
 		<groupId>org.springframework.cloud</groupId>
 		<artifactId>spring-cloud-netflix-eureka-client</artifactId>
 	</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.cafe.</groupId>
+            <artifactId>menumanagement</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

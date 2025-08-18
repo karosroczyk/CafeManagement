@@ -24,7 +24,6 @@ public class MenuItemServiceImpl implements MenuItemService{
     @Autowired
     private EurekaClient discoveryClient;
     public MenuItemServiceImpl(MenuItemDAOJPA menuItemDAOJPA, EurekaClient discoveryClient){
-
         this.menuItemDAOJPA = menuItemDAOJPA;
         this.discoveryClient = discoveryClient;
     }

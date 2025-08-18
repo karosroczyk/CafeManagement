@@ -37,7 +37,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testReadAllCategoriesWithSorting() {
+    void testGetAllCategoriesWithSorting() {
         Category beverages = new Category("Beverages", "Drinks such as coffee, tea, juices");
         Category desserts = new Category("Desserts", "Cakes, pies, pastries");
 
@@ -63,7 +63,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testReadCategoryById_Correct() {
+    void testGetCategoryById_Correct() {
         Category beverages = new Category("Beverages", "Drinks such as coffee, tea, juices");
 
         when(categoryRepository.findById(1)).thenReturn(Optional.of(beverages));
@@ -75,7 +75,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testReadCategoryById_IdNotFound() {
+    void testGetCategoryById_IdNotFound() {
         Integer wrongId = 100;
 
         when(categoryRepository.findById(wrongId)).thenReturn(Optional.empty());

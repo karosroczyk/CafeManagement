@@ -37,7 +37,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    void testReadAllCategories_Success() {
+    void testGetAllCategories_Success() {
         List<Category> categoryList = Arrays.asList(
                 new Category("Beverages", "Hot and cold drinks"),
                 new Category("Snacks", "Various snacks")
@@ -55,14 +55,14 @@ public class CategoryControllerTest {
     }
 
     @Test
-    void testReadAllCategories_InvalidInput() {
+    void testGetAllCategories_InvalidInput() {
         assertThrows(InvalidInputException.class, () -> {
             categoryController.getAllCategories(-1, 0, new String[]{"name"}, new String[]{"asc"});
         });
     }
 
     @Test
-    void testReadCategoryById_Success() {
+    void testGetCategoryById_Success() {
         Category category = new Category("Beverages", "Hot and cold drinks");
         when(categoryService.getCategoryById(anyInt())).thenReturn(category);
 
@@ -75,7 +75,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    void testReadCategoryById_InvalidInput() {
+    void testGetCategoryById_InvalidInput() {
         assertThrows(InvalidInputException.class, () -> {
             categoryController.getCategoryById(-1);
         });

@@ -76,6 +76,15 @@ public class InventoryController {
         return ResponseEntity.ok(updatedInventoryItem);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<InventoryItem> deleteInventoryItem(@PathVariable Integer id){
+        if(id < 0)
+            throw new InvalidInputException("Invalid id: " + id + " provided.");
+
+        this.inventoryService.deleteInventoryItem(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     @PutMapping("/reduce")
     public ResponseEntity<List<InventoryItem>> reduceStockByMenuItemId(
             @RequestParam List<Integer> menuItemIds, @RequestParam List<Integer> quantitiesOfMenuItems){
@@ -95,14 +104,5 @@ public class InventoryController {
 
         InventoryItem updatedInventoryItem = this.inventoryService.addStock(id, quantity);
         return ResponseEntity.ok(updatedInventoryItem);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<InventoryItem> deleteInventoryItem(@PathVariable Integer id){
-        if(id < 0)
-            throw new InvalidInputException("Invalid id: " + id + " provided.");
-
-        this.inventoryService.deleteInventoryItem(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

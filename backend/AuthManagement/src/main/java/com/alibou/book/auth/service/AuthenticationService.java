@@ -30,7 +30,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-
     private final UserDAOJPA userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -94,7 +93,7 @@ public class AuthenticationService {
         tokenRepository.save(savedToken);
     }
 
-    private String generateAndSaveActivationToken(User user) {
+    public String generateAndSaveActivationToken(User user) {
         // Generate a token
         String generatedToken = generateActivationCode(6);
         var token = Token.builder()
@@ -108,7 +107,7 @@ public class AuthenticationService {
         return generatedToken;
     }
 
-    private void sendValidationEmail(User user) throws MessagingException {
+    public void sendValidationEmail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
 
         emailService.sendEmail(
@@ -121,7 +120,7 @@ public class AuthenticationService {
         );
     }
 
-    private String generateActivationCode(int length) {
+    public String generateActivationCode(int length) {
         String characters = "0123456789";
         StringBuilder codeBuilder = new StringBuilder();
 

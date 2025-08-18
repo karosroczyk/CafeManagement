@@ -2,12 +2,15 @@ package com.cafe.menumanagement.service;
 
 import com.cafe.menumanagement.entity.MenuItem;
 import com.cafe.menumanagement.dao.MenuItemDAOJPA;
+import com.cafe.menumanagement.exception.DatabaseUniqueValidationException;
 import com.cafe.menumanagement.exception.ResourceNotFoundException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -23,20 +26,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class MenuItemServiceTest {
-
     @Mock
     private MenuItemDAOJPA menuItemRepository;
-
     @InjectMocks
     private MenuItemServiceImpl menuItemService;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
     @Test
-    void testReadMenuItems() {
+    void testGetAllMenuItems() {
         MenuItem espresso = new MenuItem("Espresso", "Strong black coffee", 2.50, 1, null);
         MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, 1, null);
         String[] sortingFields = {"name", "price"};
@@ -61,7 +60,29 @@ class MenuItemServiceTest {
     }
 
     @Test
-    void testReadMenuItemById_Correct() {
+    void testGetMenuItemsByCategoryName_ReturnsPaginatedResponse() {
+        MenuItem lemonCake = new MenuItem("Lemon cake", "Lemon cake with frosting.", 2.50, 2, null);
+        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, 1, null);
+        String[] sortingFields = {"name", "price"};
+        String[] directions = {"asc", "desc"};
+        String categoryName = "Beverages";
+        Page<MenuItem> menuItemPage = new PageImpl<>(Arrays.asList(cappuccino));
+
+        when(menuItemRepository.findByCategoryName(eq(categoryName),
+                argThat(p -> p.getSort().getOrderFor("name").getDirection() == Sort.Direction.ASC &&
+                        p.getSort().getOrderFor("price").getDirection() == Sort.Direction.DESC)))
+                .thenReturn(menuItemPage);
+        PaginatedResponse<MenuItem> response = menuItemService.getMenuItemsByCategoryName(categoryName, 0, 2, sortingFields, directions);
+
+        assertEquals(1, response.getSize());
+        assertEquals("Cappuccino", response.getData().get(0).getName());
+
+        verify(menuItemRepository, times(1))
+                .findByCategoryName(eq(categoryName), any(Pageable.class));
+    }
+
+    @Test
+    void testgetMenuItemById_Correct() {
         MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, 1, null);
 
         when(menuItemRepository.findById(1)).thenReturn(Optional.of(cappuccino));
@@ -73,7 +94,7 @@ class MenuItemServiceTest {
     }
 
     @Test
-    void testReadCategoryById_IdNotFound() {
+    void testGetMenuItemById_ThrowsException_WhenNotFound() {
         Integer wrongId = 100;
 
         when(menuItemRepository.findById(wrongId)).thenReturn(Optional.empty());
@@ -96,6 +117,22 @@ class MenuItemServiceTest {
 
         assertEquals("Latte", result.getName());
         assertEquals(menuItem, result);
+        verify(menuItemRepository, times(1)).save(menuItem);
+    }
+
+    @Test
+    void testCreateMenuItem_EmptyCategoryId() {
+        MenuItem menuItem = new MenuItem("Latte", "Espresso with steamed milk", 4.00, null, null);
+
+        doThrow(new DatabaseUniqueValidationException("Menu item name is required"))
+                .when(menuItemRepository).save(menuItem);
+
+        DatabaseUniqueValidationException ex = assertThrows(
+                DatabaseUniqueValidationException.class,
+                () -> menuItemService.createMenuItem(menuItem)
+        );
+
+        assertTrue(ex.getMessage().contains("Menu item name is required"));
         verify(menuItemRepository, times(1)).save(menuItem);
     }
 
@@ -123,5 +160,24 @@ class MenuItemServiceTest {
 
         verify(menuItemRepository, times(1)).findById(1);
         verify(menuItemRepository, times(1)).deleteById(1);
+    }
+
+    @Test
+    void testDeleteMenuItem_ShouldThrowDatabaseUniqueValidation_WhenConstraintViolationOccurs() {
+        int id = 1;
+        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with milk", 3.0, 1, null);
+
+        when(menuItemRepository.findById(id)).thenReturn(Optional.of(cappuccino));
+        doThrow(new DatabaseUniqueValidationException("Constraint violation"))
+                .when(menuItemRepository).deleteById(id);
+
+        DatabaseUniqueValidationException ex = assertThrows(
+                DatabaseUniqueValidationException.class,
+                () -> menuItemService.deleteMenuItem(id)
+        );
+
+        assertTrue(ex.getMessage().contains("Constraint violation"));
+        verify(menuItemRepository).findById(id);
+        verify(menuItemRepository).deleteById(id);
     }
 }

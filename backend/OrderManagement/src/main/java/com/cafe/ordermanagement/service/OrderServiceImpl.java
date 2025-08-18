@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order getOrderById(Integer id) {
         return this.orderDAOJPA.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("MenuItem with id: " + id + " not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("Order with id: " + id + " not found."));
     }
 
     @Override
@@ -265,7 +265,7 @@ public class OrderServiceImpl implements OrderService{
         try {
             return this.orderDAOJPA.save(menuItem);
         }catch(DataIntegrityViolationException e){
-            throw new DatabaseUniqueValidationException(e.getRootCause().getMessage());
+            throw new DatabaseUniqueValidationException(e.getMessage());
         }
     }
     @Override

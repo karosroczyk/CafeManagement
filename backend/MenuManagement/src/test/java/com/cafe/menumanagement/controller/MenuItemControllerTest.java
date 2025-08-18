@@ -22,15 +22,12 @@ import static org.mockito.Mockito.*;
 public class MenuItemControllerTest {
     @Mock
     private MenuItemService menuItemService;
-
     @InjectMocks
     private MenuItemController menuItemController;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
     @Test
     void testGetAllMenuItems_ValidRequest() {
         // Arrange
@@ -66,27 +63,6 @@ public class MenuItemControllerTest {
     }
 
     @Test
-    void testGetMenuItemsByCategoryName_ValidRequest() {
-        // Arrange
-        String categoryName = "Beverages";
-        int page = 0;
-        int size = 2;
-        String[] sortBy = {"name"};
-        String[] direction = {"asc"};
-        PaginatedResponse<MenuItem> paginatedResponse = new PaginatedResponse<>(
-                Collections.singletonList(new MenuItem()), 0, 1, 1, 2);
-        when(menuItemService.getMenuItemsByCategoryName(categoryName, page, size, sortBy, direction)).thenReturn(paginatedResponse);
-
-        // Act
-        ResponseEntity<PaginatedResponse<MenuItem>> response = menuItemController.getMenuItemsByCategoryName(page, size, sortBy, direction, categoryName);
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(1, response.getBody().getTotalElements());
-    }
-
-    @Test
     void testGetMenuItemById_ValidRequest() {
         // Arrange
         Integer id = 1;
@@ -110,6 +86,26 @@ public class MenuItemControllerTest {
         assertThrows(InvalidInputException.class, () -> {
             menuItemController.getMenuItemById(id);
         });
+    }
+    @Test
+    void testGetMenuItemsByCategoryName_ValidRequest() {
+        // Arrange
+        String categoryName = "Beverages";
+        int page = 0;
+        int size = 2;
+        String[] sortBy = {"name"};
+        String[] direction = {"asc"};
+        PaginatedResponse<MenuItem> paginatedResponse = new PaginatedResponse<>(
+                Collections.singletonList(new MenuItem()), 0, 1, 1, 2);
+        when(menuItemService.getMenuItemsByCategoryName(categoryName, page, size, sortBy, direction)).thenReturn(paginatedResponse);
+
+        // Act
+        ResponseEntity<PaginatedResponse<MenuItem>> response = menuItemController.getMenuItemsByCategoryName(page, size, sortBy, direction, categoryName);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().getTotalElements());
     }
 
     @Test

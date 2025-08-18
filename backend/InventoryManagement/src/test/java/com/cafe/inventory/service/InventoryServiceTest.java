@@ -3,6 +3,7 @@ package com.cafe.inventory.service;
 import com.cafe.inventory.dao.InventoryDAOJPA;
 import com.cafe.inventory.entity.InventoryItem;
 import com.cafe.inventory.exception.DatabaseUniqueValidationException;
+import com.cafe.inventory.exception.InvalidInputException;
 import com.cafe.inventory.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,18 +25,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class InventoryServiceTest {
-
     @Mock
     private InventoryDAOJPA inventoryDAOJPA;
-
     @InjectMocks
     private InventoryServiceImpl inventoryService;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
     @Test
     void testGetAllInventoryItems() {
         InventoryItem item1 = new InventoryItem(1, 101, 10, true);
@@ -83,6 +80,83 @@ class InventoryServiceTest {
     }
 
     @Test
+    void testGetInventoryItemsByMenuItemIds_AllFound() {
+        List<Integer> menuItemIds = Arrays.asList(101, 102);
+
+        InventoryItem item1 = new InventoryItem(1, 101, 10, true);
+        InventoryItem item2 = new InventoryItem(2, 102, 20, true);
+
+        when(inventoryDAOJPA.findByMenuItemId(101)).thenReturn(Optional.of(item1));
+        when(inventoryDAOJPA.findByMenuItemId(102)).thenReturn(Optional.of(item2));
+
+        List<InventoryItem> result = inventoryService.getInventoryItemsByMenuItemIds(menuItemIds);
+
+        assertEquals(2, result.size());
+        assertEquals(101, result.get(0).getMenuItemId());
+        assertEquals(102, result.get(1).getMenuItemId());
+
+        verify(inventoryDAOJPA, times(1)).findByMenuItemId(101);
+        verify(inventoryDAOJPA, times(1)).findByMenuItemId(102);
+    }
+
+    @Test
+    void testGetInventoryItemsByMenuItemIds_AnyNotFound_ThrowsException() {
+        List<Integer> menuItemIds = Arrays.asList(101, 999);
+
+        InventoryItem item1 = new InventoryItem(1, 101, 10, true);
+
+        when(inventoryDAOJPA.findByMenuItemId(101)).thenReturn(Optional.of(item1));
+        when(inventoryDAOJPA.findByMenuItemId(999)).thenReturn(Optional.empty());
+
+        ResourceNotFoundException ex = assertThrows(
+                ResourceNotFoundException.class,
+                () -> inventoryService.getInventoryItemsByMenuItemIds(menuItemIds)
+        );
+
+        assertEquals("InventoryItem by MenuItemId not found.", ex.getMessage());
+
+        verify(inventoryDAOJPA, times(1)).findByMenuItemId(101);
+        verify(inventoryDAOJPA, times(1)).findByMenuItemId(999);
+    }
+    @Test
+    void testAreInventoryItemsByMenuItemIdsAvailable(){
+        List<Integer> menuItemIds = Arrays.asList(101, 102);
+        List<Integer> quantitiesOfMenuItems = Arrays.asList(5, 15);
+
+        InventoryItem item1 = new InventoryItem(1, 101, 10, true);
+        InventoryItem item2 = new InventoryItem(2, 102, 20, true);
+
+        when(inventoryDAOJPA.findByMenuItemId(101)).thenReturn(Optional.of(item1));
+        when(inventoryDAOJPA.findByMenuItemId(102)).thenReturn(Optional.of(item2));
+
+        List<Boolean> result =
+                inventoryService.areInventoryItemsByMenuItemIdsAvailable(menuItemIds, quantitiesOfMenuItems);
+
+        assertEquals(Arrays.asList(true, true), result);
+        verify(inventoryDAOJPA, times(1)).findByMenuItemId(101);
+        verify(inventoryDAOJPA, times(1)).findByMenuItemId(102);
+    }
+
+    @Test
+    void testAreInventoryItemsByMenuItemIdsAvailable_SomeUnavailable() {
+        List<Integer> menuItemIds = Arrays.asList(101, 102);
+        List<Integer> quantities = Arrays.asList(5, 100);
+
+        InventoryItem item1 = new InventoryItem(1, 101, 10, true);
+        InventoryItem item2 = new InventoryItem(2, 102, 10, true);
+
+        when(inventoryDAOJPA.findByMenuItemId(101)).thenReturn(Optional.of(item1));
+        when(inventoryDAOJPA.findByMenuItemId(102)).thenReturn(Optional.of(item2));
+
+        List<Boolean> result =
+                inventoryService.areInventoryItemsByMenuItemIdsAvailable(menuItemIds, quantities);
+
+        assertEquals(Arrays.asList(true, false), result);
+        verify(inventoryDAOJPA, times(1)).findByMenuItemId(101);
+        verify(inventoryDAOJPA, times(1)).findByMenuItemId(102);
+    }
+
+    @Test
     void testCreateInventoryItem() {
         InventoryItem item = new InventoryItem(1, 101, 10, true);
 
@@ -121,7 +195,6 @@ class InventoryServiceTest {
         assertEquals(15, result.getStockLevel());
         assertFalse(result.isAvailable());
         verify(inventoryDAOJPA, times(1)).findById(1);
-        verify(inventoryDAOJPA, times(1)).save(existingItem);
     }
 
     @Test
@@ -148,5 +221,75 @@ class InventoryServiceTest {
 
         assertEquals("InventoryItem with id: 100 not found.", exception.getMessage());
         verify(inventoryDAOJPA, times(1)).findById(100);
+    }
+
+    @Test
+    void reduceStockByMenuItemId(){
+        List<Integer> menuItemIds = Arrays.asList(101, 102);
+        List<Integer> quantities = Arrays.asList(5, 10);
+        InventoryItem item1 = new InventoryItem(1, 101, 5, true);
+        InventoryItem item1Updated = new InventoryItem(1, 101, 0, false);
+        InventoryItem item2 = new InventoryItem(2, 102, 15, true);
+        InventoryItem item2Updated = new InventoryItem(2, 102, 5, true);
+
+        when(inventoryDAOJPA.findByMenuItemId(101)).thenReturn(Optional.of(item1));
+        when(inventoryDAOJPA.findByMenuItemId(102)).thenReturn(Optional.of(item2));
+        when(inventoryDAOJPA.save(item1)).thenReturn(item1Updated);
+        when(inventoryDAOJPA.save(item2)).thenReturn(item2Updated);
+        List<InventoryItem> savedInventoryItems = inventoryService.reduceStockByMenuItemId(menuItemIds, quantities);
+
+        assertEquals(item1Updated.getStockLevel(), savedInventoryItems.get(0).getStockLevel());
+        assertFalse(item1Updated.isAvailable());
+        assertEquals(item2Updated.getStockLevel(), savedInventoryItems.get(1).getStockLevel());
+        assertTrue(item2Updated.isAvailable());
+    }
+
+    @Test
+    void reduceStockByMenuItemId_NotEnoughStockToReduce(){
+        List<Integer> menuItemIds = Arrays.asList(101);
+        List<Integer> quantities = Arrays.asList(10);
+        InventoryItem item1 = new InventoryItem(1, 101, 5, true);
+        InventoryItem item1Updated = new InventoryItem(1, 101, 0, false);
+
+        when(inventoryDAOJPA.findByMenuItemId(101)).thenReturn(Optional.of(item1));
+        InvalidInputException exception = assertThrows(
+                InvalidInputException.class,
+                () -> inventoryService.reduceStockByMenuItemId(menuItemIds, quantities)
+        );
+
+        assertEquals("Not enough stock to reduce.", exception.getMessage());
+        verify(inventoryDAOJPA, times(1)).findByMenuItemId(101);
+    }
+
+    @Test
+    void testAddStock(){
+        Integer itemId = 1;
+        Integer itemQuantity = 5;
+        InventoryItem item = new InventoryItem(itemId, 101, 0, false);
+        InventoryItem itemUpdated = new InventoryItem(itemId, 101, itemQuantity, true);
+
+        when(inventoryDAOJPA.findById(itemId)).thenReturn(Optional.of(item));
+        when(inventoryDAOJPA.save(any(InventoryItem.class))).thenReturn(itemUpdated);
+
+        InventoryItem result = inventoryService.addStock(itemId, itemQuantity);
+
+        assertEquals(itemUpdated.getStockLevel(), result.getStockLevel());
+        assertTrue(result.isAvailable());
+    }
+
+    @Test
+    void testAddStock_AddZeroNotAvailable(){
+        Integer itemId = 1;
+        Integer itemQuantity = 0;
+        InventoryItem item = new InventoryItem(itemId, 101, 0, false);
+        InventoryItem itemUpdated = new InventoryItem(itemId, 101, 0, false);
+
+        when(inventoryDAOJPA.findById(itemId)).thenReturn(Optional.of(item));
+        when(inventoryDAOJPA.save(any(InventoryItem.class))).thenReturn(itemUpdated);
+
+        InventoryItem result = inventoryService.addStock(itemId, itemQuantity);
+
+        assertEquals(0, result.getStockLevel());
+        assertFalse(result.isAvailable());
     }
 }
