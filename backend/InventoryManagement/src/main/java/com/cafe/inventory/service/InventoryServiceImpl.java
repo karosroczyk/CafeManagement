@@ -5,7 +5,9 @@ import com.cafe.inventory.entity.InventoryItem;
 import com.cafe.inventory.exception.DatabaseUniqueValidationException;
 import com.cafe.inventory.exception.InvalidInputException;
 import com.cafe.inventory.exception.ResourceNotFoundException;
+import com.netflix.discovery.EurekaClient;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -22,11 +24,12 @@ import java.util.stream.IntStream;
 @Service
 public class InventoryServiceImpl implements InventoryService {
     private final InventoryDAOJPA inventoryDAOJPA;
-    @Value("${menu.service.url}")
-    private String menuServiceUrl;
+    @Autowired
+    private EurekaClient discoveryClient;
 
-    public InventoryServiceImpl(InventoryDAOJPA inventoryDAOJPA) {
+    public InventoryServiceImpl(InventoryDAOJPA inventoryDAOJPA, EurekaClient discoveryClient) {
         this.inventoryDAOJPA = inventoryDAOJPA;
+        this.discoveryClient = discoveryClient;
     }
     @Override
     public PaginatedResponse<InventoryItem> getAllInventoryItems(int page, int size, String[] sortBy, String[] direction) {

@@ -59,6 +59,12 @@ role based security in backend:
 role based security in frontend:
 -based on jwt token decoding
 
+We probabkly want dynamic approach with EurekaClient as it is in Order, need to update Inventory and 
 
+How is this Discovery Server working:
+1. Do we need private EurekaClient discoveryClient; in Menu and Inventory?
+2. do we need config directory in Order
 
-
+Integration tests:
+- Order -MockMVC - not real service running
+- Inventory, Menu - real service running

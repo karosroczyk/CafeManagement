@@ -42,11 +42,8 @@ public class OrderServiceImpl implements OrderService{
         this.orderDAOJPA = orderDAOJPA;
         this.webClientBuilder = webClientBuilder;
         this.discoveryClient = discoveryClient;
-    }
-    @PostConstruct
-    private void init() {
-        menuServiceUrl = discoveryClient.getNextServerFromEureka("menu", false).getHomePageUrl();
-        inventoryServiceUrl = discoveryClient.getNextServerFromEureka("inventory", false).getHomePageUrl() + "/api/inventory";
+        this.menuServiceUrl = discoveryClient.getNextServerFromEureka("menu", false).getHomePageUrl();
+        this.inventoryServiceUrl = discoveryClient.getNextServerFromEureka("inventory", false).getHomePageUrl() + "/api/inventory";
     }
 
     @Override

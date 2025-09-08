@@ -1,0 +1,26 @@
+-- Drop tables if they exist
+DROP TABLE IF EXISTS menuitems;
+DROP TABLE IF EXISTS categories;
+
+-- Create categories table
+CREATE TABLE categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL UNIQUE,
+    description VARCHAR(255)
+);
+
+-- Create menuitems table
+CREATE TABLE menuitems (
+    item_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description VARCHAR(255),
+    price DECIMAL(7,2) NOT NULL,
+    category_id INT,
+    image BLOB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_category
+        FOREIGN KEY (category_id)
+        REFERENCES categories(category_id)
+        ON DELETE SET NULL
+);
