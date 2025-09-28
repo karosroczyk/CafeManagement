@@ -14,9 +14,11 @@ server:
 #    context-path: /api/v1/
   port: 8088
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka
-#  instance:
-#    instance-id: ${spring.application.name}:${random.value}
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A58633272357538782F413F4428472B4B6250645367566B5970F
+      expiration: 8640000
+  mailing:
+    frontend:
+      activation-url: http://localhost:4200/activate-account

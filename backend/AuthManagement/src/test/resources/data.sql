@@ -1,13 +1,13 @@
--- Insert sample categories
-INSERT INTO categories (category_name, description) VALUES
-('Beverages', 'Drinks such as coffee, tea, juices'),
-('Pastries', 'Baked goods like cakes, croissants, and muffins'),
-('Macaroons', 'Small cookies made from ground almonds');
-
--- Insert sample menu items
-INSERT INTO menuitems (name, description, price, category_id, image) VALUES
-('Espresso', 'Strong black coffee', 2.50, 1, NULL),
-('Cappuccino', 'Espresso with steamed milk', 3.00, 1, NULL),
-('Croissant', 'Buttery, flaky pastry', 2.00, 2, NULL),
-('Muffin', 'Soft baked muffin, various flavors', 1.50, 2, NULL),
-('Pistachio Macaroon', 'Small cookies made from ground almonds', 4.00, 3, NULL);
+---- Insert sample categories
+--INSERT INTO categories (category_name, description) VALUES
+--('Beverages', 'Drinks such as coffee, tea, juices'),
+--('Pastries', 'Baked goods like cakes, croissants, and muffins'),
+--('Macaroons', 'Small cookies made from ground almonds');
+--
+---- Insert sample menu items
+--INSERT INTO menuitems (name, description, price, category_id, image) VALUES
+--('Espresso', 'Strong black coffee', 2.50, 1, NULL),
+--('Cappuccino', 'Espresso with steamed milk', 3.00, 1, NULL),
+--('Croissant', 'Buttery, flaky pastry', 2.00, 2, NULL),
+--('Muffin', 'Soft baked muffin, various flavors', 1.50, 2, NULL),
+--('Pistachio Macaroon', 'Small cookies made from ground almonds', 4.00, 3, NULL);
