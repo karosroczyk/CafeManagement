@@ -15,11 +15,12 @@ const routes: Routes = [
   {
     path: 'profiles',
     component: ProfileListComponent,
-   canActivate: [roleGuard],
-   data: { role: ['ADMIN'] }
+    canActivate: [roleGuard],
+    data: { role: ['ADMIN'] }
   },
 {
-    path: 'profile/:id',
+//    path: 'profile/:id',
+    path: 'profile/*',
     component: ProfileComponent,
     canActivate: [roleGuard],
     data: { role: ['ADMIN'] }

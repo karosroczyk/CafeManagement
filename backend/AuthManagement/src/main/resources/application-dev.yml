@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/usermanagement
+    url: jdbc:mysql://db_user:3306/usermanagement
     username: usermanagement
     password: usermanagement
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,7 +15,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
 
   mail:
-    host: localhost
+    host: mailservice
     port: 1025
     username: ali
     password: ali

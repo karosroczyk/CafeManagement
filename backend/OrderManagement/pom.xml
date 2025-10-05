@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cafe.</groupId>
-	<artifactId>menumanagement</artifactId>
+	<artifactId>ordermanagement</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>menu</name>
+	<name>ordermanagement</name>
 	<description>Order Management</description>
 
 	<dependencies>
@@ -36,10 +36,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
@@ -61,7 +57,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.1.0</version>
+			<version>8.0.33</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -104,12 +100,6 @@
 		<groupId>org.springframework.cloud</groupId>
 		<artifactId>spring-cloud-netflix-eureka-client</artifactId>
 	</dependency>
-        <dependency>
-            <groupId>com.cafe.</groupId>
-            <artifactId>menumanagement</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 	<dependencyManagement>
 		<dependencies>

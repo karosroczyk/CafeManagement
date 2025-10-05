@@ -1,0 +1,18 @@
+{
+  "routes": {
+    "/activate-account": {},
+    "/cafe-admin": {},
+    "/cafe-admin/profiles": {},
+    "/cafe-client": {},
+    "/cafe-client/menucafe": {},
+    "/cafe-client/order": {},
+    "/cafe-client/orderHistory": {},
+    "/cafe-client/profile": {},
+    "/cafe-employee": {},
+    "/cafe-employee/menucafe": {},
+    "/cafe-employee/orders": {},
+    "/cafe-employee/profile": {},
+    "/login": {},
+    "/register": {}
+  }
+}

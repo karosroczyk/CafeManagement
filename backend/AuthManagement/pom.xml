@@ -8,7 +8,7 @@
 		<version>3.4.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.alibou</groupId>
+	<groupId>com.cafe</groupId>
 	<artifactId>auth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>auth</name>

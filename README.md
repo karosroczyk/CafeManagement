@@ -61,9 +61,10 @@ role based security in frontend:
 
 We probabkly want dynamic approach with EurekaClient as it is in Order, need to update Inventory and 
 
-How is this Discovery Server working:
+How is this Discovery Server (Eureka Server) working:
 1. Do we need private EurekaClient discoveryClient; in Menu and Inventory?
 2. do we need config directory in Order
+3. It works because of the annotations @EnableEurekaServer
 
 Integration tests:
 - Order -MockMVC - not real service running
