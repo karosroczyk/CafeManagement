@@ -7,8 +7,8 @@ services:
     ports:
       - "8081:8081"
     depends_on:
-#      - eureka
-#      - db
+      #      - eureka
+      #      - db
       db:
         condition: service_healthy
     environment:
@@ -19,11 +19,11 @@ services:
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8081
-#    healthcheck:
-#      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
+  #    healthcheck:
+  #      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+  #      interval: 10s
+  #      timeout: 5s
+  #      retries: 5
 
   db:
     image: mysql:8.0
@@ -93,8 +93,8 @@ services:
         condition: service_healthy
       eureka:
         condition: service_started
-#      menumanagement:
-#        condition: service_healthy
+    #      menumanagement:
+    #        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_order:3306/ordermanagement?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: ordermanagement
