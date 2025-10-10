@@ -14,4 +14,4 @@ COPY --from=build /build/target/menumanagement-*.jar /app/
 EXPOSE 8081
 #ENV DB_URL=jdbc:mysql://localhost:3306/menumanagement
 ENV JAR_VERSION=${APP_VERSION}
-CMD java -jar menumanagement-${JAR_VERSION}.jar
+CMD java -jar menumanagement-${JAR_VERSION}.jar --spring.profiles.active=docker

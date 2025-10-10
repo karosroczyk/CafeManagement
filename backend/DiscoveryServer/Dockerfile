@@ -13,4 +13,4 @@ WORKDIR /app
 COPY --from=build /build/target/DiscoveryServer-*.jar /app/
 EXPOSE 8761
 ENV JAR_VERSION=${APP_VERSION}
-CMD java -jar DiscoveryServer-${JAR_VERSION}.jar
+CMD java -jar DiscoveryServer-${JAR_VERSION}.jar --spring.profiles.active=docker

@@ -13,4 +13,4 @@ WORKDIR /app
 COPY --from=build /build/target/auth-*.jar /app/
 EXPOSE 8088
 ENV JAR_VERSION=${APP_VERSION}
-CMD java -jar auth-${JAR_VERSION}.jar
+CMD java -jar auth-${JAR_VERSION}.jar --spring.profiles.active=docker

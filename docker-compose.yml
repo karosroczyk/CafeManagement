@@ -1,33 +1,27 @@
 version: '3.9'
 
 services:
+# Menu
   menumanagement:
     container_name: menumanagement
     image: menumanagement:v.1.0
     ports:
       - "8081:8081"
     depends_on:
-      #      - eureka
-      #      - db
-      db:
+      db_menu:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/menumanagement?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://db_menu:3306/menumanagement?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: menumanagement
       SPRING_DATASOURCE_PASSWORD: menumanagement
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8081
-  #    healthcheck:
-  #      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
-  #      interval: 10s
-  #      timeout: 5s
-  #      retries: 5
 
-  db:
+  db_menu:
     image: mysql:8.0
-    container_name: mysql-db
+    container_name: mysql-menudb
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -37,13 +31,14 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - db_data:/var/lib/mysql
+      - db_menu_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
       timeout: 5s
       retries: 10
 
+# Inventory
   inventorymanagement:
     container_name: inventorymanagement
     image: inventorymanagement:v.1.0
@@ -83,6 +78,7 @@ services:
       timeout: 5s
       retries: 10
 
+# Order
   ordermanagement:
     container_name: ordermanagement
     image: ordermanagement:v.1.0
@@ -103,7 +99,7 @@ services:
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8083
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
+#      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
 
   db_order:
     image: mysql:8.0
@@ -124,6 +120,7 @@ services:
       timeout: 5s
       retries: 10
 
+# User
   usermanagement:
     container_name: usermanagement
     image: usermanagement:v.1.0
@@ -144,7 +141,7 @@ services:
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8088
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
+#      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
 
   db_user:
     image: mysql:8.0
@@ -159,6 +156,7 @@ services:
       - "3310:3306"
     volumes:
       - db_user_data:/var/lib/mysql
+#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
@@ -186,7 +184,7 @@ services:
       - "1026:1025"
 
 volumes:
-  db_data:
+  db_menu_data:
   db_inventory_data:
   db_order_data:
   db_user_data:

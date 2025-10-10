@@ -19,4 +19,4 @@ ENV JAR_VERSION=${APP_VERSION}
 #CMD java -jar ordermanagement-${JAR_VERSION}.jar
 CMD sh -c "./wait-for-it.sh menumanagement:8081 --timeout=60 --strict -- \
           ./wait-for-it.sh eureka:8761 --timeout=60 --strict -- \
-          java -jar ordermanagement-${JAR_VERSION}.jar"
+          java -jar ordermanagement-${JAR_VERSION}.jar --spring.profiles.active=docker"

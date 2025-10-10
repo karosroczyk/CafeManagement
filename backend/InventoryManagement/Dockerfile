@@ -14,4 +14,4 @@ COPY --from=build /build/target/inventorymanagement-*.jar /app/
 EXPOSE 8082
 #ENV DB_URL=jdbc:mysql://localhost:3306/inventorymanagement
 ENV JAR_VERSION=${APP_VERSION}
-CMD java -jar inventorymanagement-${JAR_VERSION}.jar
+CMD java -jar inventorymanagement-${JAR_VERSION}.jar --spring.profiles.active=docker
