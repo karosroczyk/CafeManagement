@@ -2,7 +2,7 @@ import { createRequire } from 'module';const require = createRequire(import.meta
 import {
   CommonModule,
   NgForOf
-} from "./chunk-XHG3O23E.js";
+} from "./chunk-DC5IT7NX.js";
 import {
   Component,
   EventEmitter,
@@ -34,9 +34,9 @@ import {
   ɵɵrestoreView,
   ɵɵtemplate,
   ɵɵviewQuery
-} from "./chunk-HLLJHCVG.js";
-import "./chunk-WBQSER3X.js";
+} from "./chunk-PPX7WED5.js";
 import "./chunk-TDK5NIWS.js";
+import "./chunk-WBQSER3X.js";
 import "./chunk-RK6XMIZN.js";
 import {
   __async

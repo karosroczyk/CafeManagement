@@ -18001,18 +18001,27 @@ var require_path_to_regexp = __commonJS({
         });
         return new RegExp(path.join("|"), flags);
       }
+      if (typeof path !== "string") {
+        throw new TypeError("path must be a string, array of strings, or regular expression");
+      }
       path = path.replace(/\\.|(\/)?(\.)?:(\w+)(\(.*?\))?(\*)?(\?)?|[.*]|\/\(/g, function(match, slash, format, key, capture, star, optional, offset) {
-        pos = offset + match.length;
         if (match[0] === "\\") {
           backtrack += match;
+          pos += 2;
           return match;
         }
         if (match === ".") {
           backtrack += "\\.";
           extraOffset += 1;
+          pos += 1;
           return "\\.";
         }
-        backtrack = slash || format ? "" : path.slice(pos, offset);
+        if (slash || format) {
+          backtrack = "";
+        } else {
+          backtrack += path.slice(pos, offset);
+        }
+        pos = offset + match.length;
         if (match === "*") {
           extraOffset += 3;
           return "(.*)";
