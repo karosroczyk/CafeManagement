@@ -1,5 +1,6 @@
 package com.cafe.auth.routes;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions;
 import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
 import org.springframework.context.annotation.Bean;
@@ -12,130 +13,44 @@ import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouter
 
 @Configuration
 public class Routes {
+    @Value("${services.menu.url}")
+    private String menuServiceUrl;
+
+    @Value("${services.inventory.url}")
     private String inventoryServiceUrl;
 
+    @Value("${services.order.url}")
+    private String orderServiceUrl;
+
     @Bean
-    public RouterFunction<ServerResponse> inventoryServiceRoute() {
-        return GatewayRouterFunctions.route("inventory")
-                .route(RequestPredicates.path("/api/inventory"), HandlerFunctions.http("http://localhost:8082"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
+    public RouterFunction<ServerResponse> menuRoutes() {
+        return route()
+                .route(RequestPredicates.path("/api/menuitems"), HandlerFunctions.http(menuServiceUrl))
+                .route(RequestPredicates.path("/api/menuitems/*"), HandlerFunctions.http(menuServiceUrl))
+                .route(RequestPredicates.path("/api/menuitems/*/*"), HandlerFunctions.http(menuServiceUrl))
+                .route(RequestPredicates.path("/api/categories"), HandlerFunctions.http(menuServiceUrl))
+                .route(RequestPredicates.path("/api/categories/*"), HandlerFunctions.http(menuServiceUrl))
                 .build();
     }
 
     @Bean
-    public RouterFunction<ServerResponse> inventorySecondServiceRoute() {
-        return GatewayRouterFunctions.route("inventorySecond")
-                .route(RequestPredicates.path("/api/inventory/*"), HandlerFunctions.http("http://localhost:8082"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
+    public RouterFunction<ServerResponse> inventoryRoutes() {
+        return GatewayRouterFunctions.route("inventory-routes")
+                .route(RequestPredicates.path("/api/inventory"), HandlerFunctions.http(inventoryServiceUrl))
+                .route(RequestPredicates.path("/api/inventory/*"), HandlerFunctions.http(inventoryServiceUrl))
+                .route(RequestPredicates.path("/api/inventory/*/add"), HandlerFunctions.http(inventoryServiceUrl))
                 .build();
     }
 
     @Bean
-    public RouterFunction<ServerResponse> inventoryThirdServiceRoute() {
-        return GatewayRouterFunctions.route("inventoryThird")
-                .route(RequestPredicates.path("/api/inventory/*/add"), HandlerFunctions.http("http://localhost:8082"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> menuServiceRoute() {
-        return GatewayRouterFunctions.route("menu")
-                .route(RequestPredicates.path("/api/menuitems"), HandlerFunctions.http("http://localhost:8081"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
-    @Bean
-    public RouterFunction<ServerResponse> menuSecondServiceRoute() {
-        return GatewayRouterFunctions.route("menuSecond")
-                .route(RequestPredicates.path("/api/menuitems/*"), HandlerFunctions.http("http://localhost:8081"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> menuThirdServiceRoute() {
-        return GatewayRouterFunctions.route("menuThird")
-                .route(RequestPredicates.path("/api/menuitems/*/*"), HandlerFunctions.http("http://localhost:8081"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> categoriesServiceRoute() {
-        return GatewayRouterFunctions.route("categories")
-                .route(RequestPredicates.path("/api/categories"), HandlerFunctions.http("http://localhost:8081"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> categoriesSecondServiceRoute() {
-        return GatewayRouterFunctions.route("categoriesSecond")
-                .route(RequestPredicates.path("/api/categories/*"), HandlerFunctions.http("http://localhost:8081"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> orderGetByCustomerIdServiceRoute() {
-        return GatewayRouterFunctions.route("orderGetByCustomerid")
-                .route(RequestPredicates.path("/orders/customer/*"), HandlerFunctions.http("http://localhost:8083"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> orderGet2ServiceRoute() {
-        return GatewayRouterFunctions.route("orderGet2")
-                .route(RequestPredicates.path("/orders"), HandlerFunctions.http("http://localhost:8083"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> orderGetServiceRoute() {
-        return GatewayRouterFunctions.route("orderGet")
-                .route(RequestPredicates.path("/orders*"), HandlerFunctions.http("http://localhost:8083"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> orderServiceRoute() {
-        return GatewayRouterFunctions.route("order")
-                .route(RequestPredicates.path("/orders/placeOrder*"), HandlerFunctions.http("http://localhost:8083"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> orderSecondServiceRoute() {
-        return GatewayRouterFunctions.route("orderSec")
-                .route(RequestPredicates.path("/orders/placeOrder/*"), HandlerFunctions.http("http://localhost:8083"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> getOrderMenuItemIdKeyByOrderIdRoute() {
-        return GatewayRouterFunctions.route("orderMenuItemIdKeyByOrderId")
-                .route(RequestPredicates.path("/orderMenuItemIdKeys/order/*"), HandlerFunctions.http("http://localhost:8083"))
-//                .filter(CircuitBreakerFilterFunctions.circuitBreaker("inventoryServiceCircuitBreaker",
-//                        URI.create("forward:/fallbackRoute")))
+    public RouterFunction<ServerResponse> orderRoutes() {
+        return GatewayRouterFunctions.route("order-routes")
+                .route(RequestPredicates.path("/orders/customer/*"), HandlerFunctions.http(orderServiceUrl))
+                .route(RequestPredicates.path("/orders"), HandlerFunctions.http(orderServiceUrl))
+                .route(RequestPredicates.path("/orders*"), HandlerFunctions.http(orderServiceUrl))
+                .route(RequestPredicates.path("/orders/placeOrder*"), HandlerFunctions.http(orderServiceUrl))
+                .route(RequestPredicates.path("/orders/placeOrder/*"), HandlerFunctions.http(orderServiceUrl))
+                .route(RequestPredicates.path("/orderMenuItemIdKeys/order/*"), HandlerFunctions.http(orderServiceUrl))
                 .build();
     }
 }

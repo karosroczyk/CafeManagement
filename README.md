@@ -1,4 +1,6 @@
-# CafeManagement
+☕ Cafe Management System — Docker Setup
+This project is a microservices-based Cafe Management System built with Spring Boot, Spring Cloud Gateway, Eureka Discovery, and MySQL, all orchestrated via Docker Compose.
+
 http://localhost:8761/ - Discovery Server
 http://localhost:8088/ - Backend DB/
 
@@ -69,3 +71,42 @@ How is this Discovery Server (Eureka Server) working:
 Integration tests:
 - Order -MockMVC - not real service running
 - Inventory, Menu - real service running
+
+DOCKER:
+This project uses Docker Compose to orchestrate multiple microservices for the Cafe Management System.
+Each service runs in its own container with an attached MySQL database and connects through a shared network.
+The setup also includes service discovery (Eureka), a frontend UI, and a test mail server (MailDev).
+
+🧩 Microservices Overview
+Service	Description	Port (Host → Container)
+menumanagement	Manages menu items and categories	8081:8081
+db_menu	MySQL database for Menu service	3307:3306
+inventorymanagement	Handles inventory stock and updates	8082:8082
+db_inventory	MySQL database for Inventory service	3308:3306
+ordermanagement	Manages customer orders	8083:8083
+db_order	MySQL database for Order service	3309:3306
+usermanagement	Handles user registration, login, and authentication	8088:8088
+db_user	MySQL database for User service	3310:3306
+eureka (discoveryserver)	Service registry for dynamic discovery	8762:8761
+maildev	Fake SMTP server for email testing (UI + SMTP)	1080:1080 (UI), 1025:1025 (SMTP)
+frontend	React/Angular/Vue frontend (depending on your build)	8080:80
+
+🧩 How It Works
+Each microservice (Menu, Inventory, Order, User) connects to its own dedicated MySQL container.
+depends_on and health checks ensure that a service starts only after its database is ready.
+Eureka enables service discovery between microservices.
+The frontend communicates with backend services (through the API Gateway or directly) via Docker’s internal network.🚀 Running the System
+
+1️⃣ Build the project
+1. Make sure your project is built (so Docker can use the JARs). In each service directory:
+   ./mvnw clean package -DskipTests
+2. Create an image for each service:
+   docker build -t <your_image_name>:v.1.0 .
+3. Start Docker Compose from the project root (where docker-compose.yml is located):
+   docker compose up --build
+
+Example of accessing DB from console:
+- winpty docker exec -it <container_name> mysql -u usermanagement -p
+- SHOW DATABASES;
+- USE usermanagement;
+- SHOW TABLES;

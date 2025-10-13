@@ -169,7 +169,7 @@ services:
     ports:
       - "8762:8761"
 
-  mail-dev:
+  maildev:
     image: maildev/maildev
     container_name: maildev
     ports:
