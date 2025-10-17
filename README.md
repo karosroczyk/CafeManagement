@@ -1,53 +1,95 @@
-☕ Cafe Management System — Docker Setup
-This project is a microservices-based Cafe Management System built with Spring Boot, Spring Cloud Gateway, Eureka Discovery, and MySQL, all orchestrated via Docker Compose.
+## ☕ Cafe Management System
+This project is a microservices-based Cafe Management System orchestrated with Docker Compose.
+OPIS JAK DO CV
 
-http://localhost:8761/ - Discovery Server
-http://localhost:8088/ - Backend DB/
+## ⚙ Tech Stack
+
+Backend:
+- Java 21, Spring Boot, Spring Cloud, Spring Security (JWT)
+- Spring Data JPA, Hibernate, MySQL
+- Eureka Discovery, API Gateway, WebClient
+- Docker & Docker Compose
+- Maven
+
+Frontend:
+- Angular
+
+## 🧩 Architecture Overview
+Each microservice connects to its own MySQL database.  
+The system uses **Eureka Discovery Server** to enable dynamic communication between services.
+
+ 🧠 Backend Overview
+
+Each management module  follows a **layered architecture**:
+- **Controller** → handles incoming requests.
+- **Service** → implements business logic.
+- **DAOJPA** → extends `JpaRepository` for database operations.
+
+## 🧩 Services Overview
+- Provide a REST API with full CRUD, pagination, sorting
+- Include input validation, custom exceptions, and transactional integrity.
+- Can be accessed directly or through the API Gateway.
+
+🍽️ **Menu Management Service**
+
+The Menu Management Service is responsible for managing menu items and categories.
+
+Example endpoints:
+- GET /api/menuitems?page=0&size=5 – fetch all menu items
+- GET /api/menuitems/filter/category-name?categoryName=Coffee – filter by category
+
+🥫 **Inventory Management Service**
+
+The Inventory Management Service is responsible for tracking stock levels and availability of menu items. 
+It ensures that items are updated automatically when orders are placed or stock is replenished.
+
+Example endpoints:
+
+- GET /api/inventory/availability?menuItemIds=1,2&quantitiesOfMenuItems=3,1 – check item availability
+- PUT /api/inventory/reduce?menuItemIds=1,2&quantitiesOfMenuItems=3,1 – reduce stock when
+
+
+
+### 🧩 Order Service Communication
+The **Order Service** uses `WebClient.Builder` to communicate with:
+- **Menu Service** — to retrieve menu item details.
+- **Inventory Service** — to check stock availability.
+
+## ⚙ How To Run in dev mode
 
 Run backend:
 1. Run DiscoveryServer
 2. Run BookNetworkApi
-3. Run MenuApp
-3. Run InventoryApp
-4. Run OrderApp
+3. Run Menu Service
+3. Run Inventory Service
+4. Run Order Service
 
 Run frontend:
-1. Navigate to frontend page
-2. ng serve
-3. Go to http://localhost:4200/login
+1. Run ng serve
+2. Go to http://localhost:4200/login
 
-BookNetwork is working on 8088 port. Menu, Inventory and Order Management are also connected to that port and accessing them via this port require authentication (Bearer Token). They can also be accessed without authentication via its individual ports. Accordingly:
+## 🔐 EurekaClient/ Discovery Server/ API Gateway
+BookNetwork is working on 8088 port. Menu, Inventory and Order Management are also connected to that port and accessing them via this port require authentication (Bearer Token).
+They can also be accessed without authentication via its individual ports.
+Discovery Server/ API Gateway
+How is this Discovery Server (Eureka Server) working:
+2. do we need config directory in Order?
+3. It works because of the annotations @EnableEurekaServer?
+   EurekaClient is used in OrderService to communicate with Menu and Inventory services
 
-1. MenuManagement: http://localhost:8081/
-2. InventoryManagement: http://localhost:8082/
-3. OrderManagement: http://localhost:8083/
+## 🔐 Security and Roles
+It provides secure user registration, login, email-based account activation, 
+and JWT-based request authorization across all microservices.
 
-NOTE: Individual ports may be used for testing purposes so as not to enter token everytime, but for production purposes we should use 8088
+Role	Accessible Modules / Actions
+CLIENT	HOME, CAFE-MENU (read only), CREATE ORDER, MY ORDERS, MY PROFILE (no role change)
+EMPLOYEE	HOME, CAFE-MENU (CRUD), ALL ORDERS, MY PROFILE (no role change)
+ADMIN	HOME, ALL PROFILES (can change roles)
 
-NOTE: What to do if sometimes can't login/register because JWT expired:
-- Open in incognito page
-
-Backend in SpringBoot:
-Each Management module has Controller which contains Server.
-Each Server implements ServerInterface. Contains DAOJPA as connection to DB. Contains EurekaClient.
-Each DAOJPA extends JpaRepository.
-OrderManagement Service contain WebClient.Builder used for comunicating with other modules e.g. Menu, Inventory.
-Modular approach.
-
-ROLES:
-1. CLIENT can access:
-   - HOME, CAFE-MENU (read only), CREATE AN ORDER, MY ORDERS, MY PROFILE (BEZ OPCJI ZMIANY ROLE)
-2. EMPLOYEE can access:
-   - HOME, CAFE-MENU (crud), ALL ORDERS, MY PROFILE (BEZ OPCJI ZMIANY ROLE)
-3. ADMIN can access:
-   - HOME, (ALL PROFILES z opcja zmiany ROLE)
-
-NOTE: cafe-client/components/menu mozna przeniesc do app/components
-NOTE: Change name from OrderDialogComponent to DialogComponent
 MODULES:
 1. cafe-client
    - main(home), menu-cafe, order, order-history, profile
-2. cafe-employee - DONE: home, profile TODO: menu, orders
+2. cafe-employee - home, profile TODO: menu, orders
 3. cafe-admin - home, profile-list, profile
 
 role based security in backend:
@@ -61,18 +103,13 @@ role based security in backend:
 role based security in frontend:
 -based on jwt token decoding
 
-We probabkly want dynamic approach with EurekaClient as it is in Order, need to update Inventory and 
-
-How is this Discovery Server (Eureka Server) working:
-1. Do we need private EurekaClient discoveryClient; in Menu and Inventory?
-2. do we need config directory in Order
-3. It works because of the annotations @EnableEurekaServer
-
+## 🧩 Tests
+UT, Integration, E2E
 Integration tests:
 - Order -MockMVC - not real service running
 - Inventory, Menu - real service running
 
-DOCKER:
+## 🧩 Docker
 This project uses Docker Compose to orchestrate multiple microservices for the Cafe Management System.
 Each service runs in its own container with an attached MySQL database and connects through a shared network.
 The setup also includes service discovery (Eureka), a frontend UI, and a test mail server (MailDev).
