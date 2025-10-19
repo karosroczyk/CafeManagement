@@ -1,10 +1,11 @@
-## ☕ Cafe Management System
-This project is a microservices-based Cafe Management System orchestrated with Docker Compose.
-OPIS JAK DO CV
+# Cafe Management System ☕
+This project is a complete microservices-based system to manage a café’s daily operations. 
+Users can browse the menu, place orders, track orders, and manage private account, while 
+staff can manage menu items, track and manage inventory stock, and process orders.
 
-## 🛠️ Tech Stack
+## Tech Stack 🛠️
 
-Backend:
+### Backend:
 - ![Java](https://img.shields.io/badge/-Java%2021-007396?logo=openjdk&logoColor=white)
   ![Spring Boot](https://img.shields.io/badge/-Spring%20Boot-6DB33F?logo=springboot&logoColor=white)
   ![Spring Cloud](https://img.shields.io/badge/-Spring%20Cloud-6DB33F?logo=spring&logoColor=white)
@@ -20,10 +21,14 @@ Backend:
 
 - ![Maven](https://img.shields.io/badge/-Maven-C71A36?logo=apachemaven&logoColor=white)
 
+- ![JUnit 5](https://img.shields.io/badge/-JUnit5-25A162?logo=JUnit5&logoColor=white)
+  ![Mockito](https://img.shields.io/badge/-Mockito-4D32A8?logo=Mockito&logoColor=white).
+  ![Selenium](https://img.shields.io/badge/-Selenium-43B02A?logo=selenium&logoColor=white)
+
 - ![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white)
   ![Docker Compose](https://img.shields.io/badge/-Docker%20Compose-2496ED?logo=docker&logoColor=white)
 
-Frontend:
+### Frontend:
 - ![Angular](https://img.shields.io/badge/-Angular-DD0031?logo=angular&logoColor=white)
   ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white)
 - ![Bootstrap](https://img.shields.io/badge/-Bootstrap-7952B3?logo=bootstrap&logoColor=white)
@@ -31,24 +36,23 @@ Frontend:
 - ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?logo=html5&logoColor=white)
 - ![NPM](https://img.shields.io/badge/-npm-CB3837?logo=npm&logoColor=white)
 
-## 🧩 Architecture Overview
-Each microservice connects to its own MySQL database.  
-The system uses **Eureka Discovery Server** to enable dynamic communication between services.
+## Architecture Overview 🧩
+The application uses a microservices architecture, where each service is independent and communicates via REST APIs.
 
- 🧠 Backend Overview
+Internally, each service follows a layered architecture:
+- **Controller** – handles HTTP requests and responses.
+- **Service** – contains business logic and orchestrates calls to other services.
+- **DAO / Repository** – manages database access using JPA/Hibernate.
 
-Each management module  follows a **layered architecture**:
-- **Controller** → handles incoming requests.
-- **Service** → implements business logic.
-- **DAOJPA** → extends `JpaRepository` for database operations.
+Services register with Eureka Discovery Server for dynamic discovery, and the API Gateway centralizes routing and authentication.
 
-## 🧩 Services Overview
+### Services Overview 🌐
 - Provide a REST API with full CRUD, pagination, sorting
 - Include input validation, custom exceptions, and transactional integrity.
 - Can be accessed directly or through the API Gateway.
 
 ---
-🍽️ **Menu Management Service**
+#### 1. Menu Management Service 📋
 
 The Menu Management Service is responsible for managing menu items and categories.
 
@@ -59,20 +63,19 @@ Example endpoints:
 📂 **Folder**: [`MenuManagement`](./backend/MenuManagement)
 
 ---
-🥫 **Inventory Management Service**
+#### 2. Inventory Management Service 📦
 
 The Inventory Management Service is responsible for tracking stock levels and availability of menu items. 
 Items are updated automatically when orders are placed or stock is replenished.
 
 Example endpoints:
-
 - GET /api/inventory/availability?menuItemIds=1,2&quantitiesOfMenuItems=3,1 – check item availability
 - PUT /api/inventory/reduce?menuItemIds=1,2&quantitiesOfMenuItems=3,1 – reduce stock when
 
 📂 **Folder**: [`InventoryManagement`](./backend/InventoryManagement)
 
 ---
-🥫 **Order Management Service**
+#### 3. Order Management Service 🛒
 
 The Order Management Service handles customer orders, integrates with other microservices, 
 and ensures consistent order processing and stock validation.
@@ -82,107 +85,73 @@ The **Order Service** uses `WebClient` to communicate with:
 - **Inventory Service** — to validate and reduce stock availability.
 
 Example endpoints:
-
 - GET /orders/customer/{customerId} – fetch all orders by customer
 - POST /orders/placeOrder?menuItemIds=1,2&quantitiesOfMenuItems=3,1 – place new order with stock
 
 📂 **Folder**: [`OrderManagement`](./backend/OrderManagement)
 
-## ⚙ How To Run in dev mode
+---
+#### 4. Auth Management Service 👤
 
-Run backend:
-1. Run DiscoveryServer
-2. Run Auth Service
-3. Run Menu Service
-3. Run Inventory Service
-4. Run Order Service
+The Auth Service handles user management, authentication, and role-based access control.
+It ensures secure registration, login with email activation, and proper role enforcement for all users.
 
-Run frontend:
-1. Run ng serve
-2. Go to http://localhost:4200/login
+The User Service uses Spring Security and JWT to provide:
+- Authentication — validate credentials and issue JWT tokens
+- Authorization — restrict access based on user roles (e.g., admin, client)
+- Email Service — send account activation emails with secure tokens
 
-## 🔐 Eureka Discovery Server
+Example endpoints:
+- GET /api/user/{id} – fetch user by ID
+- POST /api/user/email – fetch user details by email
+
+📂 **Folder**: [`AuthManagement`](./backend/AuthManagement)
+
+---
+### Eureka Discovery Server 🧭
 
 The Discovery Server is a Spring Boot application using Eureka, acting as a service registry
 for all microservices. It allows services to register themselves and discover other services dynamically.
-API Gateway runs on port 8088. The Menu, Inventory, and Order Management services are also connected 
-through this port, requiring Bearer Token authentication when accessed via the gateway. 
+API Gateway runs on port **8088**. The Menu, Inventory, and Order Management services are also connected
+through this port, requiring Bearer Token authentication when accessed via the gateway.
 These services can still be accessed directly on their individual ports without authentication.
 
+---
+### Security and Roles 🛡️
+The application provides secure user registration, login, and email-based account activation.
+Authentication and authorization are implemented using JWT, ensuring secure and stateless communication between the client and the server.
 
-How is this Discovery Server (Eureka Server) working:
-2. do we need config directory in Order?
-3. It works because of the annotations @EnableEurekaServer?
-   EurekaClient is used in OrderService to communicate with Menu and Inventory services
+When a user logs in, the server validates their credentials and generates a JWT token containing essential user information (such as email and role).
+This token is then sent to the client and must be included in the Authorization header as a Bearer Token for any subsequent requests to protected endpoints.
 
-## 🔐 Security and Roles
-It provides secure user registration, login, email-based account activation, 
-and JWT-based request authorization across all microservices.
+The server verifies the validity of each token on every request, ensuring that only authenticated users can access specific resources.
+Additionally, role-based access control is enforced — meaning that users can access different pages and functionalities depending on their assigned roles.
 
-Role	Accessible Modules / Actions
-CLIENT	HOME, CAFE-MENU (read only), CREATE ORDER, MY ORDERS, MY PROFILE (no role change)
-EMPLOYEE	HOME, CAFE-MENU (CRUD), ALL ORDERS, MY PROFILE (no role change)
-ADMIN	HOME, ALL PROFILES (can change roles)
+## Tests 🧪
+The application includes comprehensive testing across multiple layers:
+- **Unit Tests** – for controllers and services using JUnit 5 and Mockito.
+- **Integration Tests** – verifying interactions between services and database.
+- **End-to-End (E2E) Tests** – using Selenium to simulate real user interactions in the frontend.
+- **API Testing** – performed with Postman to ensure all endpoints behave correctly.
 
-MODULES:
-1. cafe-client
-   - main(home), menu-cafe, order, order-history, profile
-2. cafe-employee - home, profile TODO: menu, orders
-3. cafe-admin - home, profile-list, profile
-
-role based security in backend:
-.requestMatchers("/api/menuitems/**").hasAnyRole("CLIENT", "EMPLOYEE")
-.requestMatchers("/api/categories/**").hasAnyRole("CLIENT", "EMPLOYEE")
-.requestMatchers("/api/orders/**").hasAnyRole("CLIENT", "EMPLOYEE")
-.requestMatchers("/api/inventory/**").hasAnyRole("CLIENT", "EMPLOYEE")
-.anyRequest()
-.authenticated()
-
-role based security in frontend:
--based on jwt token decoding
-
-## 🧩 Tests
-UT, Integration, E2E
-Integration tests:
-- Order -MockMVC - not real service running
-- Inventory, Menu - real service running
-
-## 🧩 Docker
+## Docker 🐳
 This project uses Docker Compose to orchestrate multiple microservices for the Cafe Management System.
 Each service runs in its own container with an attached MySQL database and connects through a shared network.
-The setup also includes service discovery (Eureka), a frontend UI, and a test mail server (MailDev).
+The setup also includes service discovery (Eureka), a frontend UI, and a mail server (MailDev).
 
-🧩 Microservices Overview
+### Microservices Overview
 
-Service	Description	Port (Host → Container)
-menumanagement	Manages menu items and categories	8081:8081
-db_menu	MySQL database for Menu service	3307:3306
-inventorymanagement	Handles inventory stock and updates	8082:8082
-db_inventory	MySQL database for Inventory service	3308:3306
-ordermanagement	Manages customer orders	8083:8083
-db_order	MySQL database for Order service	3309:3306
-usermanagement	Handles user registration, login, and authentication	8088:8088
-db_user	MySQL database for User service	3310:3306
-eureka (discoveryserver)	Service registry for dynamic discovery	8762:8761
-maildev	Fake SMTP server for email testing (UI + SMTP)	1080:1080 (UI), 1025:1025 (SMTP)
-frontend	React/Angular/Vue frontend (depending on your build)	8080:80
+| Service                  | Description                                  | Port (Host → Container)             |
+|--------------------------|----------------------------------------------|------------------------------------|
+| menumanagement           | Manages menu items and categories           | 8081:8081                          |
+| db_menu                  | MySQL database for Menu service              | 3307:3306                          |
+| inventorymanagement      | Handles inventory stock and updates         | 8082:8082                          |
+| db_inventory             | MySQL database for Inventory service        | 3308:3306                          |
+| ordermanagement          | Manages customer orders                      | 8083:8083                          |
+| db_order                 | MySQL database for Order service             | 3309:3306                          |
+| usermanagement           | Handles user registration, login, and authentication | 8088:8088                        |
+| db_user                  | MySQL database for User service              | 3310:3306                          |
+| eureka (discoveryserver) | Service registry for dynamic discovery      | 8762:8761                          |
+| maildev                  | Fake SMTP server for email testing (UI + SMTP) | 1080:1080 (UI), 1025:1025 (SMTP)  |
+| frontend                 |Angular frontend (depending on build)   | 8080:80                             |
 
-🧩 How It Works
-Each microservice (Menu, Inventory, Order, User) connects to its own dedicated MySQL container.
-depends_on and health checks ensure that a service starts only after its database is ready.
-Eureka enables service discovery between microservices.
-The frontend communicates with backend services (through the API Gateway or directly) via Docker’s internal network.🚀 Running the System
-
-1️⃣ Build the project
-1. Make sure your project is built (so Docker can use the JARs). In each service directory:
-   ./mvnw clean package -DskipTests
-2. Create an image for each service:
-   docker build -t <your_image_name>:v.1.0 .
-3. Start Docker Compose from the project root (where docker-compose.yml is located):
-   docker compose up --build
-
-Example of accessing DB from console:
-- winpty docker exec -it <container_name> mysql -u usermanagement -p
-- SHOW DATABASES;
-- USE usermanagement;
-- SHOW TABLES;
