@@ -2,17 +2,34 @@
 This project is a microservices-based Cafe Management System orchestrated with Docker Compose.
 OPIS JAK DO CV
 
-## ⚙ Tech Stack
+## 🛠️ Tech Stack
 
 Backend:
-- Java 21, Spring Boot, Spring Cloud, Spring Security (JWT)
-- Spring Data JPA, Hibernate, MySQL
-- Eureka Discovery, API Gateway, WebClient
-- Docker & Docker Compose
-- Maven
+- ![Java](https://img.shields.io/badge/-Java%2021-007396?logo=openjdk&logoColor=white)
+  ![Spring Boot](https://img.shields.io/badge/-Spring%20Boot-6DB33F?logo=springboot&logoColor=white)
+  ![Spring Cloud](https://img.shields.io/badge/-Spring%20Cloud-6DB33F?logo=spring&logoColor=white)
+  ![Spring Security](https://img.shields.io/badge/-Spring%20Security%20(JWT)-6DB33F?logo=springsecurity&logoColor=white)
+ 
+- ![Spring Data JPA](https://img.shields.io/badge/-Spring%20Data%20JPA-6DB33F?logo=hibernate&logoColor=white)
+  ![Hibernate](https://img.shields.io/badge/-Hibernate-59666C?logo=hibernate&logoColor=white)
+  ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?logo=mysql&logoColor=white)
+  
+- ![Eureka Discovery](https://img.shields.io/badge/-Eureka%20Discovery-6DB33F?logo=spring&logoColor=white)
+  ![API Gateway](https://img.shields.io/badge/-API%20Gateway-000000?logo=apachesuperset&logoColor=white)
+  ![WebClient](https://img.shields.io/badge/-WebClient-2496ED?logo=spring&logoColor=white)
+
+- ![Maven](https://img.shields.io/badge/-Maven-C71A36?logo=apachemaven&logoColor=white)
+
+- ![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white)
+  ![Docker Compose](https://img.shields.io/badge/-Docker%20Compose-2496ED?logo=docker&logoColor=white)
 
 Frontend:
-- Angular
+- ![Angular](https://img.shields.io/badge/-Angular-DD0031?logo=angular&logoColor=white)
+  ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white)
+- ![Bootstrap](https://img.shields.io/badge/-Bootstrap-7952B3?logo=bootstrap&logoColor=white)
+  ![CSS3](https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white)
+- ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?logo=html5&logoColor=white)
+- ![NPM](https://img.shields.io/badge/-npm-CB3837?logo=npm&logoColor=white)
 
 ## 🧩 Architecture Overview
 Each microservice connects to its own MySQL database.  
@@ -30,6 +47,7 @@ Each management module  follows a **layered architecture**:
 - Include input validation, custom exceptions, and transactional integrity.
 - Can be accessed directly or through the API Gateway.
 
+---
 🍽️ **Menu Management Service**
 
 The Menu Management Service is responsible for managing menu items and categories.
@@ -38,28 +56,43 @@ Example endpoints:
 - GET /api/menuitems?page=0&size=5 – fetch all menu items
 - GET /api/menuitems/filter/category-name?categoryName=Coffee – filter by category
 
+📂 **Folder**: [`MenuManagement`](./backend/MenuManagement)
+
+---
 🥫 **Inventory Management Service**
 
 The Inventory Management Service is responsible for tracking stock levels and availability of menu items. 
-It ensures that items are updated automatically when orders are placed or stock is replenished.
+Items are updated automatically when orders are placed or stock is replenished.
 
 Example endpoints:
 
 - GET /api/inventory/availability?menuItemIds=1,2&quantitiesOfMenuItems=3,1 – check item availability
 - PUT /api/inventory/reduce?menuItemIds=1,2&quantitiesOfMenuItems=3,1 – reduce stock when
 
+📂 **Folder**: [`InventoryManagement`](./backend/InventoryManagement)
 
+---
+🥫 **Order Management Service**
 
-### 🧩 Order Service Communication
-The **Order Service** uses `WebClient.Builder` to communicate with:
-- **Menu Service** — to retrieve menu item details.
-- **Inventory Service** — to check stock availability.
+The Order Management Service handles customer orders, integrates with other microservices, 
+and ensures consistent order processing and stock validation.
+
+The **Order Service** uses `WebClient` to communicate with:
+- **Menu Service** — to fetch item details and prices.
+- **Inventory Service** — to validate and reduce stock availability.
+
+Example endpoints:
+
+- GET /orders/customer/{customerId} – fetch all orders by customer
+- POST /orders/placeOrder?menuItemIds=1,2&quantitiesOfMenuItems=3,1 – place new order with stock
+
+📂 **Folder**: [`OrderManagement`](./backend/OrderManagement)
 
 ## ⚙ How To Run in dev mode
 
 Run backend:
 1. Run DiscoveryServer
-2. Run BookNetworkApi
+2. Run Auth Service
 3. Run Menu Service
 3. Run Inventory Service
 4. Run Order Service
@@ -68,10 +101,15 @@ Run frontend:
 1. Run ng serve
 2. Go to http://localhost:4200/login
 
-## 🔐 EurekaClient/ Discovery Server/ API Gateway
-BookNetwork is working on 8088 port. Menu, Inventory and Order Management are also connected to that port and accessing them via this port require authentication (Bearer Token).
-They can also be accessed without authentication via its individual ports.
-Discovery Server/ API Gateway
+## 🔐 Eureka Discovery Server
+
+The Discovery Server is a Spring Boot application using Eureka, acting as a service registry
+for all microservices. It allows services to register themselves and discover other services dynamically.
+API Gateway runs on port 8088. The Menu, Inventory, and Order Management services are also connected 
+through this port, requiring Bearer Token authentication when accessed via the gateway. 
+These services can still be accessed directly on their individual ports without authentication.
+
+
 How is this Discovery Server (Eureka Server) working:
 2. do we need config directory in Order?
 3. It works because of the annotations @EnableEurekaServer?
@@ -115,6 +153,7 @@ Each service runs in its own container with an attached MySQL database and conne
 The setup also includes service discovery (Eureka), a frontend UI, and a test mail server (MailDev).
 
 🧩 Microservices Overview
+
 Service	Description	Port (Host → Container)
 menumanagement	Manages menu items and categories	8081:8081
 db_menu	MySQL database for Menu service	3307:3306
