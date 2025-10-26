@@ -1,20 +1,12 @@
 package com.cafe.e2e;
 
-//import com.cafe.auth.userManagement.dao.UserDAOJPA;
-//import com.cafe.auth.userManagement.entity.User;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-//import org.mockito.Mockito;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.boot.test.context.TestConfiguration;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
@@ -24,44 +16,17 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT) // app runs on port
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @ActiveProfiles("test")
-//@Import(LoginE2ETest.TestMailConfig.class)
 public class FrontendUITest {
     private WebDriver driver;
     private WebDriverWait wait;
 
-//    @Autowired
-//    private UserDAOJPA userDAOJPA;
-
     private String loginUrl = "http://localhost:8080/login/";
-    private String registerUrl = "http://localhost:8080/register";
 
     @BeforeEach
     void setUp() throws IOException {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-
-        // Register
-//        driver.get(registerUrl);
-//        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-//        driver.findElement(By.id("first_name")).sendKeys("Client");
-//        driver.findElement(By.id("last_name")).sendKeys("Client");
-//        driver.findElement(By.id("email")).sendKeys("client2@test.com");
-//        driver.findElement(By.id("password")).sendKeys("Test1234!");
-//
-//        WebElement registerButton = driver.findElement(By.cssSelector(".btn"));
-//        registerButton.click();
-//
-//        wait.until(ExpectedConditions.urlContains("/activate-account"));
-//
-//        String currentUrl = driver.getCurrentUrl();
-//        assertThat(currentUrl).contains("/activate-account");
-//
-//        User u = userDAOJPA.findByEmail("client2@test.com").orElseThrow();
-//        u.setEnabled(true);
-//        userDAOJPA.save(u);
 
         // Login
         driver.get(loginUrl);
@@ -87,15 +52,6 @@ public class FrontendUITest {
 //    void tearDown() {
 //        if (driver != null) {
 //            driver.quit();
-//        }
-//    }
-
-//    @TestConfiguration
-//    public static class TestMailConfig {   // 🔑 make it static
-//
-//        @Bean
-//        public JavaMailSender javaMailSender() {
-//            return Mockito.mock(JavaMailSender.class);
 //        }
 //    }
 
@@ -290,64 +246,4 @@ public class FrontendUITest {
                 .withFailMessage("Order details should list at least one item")
                 .isNotEmpty();
     }
-
-
-//    @ParameterizedTest
-//    @CsvSource({
-//            "'', Doe, john@example.com, Password123, Firstname is mandatory",
-//            "John, '', john@example.com, Password123, Lastname is mandatory",
-//            "John, Doe, invalid-email, Password123, Email is not well formatted",
-//            "John, Doe, john@example.com, 123, Password should be 8 characters long minimum"
-//    })
-//    void failedRegistration_showsErrorMessage(String firstName, String lastName, String email, String password, String expectedError) {
-//        driver.get(registerUrl);
-//        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-//        driver.findElement(By.id("first_name")).sendKeys(firstName);
-//        driver.findElement(By.id("last_name")).sendKeys(lastName);
-//        driver.findElement(By.id("email")).sendKeys(email);
-//        driver.findElement(By.id("password")).sendKeys(password);
-//
-//        // Click register
-//        WebElement registerButton = driver.findElement(By.cssSelector(".btn"));
-//        registerButton.click();
-//
-//        // Wait for error alert
-//        WebElement errorAlert = wait.until(
-//                ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".alert.alert-danger"))
-//        );
-//
-//        // Assert alert shows validation errors
-//        assertThat(errorAlert.isDisplayed()).isTrue();
-//        assertThat(errorAlert.getText()).contains(expectedError);
-//    }
-//
-//    @ParameterizedTest
-//    @CsvSource({
-//            "employee@gmail.com, Wrong123!",
-//            "wrong@gmail.com, Test123!"
-//    })
-//    void invalidLogin_showsErrorMessage(String email, String password) {
-//        driver.get(loginUrl);
-//        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        WebElement emailInput = driver.findElement(By.id("login"));
-//        emailInput.clear();
-//        emailInput.sendKeys(email);
-//
-//        WebElement passwordInput = driver.findElement(By.id("password"));
-//        passwordInput.clear();
-//        passwordInput.sendKeys(password);
-//
-//        WebElement loginButton = driver.findElement(By.cssSelector(".btn"));
-//        loginButton.click();
-//
-//        WebElement errorAlert = wait.until(
-//                ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".alert.alert-danger"))
-//        );
-//
-//        assertThat(errorAlert.isDisplayed()).isTrue();
-//        assertThat(errorAlert.getText()).contains("Login failed. Please try again."); // adjust to your backend error message
-//
-//        String currentUrl = driver.getCurrentUrl();
-//        assertThat(currentUrl).contains("/login");
-//    }
 }
