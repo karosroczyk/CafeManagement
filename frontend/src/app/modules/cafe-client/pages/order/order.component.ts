@@ -23,6 +23,8 @@ export class OrderComponent implements OnInit {
   pageResponseOrderResponse: PageResponse<OrderResponse> = {};
   menuItemsByCategory: { [key: string]: any } = {};
   basket: MenuResponse[] = [];
+  successMessage: string = '';
+  failureMessage: string = '';
 
   constructor(
     private menuService: MenuService,
@@ -153,21 +155,25 @@ getMenuItemsByCategoryName(categoryName: string) {
               const userId = user.id;
               this.orderService.placeOrder(userId, menuItemIds, quantitiesOfMenuItems).subscribe(
                 () => {
-                      this.dialog.open(OrderDialogComponent, {
-                      data: {
-                      title: 'Order Placed',
-                      message: 'Your order has been placed successfully!',
-                    },
-                  });
+//                      this.dialog.open(OrderDialogComponent, {
+//                      data: {
+//                      title: 'Order Placed',
+//                      message: 'Your order has been placed successfully!',
+//                    },
+//                  });
+                    this.successMessage = 'Order placed successfully.';
+                    setTimeout(() => this.successMessage = '', 5000);
                 },
                 (error) => {
-                    const errorMessage = error?.error?.message || 'An unexpected error occurred.';
-                    this.dialog.open(OrderDialogComponent, {
-                      data: {
-                      title: 'Order Failed',
-                      message: errorMessage,
-                  },
-                });
+//                    const errorMessage = error?.error?.message || 'An unexpected error occurred.';
+//                    this.dialog.open(OrderDialogComponent, {
+//                      data: {
+//                      title: 'Order Failed',
+//                      message: errorMessage,
+//                  },
+//                });
+                  this.failureMessage = 'Failed to place order.';
+                  setTimeout(() => this.failureMessage = '', 5000);
               }
             );
           } else {

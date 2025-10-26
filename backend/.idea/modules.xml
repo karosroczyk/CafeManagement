@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/DiscoveryServer/DiscoveryServer.iml" filepath="$PROJECT_DIR$/DiscoveryServer/DiscoveryServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AuthManagement/auth.iml" filepath="$PROJECT_DIR$/AuthManagement/auth.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/backend.iml" filepath="$PROJECT_DIR$/.idea/backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/InventoryManagement/inventorymanagement.iml" filepath="$PROJECT_DIR$/InventoryManagement/inventorymanagement.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MenuManagement/menumanagement.iml" filepath="$PROJECT_DIR$/MenuManagement/menumanagement.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OrderManagement/ordermanagement.iml" filepath="$PROJECT_DIR$/OrderManagement/ordermanagement.iml" />
     </modules>
   </component>
 </project>

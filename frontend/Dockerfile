@@ -3,6 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+COPY src/environments/environment.docker.ts src/environments/environment.ts
 RUN npm run build
 
 FROM nginx:alpine

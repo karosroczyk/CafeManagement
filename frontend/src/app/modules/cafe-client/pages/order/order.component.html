@@ -71,6 +71,13 @@
         </div>
     </section>
 
+    <div class="alert alert-success" *ngIf="successMessage">
+        {{ successMessage }}
+    </div>
+    <div class="alert alert-danger" *ngIf="failureMessage">
+        {{ failureMessage }}
+    </div>
+
     <!-- Add Place Order Button -->
     <div class="place-order">
         <button (click)="placeOrder()" class="place-order-btn">Place Order</button>

@@ -22,7 +22,7 @@ staff can manage menu items, track and manage inventory stock, and process order
 - ![Maven](https://img.shields.io/badge/-Maven-C71A36?logo=apachemaven&logoColor=white)
 
 - ![JUnit 5](https://img.shields.io/badge/-JUnit5-25A162?logo=JUnit5&logoColor=white)
-  ![Mockito](https://img.shields.io/badge/-Mockito-4D32A8?logo=Mockito&logoColor=white).
+  ![Mockito](https://img.shields.io/badge/-Mockito-4D32A8?logo=Mockito&logoColor=white)
   ![Selenium](https://img.shields.io/badge/-Selenium-43B02A?logo=selenium&logoColor=white)
 
 - ![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white)
@@ -80,7 +80,7 @@ Example endpoints:
 The Order Management Service handles customer orders, integrates with other microservices, 
 and ensures consistent order processing and stock validation.
 
-The **Order Service** uses `WebClient` to communicate with:
+The Order Service uses **WebClient** to communicate with:
 - **Menu Service** — to fetch item details and prices.
 - **Inventory Service** — to validate and reduce stock availability.
 
@@ -112,17 +112,17 @@ Example endpoints:
 
 The Discovery Server is a Spring Boot application using Eureka, acting as a service registry
 for all microservices. It allows services to register themselves and discover other services dynamically.
-API Gateway runs on port **8088**. The Menu, Inventory, and Order Management services are also connected
+**API Gateway** runs on port 8088. The Menu, Inventory, and Order Management services are also connected
 through this port, requiring Bearer Token authentication when accessed via the gateway.
 These services can still be accessed directly on their individual ports without authentication.
 
 ---
 ### Security and Roles 🛡️
 The application provides secure user registration, login, and email-based account activation.
-Authentication and authorization are implemented using JWT, ensuring secure and stateless communication between the client and the server.
+**Authentication and authorization are implemented using JWT**, ensuring secure and stateless communication between the client and the server.
 
 When a user logs in, the server validates their credentials and generates a JWT token containing essential user information (such as email and role).
-This token is then sent to the client and must be included in the Authorization header as a Bearer Token for any subsequent requests to protected endpoints.
+This token is then sent to the client and must be included in the Authorization header as a **Bearer Token** for any subsequent requests to protected endpoints.
 
 The server verifies the validity of each token on every request, ensuring that only authenticated users can access specific resources.
 Additionally, role-based access control is enforced — meaning that users can access different pages and functionalities depending on their assigned roles.
@@ -135,7 +135,7 @@ The application includes comprehensive testing across multiple layers:
 - **API Testing** – performed with Postman to ensure all endpoints behave correctly.
 
 ## Docker 🐳
-This project uses Docker Compose to orchestrate multiple microservices for the Cafe Management System.
+This project uses **Docker Compose** to orchestrate multiple microservices for the Cafe Management System.
 Each service runs in its own container with an attached MySQL database and connects through a shared network.
 The setup also includes service discovery (Eureka), a frontend UI, and a mail server (MailDev).
 
