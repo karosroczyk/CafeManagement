@@ -1,8 +1,25 @@
 # Cafe Management System ☕
-This project is a complete microservices-based system to manage a café’s daily operations. 
+This project is a complete microservices-based system to manage a cafe’s daily operations. 
 Users can browse the menu, place orders, track orders, and manage private account, while 
 staff can manage menu items, track and manage inventory stock, and process orders.
 
+## How to run app 💻
+### Prerequisites
+- [Docker](https://www.docker.com/products/docker-desktop)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+### Run
+1. Start the full stack using Docker Compose:
+```bash
+  docker-compose up -d
+```
+2. Open the frontend in browser:
+```bash
+   http://localhost:8080/login/
+```
+3. (Optional) Stop the stack:
+```bash
+   docker-compose down
+```
 ## Tech Stack 🛠️
 
 ### Backend:
@@ -133,6 +150,15 @@ The application includes comprehensive testing across multiple layers:
 - **Integration Tests** – verifying interactions between services and database.
 - **End-to-End (E2E) Tests** – using Selenium to simulate real user interactions in the frontend.
 - **API Testing** – performed with Postman to ensure all endpoints behave correctly.
+
+### How to run:
+
+- E2E:
+  - Run Docker
+  - Run tests in e2e-tests directory
+- ## Prerequisites
+- Docker
+- Docker Compose
 
 ## Docker 🐳
 This project uses **Docker Compose** to orchestrate multiple microservices for the Cafe Management System.

@@ -4,7 +4,7 @@ services:
 # Menu
   menumanagement:
     container_name: menumanagement
-    image: menumanagement:v.1.0
+    image: karosroczyk/menumanagement:v.1.0
     ports:
       - "8081:8081"
     depends_on:
@@ -41,7 +41,7 @@ services:
 # Inventory
   inventorymanagement:
     container_name: inventorymanagement
-    image: inventorymanagement:v.1.0
+    image: karosroczyk/inventorymanagement:v.1.0
     ports:
       - "8082:8082"
     depends_on:
@@ -81,7 +81,7 @@ services:
 # Order
   ordermanagement:
     container_name: ordermanagement
-    image: ordermanagement:v.1.0
+    image: karosroczyk/ordermanagement:v.1.0
     ports:
       - "8083:8083"
     depends_on:
@@ -123,7 +123,7 @@ services:
 # User
   usermanagement:
     container_name: usermanagement
-    image: usermanagement:v.1.0
+    image: karosroczyk/usermanagement:v.1.0
     ports:
       - "8088:8088"
     depends_on:
@@ -164,7 +164,7 @@ services:
       retries: 10
 
   eureka:
-    image: discoveryserver:v.1.0
+    image: karosroczyk/discoveryserver:v.1.0
     container_name: discoveryserver
     ports:
       - "8762:8761"
@@ -177,7 +177,7 @@ services:
       - "1025:1025"
 
   frontend:
-    image: frontend:v.1.0
+    image: karosroczyk/frontend:v.1.0
     container_name: frontend
     ports:
       - "8080:80"
