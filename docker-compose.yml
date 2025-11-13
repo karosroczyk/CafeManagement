@@ -11,9 +11,9 @@ services:
       db_menu:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db_menu:3306/menumanagement?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: menumanagement
-      SPRING_DATASOURCE_PASSWORD: menumanagement
+      SPRING_DATASOURCE_URL: jdbc:mysql://db_menu:3306/${MYSQL_MENU_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_MENU_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_MENU_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
@@ -24,10 +24,10 @@ services:
     container_name: mysql-menudb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: menumanagement
-      MYSQL_USER: menumanagement
-      MYSQL_PASSWORD: menumanagement
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_MENU_DB}
+      MYSQL_USER: ${MYSQL_MENU_USER}
+      MYSQL_PASSWORD: ${MYSQL_MENU_PASSWORD}
     ports:
       - "3307:3306"
     volumes:
@@ -50,24 +50,23 @@ services:
       eureka:
         condition: service_started
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db_inventory:3306/inventorymanagement?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: inventorymanagement
-      SPRING_DATASOURCE_PASSWORD: inventorymanagement
+      SPRING_DATASOURCE_URL: jdbc:mysql://db_inventory:3306/${MYSQL_INV_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_INV_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_INV_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8082
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
 
   db_inventory:
     image: mysql:8.0
     container_name: mysql-inventorydb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: inventorymanagement
-      MYSQL_USER: inventorymanagement
-      MYSQL_PASSWORD: inventorymanagement
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_INV_DB}
+      MYSQL_USER: ${MYSQL_INV_USER}
+      MYSQL_PASSWORD: ${MYSQL_INV_PASSWORD}
     ports:
       - "3308:3306"
     volumes:
@@ -89,27 +88,24 @@ services:
         condition: service_healthy
       eureka:
         condition: service_started
-    #      menumanagement:
-    #        condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db_order:3306/ordermanagement?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: ordermanagement
-      SPRING_DATASOURCE_PASSWORD: ordermanagement
+      SPRING_DATASOURCE_URL: jdbc:mysql://db_order:3306/${MYSQL_ORDER_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_ORDER_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ORDER_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8083
-#      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
 
   db_order:
     image: mysql:8.0
     container_name: mysql-orderdb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ordermanagement
-      MYSQL_USER: ordermanagement
-      MYSQL_PASSWORD: ordermanagement
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_ORDER_DB}
+      MYSQL_USER: ${MYSQL_ORDER_USER}
+      MYSQL_PASSWORD: ${MYSQL_ORDER_PASSWORD}
     ports:
       - "3309:3306"
     volumes:
@@ -131,32 +127,28 @@ services:
         condition: service_healthy
       eureka:
         condition: service_started
-    #      menumanagement:
-    #        condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db_user:3306/usermanagement?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: usermanagement
-      SPRING_DATASOURCE_PASSWORD: usermanagement
+      SPRING_DATASOURCE_URL: jdbc:mysql://db_user:3306/${MYSQL_USER_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_USER_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8088
-#      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
 
   db_user:
     image: mysql:8.0
     container_name: mysql-userdb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: usermanagement
-      MYSQL_USER: usermanagement
-      MYSQL_PASSWORD: usermanagement
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_USER_DB}
+      MYSQL_USER: ${MYSQL_USER_USER}
+      MYSQL_PASSWORD: ${MYSQL_USER_PASSWORD}
     ports:
       - "3310:3306"
     volumes:
       - db_user_data:/var/lib/mysql
-#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
@@ -188,13 +180,3 @@ volumes:
   db_inventory_data:
   db_order_data:
   db_user_data:
-
-#  networks:
-#    cafe:
-#      driver: bridge
-
-##volumes:
-##  postgres:
-##    driver: local
-###  keycloak:
-###    driver: local

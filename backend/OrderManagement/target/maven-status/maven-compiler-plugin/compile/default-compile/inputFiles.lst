@@ -1,14 +1,11 @@
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\config\AppConfig.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\config\WebConfig.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\controller\OrderController.java
-C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\controller\OrderMenuItemIdKeyController.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\dao\OrderDAOJPA.java
-C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\dao\OrderMenuItemIdKeyDAOJPA.java
-C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\dto\Category.java
-C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\dto\MenuItem.java
+C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\dto\CategoryDTO.java
+C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\dto\MenuItemDTO.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\entity\Order.java
-C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\entity\OrderMenuItemId.java
-C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\entity\OrderMenuItemIdKey.java
+C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\entity\OrderItem.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\exception\ClientErrorException.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\exception\DatabaseForeignKeyValidationException.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\exception\DatabaseUniqueValidationException.java
@@ -18,8 +15,6 @@ C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\exception\ResourceNotFoundException.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\exception\ServerErrorException.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\OrderManagementApplication.java
-C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\service\OrderMenuItemIdKeyService.java
-C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\service\OrderMenuItemIdKeyServiceImpl.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\service\OrderService.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\service\OrderServiceImpl.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\service\PaginatedResponse.java
