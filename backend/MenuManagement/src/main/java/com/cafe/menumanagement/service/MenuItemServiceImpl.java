@@ -81,7 +81,7 @@ public class MenuItemServiceImpl implements MenuItemService{
         foundMenuItem.setName(menuItem.getName());
         foundMenuItem.setDescription(menuItem.getDescription());
         foundMenuItem.setPrice(menuItem.getPrice());
-        foundMenuItem.setCategoryId(menuItem.getCategoryId());
+        foundMenuItem.setCategory(menuItem.getCategory());
         foundMenuItem.setImage(menuItem.getImage());
 
         try {

@@ -11,7 +11,7 @@ public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="item_id")
-    private Integer item_id;
+    private Integer id;
 
     @Column(name="name")
     @NotBlank(message = "Menu item name is required")
@@ -27,7 +27,9 @@ public class MenuItem {
     @Max(value = 10000, message = "Price can't be greater than 10 000")
     private Double price;
 
-    private Integer categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @Lob
     @Column(name = "image")
@@ -53,20 +55,20 @@ public class MenuItem {
     public MenuItem() {
     }
 
-    public MenuItem(String name, String description, Double price, Integer categoryId, byte[] image) {
+    public MenuItem(String name, String description, Double price, Category category, byte[] image) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.categoryId = categoryId;
+        this.category = category;
         this.image = image;
     }
 
-    public Integer getItem_id() {
-        return item_id;
+    public Integer getId() {
+        return id;
     }
 
-    public void setItem_id(Integer item_id) {
-        this.item_id = item_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -92,12 +94,12 @@ public class MenuItem {
     public void setPrice(Double price) {
         this.price = price;
     }
-    public Integer getCategoryId() {
-        return this.categoryId;
+    public Category getCategory() {
+        return this.category;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public byte[] getImage() { return image; }
@@ -123,11 +125,11 @@ public class MenuItem {
     @Override
     public String toString() {
         return "MenuItem{" +
-                "item_id=" + item_id +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", categoryId=" + categoryId +
+                ", category=" + category +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

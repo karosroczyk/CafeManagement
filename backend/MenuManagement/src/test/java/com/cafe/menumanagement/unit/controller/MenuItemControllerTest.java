@@ -1,8 +1,12 @@
 package com.cafe.menumanagement.unit.controller;
 
 import com.cafe.menumanagement.controller.MenuItemController;
+import com.cafe.menumanagement.dto.MenuItemDTO;
+import com.cafe.menumanagement.dto.MenuItemMapper;
+import com.cafe.menumanagement.entity.Category;
 import com.cafe.menumanagement.entity.MenuItem;
 import com.cafe.menumanagement.exception.InvalidInputException;
+import com.cafe.menumanagement.service.CategoryService;
 import com.cafe.menumanagement.service.MenuItemService;
 import com.cafe.menumanagement.service.PaginatedResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +20,7 @@ import org.springframework.validation.BindingResult;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -23,6 +28,8 @@ import static org.mockito.Mockito.*;
 public class MenuItemControllerTest {
     @Mock
     private MenuItemService menuItemService;
+    @Mock
+    private CategoryService categoryService;
     @InjectMocks
     private MenuItemController menuItemController;
     @BeforeEach
@@ -41,7 +48,7 @@ public class MenuItemControllerTest {
         when(menuItemService.getAllMenuItems(page, size, sortBy, direction)).thenReturn(paginatedResponse);
 
         // Act
-        ResponseEntity<PaginatedResponse<MenuItem>> response = menuItemController.getAllMenuItems(page, size, sortBy, direction);
+        ResponseEntity<PaginatedResponse<MenuItemDTO>> response = menuItemController.getAllMenuItems(page, size, sortBy, direction);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -71,11 +78,11 @@ public class MenuItemControllerTest {
         when(menuItemService.getMenuItemById(id)).thenReturn(menuItem);
 
         // Act
-        ResponseEntity<MenuItem> response = menuItemController.getMenuItemById(id);
+        ResponseEntity<MenuItemDTO> response = menuItemController.getMenuItemById(id);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(menuItem, response.getBody());
+        assertEquals(MenuItemMapper.toDTO(menuItem), response.getBody());
     }
 
     @Test
@@ -101,7 +108,7 @@ public class MenuItemControllerTest {
         when(menuItemService.getMenuItemsByCategoryName(categoryName, page, size, sortBy, direction)).thenReturn(paginatedResponse);
 
         // Act
-        ResponseEntity<PaginatedResponse<MenuItem>> response = menuItemController.getMenuItemsByCategoryName(page, size, sortBy, direction, categoryName);
+        ResponseEntity<PaginatedResponse<MenuItemDTO>> response = menuItemController.getMenuItemsByCategoryName(page, size, sortBy, direction, categoryName);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -111,18 +118,27 @@ public class MenuItemControllerTest {
 
     @Test
     void testCreateMenuItem_ValidRequest() {
-        // Arrange
-        MenuItem menuItem = new MenuItem();
+        Category category = new Category();
+        category.setId(1);
+        category.setName("Coffee");
+
+        MenuItem menuItem = new MenuItem("Espresso", "Strong coffee", 5.0, category, null);
+        MenuItemDTO menuItemDTO = MenuItemMapper.toDTO(menuItem);
+
         BindingResult result = mock(BindingResult.class);
         when(result.hasErrors()).thenReturn(false);
-        when(menuItemService.createMenuItem(menuItem)).thenReturn(menuItem);
 
-        // Act
-        ResponseEntity<MenuItem> response = menuItemController.createMenuItem(menuItem, result);
+        when(categoryService.getCategoryById(menuItemDTO.categoryId())).thenReturn(category);
+        when(menuItemService.createMenuItem(any(MenuItem.class))).thenReturn(menuItem);
 
-        // Assert
+        ResponseEntity<MenuItemDTO> response = menuItemController.createMenuItem(menuItemDTO, result);
+
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(menuItem, response.getBody());
+        assertNotNull(response.getBody());
+        assertEquals(menuItem.getName(), response.getBody().name());
+        assertEquals(menuItem.getDescription(), response.getBody().description());
+        assertEquals(menuItem.getPrice(), response.getBody().price());
+        assertEquals(menuItem.getCategory().getId(), response.getBody().categoryId());
     }
 
     @Test
@@ -136,7 +152,7 @@ public class MenuItemControllerTest {
 
         // Act & Assert
         assertThrows(InvalidInputException.class, () -> {
-            menuItemController.createMenuItem(menuItem, result);
+            menuItemController.createMenuItem(MenuItemMapper.toDTO(menuItem), result);
         });
     }
 
@@ -144,17 +160,39 @@ public class MenuItemControllerTest {
     void testUpdateMenuItem_ValidRequest() {
         // Arrange
         Integer id = 1;
-        MenuItem menuItem = new MenuItem();
+
+        // Mock category
+        Category category = new Category();
+        category.setId(1);
+        category.setName("Desserts");
+
+        // Mock existing and updated menu item
+        MenuItem existingMenuItem = new MenuItem("Old Cake", "Chocolate cake", 8.0, category, null);
+        MenuItem updatedMenuItem = new MenuItem("Cheesecake", "Creamy cheesecake", 9.0, category, null);
+        updatedMenuItem.setId(id);
+
+        // Map to DTO
+        MenuItemDTO updatedDTO = MenuItemMapper.toDTO(updatedMenuItem);
+
+        // Mock validation result
         BindingResult result = mock(BindingResult.class);
         when(result.hasErrors()).thenReturn(false);
-        when(menuItemService.updateMenuItem(id, menuItem)).thenReturn(menuItem);
+
+        // Mock dependencies
+        when(categoryService.getCategoryById(updatedDTO.categoryId())).thenReturn(category);
+        when(menuItemService.updateMenuItem(eq(id), any(MenuItem.class))).thenReturn(updatedMenuItem);
 
         // Act
-        ResponseEntity<MenuItem> response = menuItemController.updateMenuItem(id, menuItem, result);
+        ResponseEntity<MenuItemDTO> response = menuItemController.updateMenuItem(id, updatedDTO, result);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(menuItem, response.getBody());
+        assertNotNull(response.getBody());
+        assertEquals(updatedMenuItem.getId(), response.getBody().id());
+        assertEquals(updatedMenuItem.getName(), response.getBody().name());
+        assertEquals(updatedMenuItem.getDescription(), response.getBody().description());
+        assertEquals(updatedMenuItem.getPrice(), response.getBody().price());
+        assertEquals(updatedMenuItem.getCategory().getId(), response.getBody().categoryId());
     }
 
     @Test
@@ -167,7 +205,7 @@ public class MenuItemControllerTest {
 
         // Act & Assert
         assertThrows(InvalidInputException.class, () -> {
-            menuItemController.updateMenuItem(id, menuItem, result);
+            menuItemController.updateMenuItem(id, MenuItemMapper.toDTO(menuItem), result);
         });
     }
 

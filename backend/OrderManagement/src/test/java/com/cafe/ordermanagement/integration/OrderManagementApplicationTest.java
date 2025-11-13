@@ -1,4 +1,4 @@
-package com.cafe.ordermanagement.controller;
+package com.cafe.ordermanagement.integration;
 
 import com.cafe.ordermanagement.entity.Order;
 import com.cafe.ordermanagement.exception.InvalidInputException;

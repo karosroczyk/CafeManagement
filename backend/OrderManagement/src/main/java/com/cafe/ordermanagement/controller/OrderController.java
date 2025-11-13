@@ -1,6 +1,6 @@
 package com.cafe.ordermanagement.controller;
 
-import com.cafe.ordermanagement.dto.MenuItem;
+import com.cafe.ordermanagement.dto.MenuItemDTO;
 import com.cafe.ordermanagement.entity.Order;
 import com.cafe.ordermanagement.exception.InvalidInputException;
 import com.cafe.ordermanagement.service.OrderService;
@@ -52,13 +52,13 @@ public class OrderController {
 
     //TODO: Is it used/working?
     @GetMapping("/menuitems")
-    public ResponseEntity<PaginatedResponse<MenuItem>> getAllMenuItems(
+    public ResponseEntity<PaginatedResponse<MenuItemDTO>> getAllMenuItems(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "2") int size,
             @RequestParam(defaultValue = "customerId") String[] sortBy,
             @RequestParam(defaultValue = "asc") String[] direction
     ) {
-        PaginatedResponse<MenuItem> menuitems = orderService.getAllMenuItems(page, size, sortBy, direction);
+        PaginatedResponse<MenuItemDTO> menuitems = orderService.getAllMenuItems(page, size, sortBy, direction);
         return ResponseEntity.ok(menuitems);
     }
 

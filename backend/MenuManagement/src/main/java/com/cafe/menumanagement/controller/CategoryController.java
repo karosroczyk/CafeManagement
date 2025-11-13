@@ -1,5 +1,9 @@
 package com.cafe.menumanagement.controller;
 
+import com.cafe.menumanagement.dto.CategoryDTO;
+import com.cafe.menumanagement.dto.CategoryMapper;
+import com.cafe.menumanagement.dto.MenuItemDTO;
+import com.cafe.menumanagement.dto.MenuItemMapper;
 import com.cafe.menumanagement.entity.Category;
 import com.cafe.menumanagement.exception.InvalidInputException;
 import com.cafe.menumanagement.service.CategoryService;
@@ -10,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
@@ -19,7 +25,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<PaginatedResponse<Category>> getAllCategories(
+    public ResponseEntity<PaginatedResponse<CategoryDTO>> getAllCategories(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "2") int size,
             @RequestParam(defaultValue = "name") String[] sortBy,
@@ -28,36 +34,51 @@ public class CategoryController {
             throw new InvalidInputException("Invalid page: " + page + ", size: " + size + " provided.");
 
         PaginatedResponse<Category> categories = categoryService.getAllCategories(page, size, sortBy, direction);
-        return ResponseEntity.ok(categories);
+
+        List<CategoryDTO> dtoList = categories.getData()
+                .stream()
+                .map(category -> CategoryMapper.toDTO(category))
+                .toList();
+
+        PaginatedResponse<CategoryDTO> response = new PaginatedResponse<>(
+                dtoList,
+                categories.getCurrentPage(),
+                categories.getTotalPages(),
+                categories.getTotalElements(),
+                categories.getSize()
+        );
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Integer id){
+    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Integer id){
         if (id < 0) throw new InvalidInputException("Invalid ID provided.");
 
         Category category = categoryService.getCategoryById(id);
-        return ResponseEntity.ok(category);
+        return ResponseEntity.ok(CategoryMapper.toDTO(category));
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category, BindingResult result) {
+    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO category, BindingResult result) {
         if (result.hasErrors()) {
             throw new InvalidInputException(result.getFieldError().getDefaultMessage());
         }
 
-        Category createdCategory = categoryService.createCategory(category);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
+        Category createdCategory = categoryService.createCategory(CategoryMapper.toEntity(category, null));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(CategoryMapper.toDTO(createdCategory));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Integer id, @Valid @RequestBody Category category, BindingResult result) {
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Integer id, @Valid @RequestBody CategoryDTO category, BindingResult result) {
         if (result.hasErrors()) {
             throw new InvalidInputException(result.getFieldError().getDefaultMessage());
         }
 
         if (id < 0) throw new InvalidInputException("Invalid ID provided.");
-        Category updatedCategory = categoryService.updateCategory(id, category);
-        return ResponseEntity.ok(updatedCategory);
+        Category updatedCategory = categoryService.updateCategory(id, CategoryMapper.toEntity(category, null));
+        return ResponseEntity.ok(CategoryMapper.toDTO(updatedCategory));
     }
 
     @DeleteMapping("/{id}")

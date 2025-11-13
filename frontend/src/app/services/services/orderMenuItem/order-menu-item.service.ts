@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseService } from '../../base-service';
 import { ApiConfiguration } from '../../api-configuration';
-import { OrderMenuItemResponse } from '../../models/order-menuitem-response';
+import { OrderItemResponse } from '../../models/order-item-response';
 import { HttpHeaders } from '@angular/common/http';
 
 
@@ -17,8 +17,8 @@ export class OrderMenuItemService extends BaseService {
      super(config, http);
    }
 
-     // Get orderMenuItemIdKey by order ID
-     getOrderMenuItemIdKeyByOrderId(orderId: number): Observable<OrderMenuItemResponse[]> {
-       return this.http.get<OrderMenuItemResponse[]>(`${this.apiUrl}/order/${orderId}`);
-     }
+//     // Get orderMenuItemIdKey by order ID
+//     getOrderMenuItemIdKeyByOrderId(orderId: number): Observable<OrderMenuItemResponse[]> {
+//       return this.http.get<OrderMenuItemResponse[]>(`${this.apiUrl}/order/${orderId}`);
+//     }
 }

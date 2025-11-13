@@ -5,11 +5,79 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7412f433-051c-43fa-bc31-ff6f7b655196" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../e2e-tests/src/test/java/com/cafe/e2e/RegisterTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../e2e-tests/src/test/java/com/cafe/e2e/UserProfileTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InventoryManagement/src/main/java/com/cafe/inventory/dto/MenuItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/dto/CategoryDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/dto/CategoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/dto/MenuItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/dto/MenuItemMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/entity/OrderItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/services/models/order-item-response.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../e2e-tests/src/test/java/com/cafe/e2e/FrontendUITest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../e2e-tests/src/test/java/com/cafe/e2e/FrontendUITest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../e2e-tests/target/test-classes/com/cafe/e2e/FrontendUITest.class" beforeDir="false" afterPath="$PROJECT_DIR$/../e2e-tests/target/test-classes/com/cafe/e2e/FrontendUITest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/src/main/java/com/cafe/inventory/entity/InventoryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/src/main/java/com/cafe/inventory/entity/InventoryItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/src/test/java/com/cafe/inventory/integration/controller/InventoryItemApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/src/test/java/com/cafe/inventory/integration/controller/InventoryItemApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/src/test/java/com/cafe/inventory/unit/service/InventoryServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/src/test/java/com/cafe/inventory/unit/service/InventoryServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/src/test/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/src/test/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/controller/MenuItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/controller/MenuItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/dao/MenuItemDAOJPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/dao/MenuItemDAOJPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/entity/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/entity/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/entity/MenuItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/entity/MenuItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/test/java/com/cafe/menumanagement/integration/controller/CategoryManagementApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/test/java/com/cafe/menumanagement/integration/controller/CategoryManagementApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/test/java/com/cafe/menumanagement/integration/controller/MenuManagementApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/test/java/com/cafe/menumanagement/integration/controller/MenuManagementApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/test/java/com/cafe/menumanagement/unit/controller/CategoryControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/test/java/com/cafe/menumanagement/unit/controller/CategoryControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/test/java/com/cafe/menumanagement/unit/controller/MenuItemControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/test/java/com/cafe/menumanagement/unit/controller/MenuItemControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/test/java/com/cafe/menumanagement/unit/service/MenuItemServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/test/java/com/cafe/menumanagement/unit/service/MenuItemServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/test/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/test/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/controller/OrderMenuItemIdKeyController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/dao/OrderMenuItemIdKeyDAOJPA.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/dto/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/dto/CategoryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/dto/MenuItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/dto/MenuItemDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/entity/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/entity/OrderMenuItemId.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/entity/OrderMenuItemIdKey.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderMenuItemIdKeyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderMenuItemIdKeyServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/test/java/com/cafe/ordermanagement/integration/OrderManagementApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/test/java/com/cafe/ordermanagement/integration/OrderManagementApplicationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/test/java/com/cafe/ordermanagement/unit/service/OrderServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/test/java/com/cafe/ordermanagement/unit/service/OrderServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/controller/OrderController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/controller/OrderMenuItemIdKeyController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/dao/OrderMenuItemIdKeyDAOJPA.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/dto/MenuItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/entity/Category.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/entity/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/entity/Order.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/entity/OrderMenuItemId.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/entity/OrderMenuItemIdKey.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderMenuItemIdKeyService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderMenuItemIdKeyServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/controller/OrderManagementApplicationTests$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/controller/OrderManagementApplicationTests$TestConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/controller/OrderManagementApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/unit/controller/OrderControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/unit/controller/OrderControllerTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/unit/service/OrderServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/unit/service/OrderServiceTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../e2e-tests/target/test-classes/com/cafe/e2e/FrontendUITest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../e2e-tests/target/test-classes/com/cafe/e2e/RegisterTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../e2e-tests/target/test-classes/com/cafe/e2e/UserProfileTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-client/pages/order-history/order-history.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-client/pages/order-history/order-history.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-client/pages/order-history/order-history.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-client/pages/order-history/order-history.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-client/pages/order/order.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-client/pages/order/order.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-employee/pages/order-history/order-history.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-employee/pages/order-history/order-history.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-employee/pages/order-history/order-history.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-employee/pages/order-history/order-history.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/services/models/menu-response.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/services/models/menu-response.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/services/models/order-menuitem-response.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/services/models/order-response.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/services/models/order-response.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/services/services/orderMenuItem/order-menu-item.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/services/services/orderMenuItem/order-menu-item.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +86,13 @@
   </component>
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -46,13 +121,18 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ravko/Java_z_Karo/CafeManagement/backend/init-multiple-dbs.sql&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ravko/Java_z_Karo/CafeManagement/docker-compose.yml&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.LoginE2ETest.successfulMainPage">
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.cafe.ordermanagement.entity" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.All in inventorymanagement">
     <configuration default="true" type="AZURE_FUNCTION_SUPPORT" factoryName="Run Functions">
       <option name="appName" />
       <option name="appServicePlanName" />
@@ -83,6 +163,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="InventoryApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.cafe.inventory.InventoryApplication" />
+      <module name="inventorymanagement" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cafe.inventory.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="OrderManagementApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.cafe.ordermanagement.OrderManagementApplication" />
       <module name="ordermanagement" />
@@ -96,76 +189,37 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LoginE2ETest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="auth" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.cafe.auth.e2e.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.cafe.auth.e2e" />
-      <option name="MAIN_CLASS_NAME" value="com.cafe.auth.e2e.LoginE2ETest" />
-      <option name="TEST_OBJECT" value="class" />
+    <configuration name="All in inventorymanagement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="inventorymanagement" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LoginE2ETest.successfulCreateOrder" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="auth" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.cafe.auth.e2e.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.cafe.auth.e2e" />
-      <option name="MAIN_CLASS_NAME" value="com.cafe.auth.e2e.LoginE2ETest" />
-      <option name="METHOD_NAME" value="successfulCreateOrder" />
-      <option name="TEST_OBJECT" value="method" />
+    <configuration name="All in menumanagement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="menumanagement" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LoginE2ETest.successfulCreateOrderAndCheckMyOrders" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="auth" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.cafe.auth.e2e.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.cafe.auth.e2e" />
-      <option name="MAIN_CLASS_NAME" value="com.cafe.auth.e2e.LoginE2ETest" />
-      <option name="METHOD_NAME" value="successfulCreateOrderAndCheckMyOrders" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LoginE2ETest.successfulMainPage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="auth" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.cafe.auth.e2e.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.cafe.auth.e2e" />
-      <option name="MAIN_CLASS_NAME" value="com.cafe.auth.e2e.LoginE2ETest" />
-      <option name="METHOD_NAME" value="successfulMainPage" />
-      <option name="TEST_OBJECT" value="method" />
+    <configuration name="All in ordermanagement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ordermanagement" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.LoginE2ETest.successfulMainPage" />
-        <item itemvalue="JUnit.LoginE2ETest.successfulCreateOrderAndCheckMyOrders" />
-        <item itemvalue="JUnit.LoginE2ETest.successfulCreateOrder" />
-        <item itemvalue="JUnit.LoginE2ETest" />
+        <item itemvalue="JUnit.All in inventorymanagement" />
+        <item itemvalue="JUnit.All in menumanagement" />
+        <item itemvalue="JUnit.All in ordermanagement" />
         <item itemvalue="Application.OrderManagementApplication" />
+        <item itemvalue="Application.InventoryApplication" />
       </list>
     </recent_temporary>
   </component>

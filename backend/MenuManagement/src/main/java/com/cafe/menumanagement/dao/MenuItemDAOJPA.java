@@ -1,10 +1,12 @@
 package com.cafe.menumanagement.dao;
 
 import com.cafe.menumanagement.entity.MenuItem;
+import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface MenuItemDAOJPA extends JpaRepository<MenuItem, Integer> {
@@ -17,6 +19,6 @@ public interface MenuItemDAOJPA extends JpaRepository<MenuItem, Integer> {
                                   @Param("maxPrice") Double maxPrice,
                                   Pageable pageable);
 
-    @Query("SELECT m FROM MenuItem m WHERE m.categoryId IN (SELECT c.id FROM Category c WHERE c.name = :categoryName)")
+    @Query("SELECT m FROM MenuItem m WHERE m.category.name = :categoryName")
     Page<MenuItem> findByCategoryName(@Param("categoryName") String categoryName, Pageable pageable);
 }

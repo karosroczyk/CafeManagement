@@ -1,3 +1,5 @@
+import { OrderItemResponse } from './order-item-response';
+
 export interface OrderResponse {
   id: number;
   status: string;
@@ -5,4 +7,5 @@ export interface OrderResponse {
   customerId: number;
   createdAt: string;
   updatedAt: string;
+  orderItems?: OrderItemResponse[];
 }

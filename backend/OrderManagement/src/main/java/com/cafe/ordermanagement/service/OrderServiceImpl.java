@@ -1,17 +1,14 @@
 package com.cafe.ordermanagement.service;
 
-import com.cafe.ordermanagement.dto.MenuItem;
-import com.cafe.ordermanagement.entity.Category;
-import com.cafe.ordermanagement.entity.OrderMenuItemId;
-import com.cafe.ordermanagement.entity.OrderMenuItemIdKey;
+import com.cafe.ordermanagement.dto.MenuItemDTO;
+import com.cafe.ordermanagement.dto.CategoryDTO;
+import com.cafe.ordermanagement.entity.OrderItem;
 import com.cafe.ordermanagement.exception.*;
 import com.cafe.ordermanagement.dao.OrderDAOJPA;
 import com.cafe.ordermanagement.entity.Order;
 import com.netflix.discovery.EurekaClient;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -74,7 +71,7 @@ public class OrderServiceImpl implements OrderService{
                 .orElseThrow(() -> new ResourceNotFoundException("Customer with id: " + customer_id + " not found."));
     }
 
-    public PaginatedResponse<MenuItem> getAllMenuItems(int page, int size, String[] sortBy, String[] direction) {
+    public PaginatedResponse<MenuItemDTO> getAllMenuItems(int page, int size, String[] sortBy, String[] direction) {
         String uri = UriComponentsBuilder.fromHttpUrl(menuServiceUrl + "/api/menuitems")
                 .queryParam("page", page)
                 .queryParam("size", size)
@@ -93,12 +90,12 @@ public class OrderServiceImpl implements OrderService{
                         status -> status.is5xxServerError(), response -> response.bodyToMono(String.class)
                                 .flatMap(errorBody -> {
                                     throw new ServerErrorException("Server error: " + errorBody);}))
-            .bodyToMono(new ParameterizedTypeReference<PaginatedResponse<MenuItem>>() {})
+            .bodyToMono(new ParameterizedTypeReference<PaginatedResponse<MenuItemDTO>>() {})
             .block();
     }
 
     @Override
-    public PaginatedResponse<Category> getAllMenuItemCategories(
+    public PaginatedResponse<CategoryDTO> getAllMenuItemCategories(
             int page, int size, String[] sortBy, String[] direction) {
         String categoryUri = UriComponentsBuilder.fromHttpUrl(menuServiceUrl + "/api/categories")
                 .queryParam("page", page)
@@ -121,13 +118,13 @@ public class OrderServiceImpl implements OrderService{
                                     System.err.println("Server Error: " + errorBody);
                                     return Mono.error(new ServerErrorException("Server error: " + errorBody));
                                 }))
-                .bodyToMono(new ParameterizedTypeReference<PaginatedResponse<Category>>() {
+                .bodyToMono(new ParameterizedTypeReference<PaginatedResponse<CategoryDTO>>() {
                 })
                 .block();
     }
 
     @Override
-    public PaginatedResponse<MenuItem> getAllMenuItemsByCategory(
+    public PaginatedResponse<MenuItemDTO> getAllMenuItemsByCategory(
             int page, int size, String[] sortBy, String[] direction, String categoryName){
         String uri = UriComponentsBuilder.fromHttpUrl(menuServiceUrl + "/api/menuitems/filter/category-name")
                 .queryParam("page", page)
@@ -148,32 +145,24 @@ public class OrderServiceImpl implements OrderService{
                         status -> status.is5xxServerError(), response -> response.bodyToMono(String.class)
                                 .flatMap(errorBody -> {
                                     throw new ServerErrorException("Server error: " + errorBody);}))
-                .bodyToMono(new ParameterizedTypeReference<PaginatedResponse<MenuItem>>() {})
+                .bodyToMono(new ParameterizedTypeReference<PaginatedResponse<MenuItemDTO>>() {})
                 .block();
     }
 
     @Override
-    public Map<String, List<MenuItem>> getMenuItemsGroupedByCategory(
+    public Map<String, List<MenuItemDTO>> getMenuItemsGroupedByCategory(
             int page, int size, String[] sortBy, String[] direction){
-        Map<String, List<MenuItem>> categorizedMenuItems = new LinkedHashMap<>();
-        List<Category> categories =
+        Map<String, List<MenuItemDTO>> categorizedMenuItems = new LinkedHashMap<>();
+        List<CategoryDTO> categories =
                 this.getAllMenuItemCategories(page, size, sortBy, direction).getData();
 
         categories.stream().forEach(
                 category -> {categorizedMenuItems.put(
-                        category.getName(), this.getAllMenuItemsByCategory(page, size, sortBy, direction, category.getName()).getData());});
+                        category.name(), this.getAllMenuItemsByCategory(page, size, sortBy, direction, category.name()).getData());});
 
         return categorizedMenuItems;
     }
 
-    //getAllAvailableItems
-    //wyswietla liste tylko dostepnych menuitems i pozniej nie musimy juz sprawdzac dostepnosci
-    //nadal trzeba sprawdzic ilosc
-
-    //wyswietla liste wszystkich menuitems
-    //uzytkownik wybiera co chce i klika placeOrder
-    //sprawdzmy czy wszytskie sa dostepne
-    // TODO: update readme then we can remove this comment
     @Override
     @Transactional
     public Order placeOrder(Integer customerId,
@@ -186,12 +175,11 @@ public class OrderServiceImpl implements OrderService{
 
         Order placedOrder = createOrder(new Order(customerId));
         menuItemIds.stream().forEach(menuItemId -> {
-            OrderMenuItemId orderMenuItemId = new OrderMenuItemId(
-                    new OrderMenuItemIdKey(placedOrder.getId(), menuItemId, filteredQuantities.get(menuItemIds.indexOf(menuItemId))));
-            placedOrder.addMenuItem(orderMenuItemId);
+            OrderItem orderItem = new OrderItem(menuItemId, filteredQuantities.get(menuItemIds.indexOf(menuItemId)));
+            placedOrder.addOrderItem(orderItem);
         });
 
-        if (placedOrder.getMenuItems() == null || placedOrder.getMenuItems().isEmpty())
+        if (placedOrder.getOrderItems() == null || placedOrder.getOrderItems().isEmpty())
             throw new ResourceNotFoundException("Choose at least one Menu Item.");
 
         // Check if each selected MenuItem with choosen quantity is available
@@ -240,15 +228,15 @@ public class OrderServiceImpl implements OrderService{
                 .block();
 
         // Calculate total price and update status
-        double totalPrice = placedOrder.getMenuItems().stream()
-                .mapToDouble(menuItemId -> {
+        double totalPrice = placedOrder.getOrderItems().stream()
+                .mapToDouble(orderItem -> {
                     Double price = webClientBuilder.build()
                             .get()
-                            .uri(menuServiceUrl  + "/api/menuitems/" + menuItemId.getOrderMenuItemIdKey().getMenuItemId() + "/price")
+                            .uri(menuServiceUrl  + "/api/menuitems/" + orderItem.getMenuItemId() + "/price")
                             .retrieve()
                             .bodyToMono(Double.class)
                             .block();
-                    return price != null ? price * menuItemId.getOrderMenuItemIdKey().getQuantity() : 0.0;
+                    return price != null ? price * orderItem.getQuantity() : 0.0;
                 })
                 .sum();
         placedOrder.setTotal_price(totalPrice);

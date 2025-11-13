@@ -1,6 +1,7 @@
 package com.cafe.inventory.unit.service;
 
 import com.cafe.inventory.dao.InventoryDAOJPA;
+import com.cafe.inventory.dto.MenuItemDTO;
 import com.cafe.inventory.entity.InventoryItem;
 import com.cafe.inventory.exception.DatabaseUniqueValidationException;
 import com.cafe.inventory.exception.InvalidInputException;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -37,8 +39,8 @@ class InventoryServiceTest {
     }
     @Test
     void testGetAllInventoryItems() {
-        InventoryItem item1 = new InventoryItem(1, 101, 10, true);
-        InventoryItem item2 = new InventoryItem(2, 102, 5, true);
+        InventoryItem item1 = new InventoryItem(1, null, 10, true);
+        InventoryItem item2 = new InventoryItem(2, null, 5, true);
         String[] sortingFields = {"menuItemId", "stockLevel"};
         String[] directions = {"asc", "desc"};
 
@@ -59,12 +61,12 @@ class InventoryServiceTest {
 
     @Test
     void testGetInventoryItemById_Correct() {
-        InventoryItem item = new InventoryItem(1, 101, 10, true);
+        InventoryItem item = new InventoryItem(1, null, 10, true);
 
         when(inventoryDAOJPA.findById(1)).thenReturn(Optional.of(item));
         InventoryItem result = inventoryService.getInventoryItemById(1);
 
-        assertEquals(101, result.getMenuItemId());
+        assertEquals(10, result.getStockLevel());
         verify(inventoryDAOJPA, times(1)).findById(1);
     }
 
@@ -85,8 +87,8 @@ class InventoryServiceTest {
     void testGetInventoryItemsByMenuItemIds_AllFound() {
         List<Integer> menuItemIds = Arrays.asList(101, 102);
 
-        InventoryItem item1 = new InventoryItem(1, 101, 10, true);
-        InventoryItem item2 = new InventoryItem(2, 102, 20, true);
+        InventoryItem item1 = new InventoryItem(1, null, 10, true);
+        InventoryItem item2 = new InventoryItem(2, null, 20, true);
 
         when(inventoryDAOJPA.findByMenuItemId(101)).thenReturn(Optional.of(item1));
         when(inventoryDAOJPA.findByMenuItemId(102)).thenReturn(Optional.of(item2));
@@ -94,8 +96,8 @@ class InventoryServiceTest {
         List<InventoryItem> result = inventoryService.getInventoryItemsByMenuItemIds(menuItemIds);
 
         assertEquals(2, result.size());
-        assertEquals(101, result.get(0).getMenuItemId());
-        assertEquals(102, result.get(1).getMenuItemId());
+        assertEquals(10, result.get(0).getStockLevel());
+        assertEquals(20, result.get(1).getStockLevel());
 
         verify(inventoryDAOJPA, times(1)).findByMenuItemId(101);
         verify(inventoryDAOJPA, times(1)).findByMenuItemId(102);
@@ -105,7 +107,7 @@ class InventoryServiceTest {
     void testGetInventoryItemsByMenuItemIds_AnyNotFound_ThrowsException() {
         List<Integer> menuItemIds = Arrays.asList(101, 999);
 
-        InventoryItem item1 = new InventoryItem(1, 101, 10, true);
+        InventoryItem item1 = new InventoryItem(1, null, 10, true);
 
         when(inventoryDAOJPA.findByMenuItemId(101)).thenReturn(Optional.of(item1));
         when(inventoryDAOJPA.findByMenuItemId(999)).thenReturn(Optional.empty());
@@ -160,7 +162,8 @@ class InventoryServiceTest {
 
     @Test
     void testCreateInventoryItem() {
-        InventoryItem item = new InventoryItem(1, 101, 10, true);
+        InventoryItem item =
+                new InventoryItem(1, 101, 10, true);
 
         when(inventoryDAOJPA.save(item)).thenReturn(item);
         InventoryItem result = inventoryService.createInventoryItem(item);

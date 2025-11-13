@@ -39,9 +39,9 @@ public class Order {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<OrderMenuItemId> menuItems;
+    private List<OrderItem> orderItems;
 
     @PrePersist
     protected void onCreate() {
@@ -57,28 +57,28 @@ public class Order {
     public Order() {
         this.status = "PENDING";
         this.total_price = 0.0;
-        this.menuItems = new ArrayList<>();
+        this.orderItems = new ArrayList<>();
     }
 
     public Order(Integer customerId) {
         this.status = "PENDING";
         this.total_price = 0.0;
         this.customerId = customerId;
-        this.menuItems = new ArrayList<>();
+        this.orderItems = new ArrayList<>();
     }
 
     public Order(String status, Double total_price, Integer customerId) {
         this.status = status;
         this.total_price = total_price;
         this.customerId = customerId;
-        this.menuItems = new ArrayList<>();
+        this.orderItems = new ArrayList<>();
     }
-    public void addMenuItem(OrderMenuItemId menuItem) {
-        if (menuItems == null) {
-            menuItems = new ArrayList<>();
+    public void addOrderItem(OrderItem orderItem) {
+        if (orderItems == null) {
+            orderItems = new ArrayList<>();
         }
-        menuItems.add(menuItem);
-        menuItem.setOrder(this);  // Maintain the bidirectional relationship
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
     }
     public Integer getId() {
         return id;
@@ -128,12 +128,12 @@ public class Order {
         this.updatedAt = updatedAt;
     }
 
-    public List<OrderMenuItemId> getMenuItems() {
-        return menuItems;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setMenuItems(List<OrderMenuItemId> menuItems) {
-        this.menuItems = menuItems;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
     @java.lang.Override

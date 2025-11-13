@@ -35,19 +35,19 @@
             <td>{{ order.updatedAt }}</td>
             <td>
                 <details>
-                    <summary (click)="getOrderMenuItemIdKeyByOrderId(order.id)">View Details</summary>
-                    <div class="order-details">
+                    <summary (click)="getOrderMenuItemIdKeyByOrderId(order)">View Details</summary>
+                    <div class="order-details" *ngIf="orderItemsMap[order.id]">
                         <p><strong>Items:</strong></p>
-                            <ul>
-                                <li *ngFor="let item of orderMenuItemsMap[order.id]">
-                                    <p *ngIf="menuItemNameMap[item.menuItemId]; else loading">
-                                        <strong>{{ menuItemNameMap[item.menuItemId].name }}: </strong> {{ item.quantity }}
-                                    </p>
-                                    <ng-template #loading>
-                                        <p>Loading...</p>
-                                    </ng-template>
-                                </li>
-                            </ul>
+                        <ul>
+                            <li *ngFor="let item of orderItemsMap[order.id]">
+                                <p *ngIf="menuItemNameMap[item.menuItemId]; else loading">
+                                    <strong>{{ menuItemNameMap[item.menuItemId].name }}:</strong> {{ item.quantity }}
+                                </p>
+                                <ng-template #loading>
+                                    <p>Loading...</p>
+                                </ng-template>
+                            </li>
+                        </ul>
                     </div>
                 </details>
             </td>

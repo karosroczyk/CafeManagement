@@ -1,5 +1,6 @@
 package com.cafe.menumanagement.integration.controller;
 
+import com.cafe.menumanagement.dto.CategoryDTO;
 import com.cafe.menumanagement.entity.Category;
 import com.cafe.menumanagement.entity.Category;
 import com.cafe.menumanagement.service.PaginatedResponse;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Import(CategoryManagementApplicationTests.MockEurekaConfig.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CategoryManagementApplicationTests {
     @TestConfiguration
     static class MockEurekaConfig {
@@ -40,95 +43,87 @@ public class CategoryManagementApplicationTests {
     }
     @Test
     void shouldReturnPaginatedCategories() {
-        Category coffeeCategory = new Category();
-        coffeeCategory.setName("Coffee");
-        coffeeCategory.setDescription("Hot beverages");
-        ResponseEntity<Category> coffeeResponse =
-                restTemplate.postForEntity(url(""), coffeeCategory, Category.class);
-        Category savedCoffeeCategory = coffeeResponse.getBody();
+        CategoryDTO coffeeCategory = new CategoryDTO(1, "Coffee", "Hot beverages");
+        ResponseEntity<CategoryDTO> coffeeResponse =
+                restTemplate.postForEntity(url(""), coffeeCategory, CategoryDTO.class);
+        CategoryDTO savedCoffeeCategory = coffeeResponse.getBody();
         assertThat(coffeeResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(savedCoffeeCategory).isNotNull();
-        assertThat(savedCoffeeCategory.getName()).isEqualTo("Coffee");
+        assertThat(savedCoffeeCategory.name()).isEqualTo("Coffee");
 
-        Category pastryCategory = new Category();
-        pastryCategory.setName("Pastry");
-        pastryCategory.setDescription("Something to eat");
-        ResponseEntity<Category> pastryResponse =
-                restTemplate.postForEntity(url(""), pastryCategory, Category.class);
-        Category savedPastryCategory = pastryResponse.getBody();
+        CategoryDTO pastryCategory = new CategoryDTO(2, "Pastry", "Something to eat");
+        ResponseEntity<CategoryDTO> pastryResponse =
+                restTemplate.postForEntity(url(""), pastryCategory, CategoryDTO.class);
+        CategoryDTO savedPastryCategory = pastryResponse.getBody();
         assertThat(pastryResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(savedPastryCategory).isNotNull();
-        assertThat(savedPastryCategory.getName()).isEqualTo("Pastry");
+        assertThat(savedPastryCategory.name()).isEqualTo("Pastry");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        restTemplate.postForEntity(url(""), new HttpEntity<>(coffeeCategory, headers), Category.class);
-        restTemplate.postForEntity(url(""), new HttpEntity<>(pastryCategory, headers), Category.class);
+        restTemplate.postForEntity(url(""), new HttpEntity<>(coffeeCategory, headers), CategoryDTO.class);
+        restTemplate.postForEntity(url(""), new HttpEntity<>(pastryCategory, headers), CategoryDTO.class);
 
-        ResponseEntity<PaginatedResponse<Category>> response = restTemplate.exchange(
+        ResponseEntity<PaginatedResponse<CategoryDTO>> response = restTemplate.exchange(
                 url("?page=0&size=5&sortBy=name&direction=asc"),
                 HttpMethod.GET,
                 null,
-                new org.springframework.core.ParameterizedTypeReference<PaginatedResponse<Category>>() {}
+                new org.springframework.core.ParameterizedTypeReference<PaginatedResponse<CategoryDTO>>() {}
         );
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        PaginatedResponse<Category> body = response.getBody();
+        PaginatedResponse<CategoryDTO> body = response.getBody();
         assertThat(body).isNotNull();
         assertThat(body.getData()).isNotEmpty();
         assertThat(body.getData().size()).isEqualTo(2);
         assertThat(body.getData())
-                .extracting(Category::getName)
+                .extracting(CategoryDTO::name)
                 .contains("Coffee", "Pastry");
     }
 
     @Test
     void shouldUpdateCategory() {
-        Category newItem = new Category();
-        newItem.setName("Iced Coffee");
-        newItem.setDescription("Cold beverages");
+        CategoryDTO newItem = new CategoryDTO(1, "Iced Coffee", "Cold beverages");
 
-        Category created = restTemplate.postForEntity(url(""), newItem, Category.class).getBody();
+        CategoryDTO created = restTemplate.postForEntity(url(""), newItem, CategoryDTO.class).getBody();
         assertThat(created).isNotNull();
-        assertThat(created.getId()).isNotNull();
-        assertThat(created.getDescription()).isEqualTo("Cold beverages");
+        assertThat(created.id()).isNotNull();
+        assertThat(created.description()).isEqualTo("Cold beverages");
 
-        created.setDescription("Cold coffee beverages");
+        CategoryDTO newItemUpdated = new CategoryDTO(newItem.id(), newItem.name(), "Cold coffee beverages");
 
-        HttpEntity<Category> request = new HttpEntity<>(created);
-        ResponseEntity<Category> response = restTemplate.exchange(
-                url("/" + created.getId()),
+        HttpEntity<CategoryDTO> request = new HttpEntity<>(newItemUpdated);
+        ResponseEntity<CategoryDTO> response = restTemplate.exchange(
+                url("/" + newItemUpdated.id()),
                 HttpMethod.PUT,
                 request,
-                Category.class);
+                CategoryDTO.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody().getDescription()).contains("coffee");
+        assertThat(response.getBody().description()).contains("coffee");
     }
 
     @Test
     void shouldDeleteCategory() {
-        Category newItem = new Category();
-        newItem.setName("Mocha Coffee");
-        newItem.setDescription("Hot mocha beverages");
+        CategoryDTO newItem = new CategoryDTO(1, "Mocha Coffee", "Hot mocha beverages");
 
-        Category created = restTemplate.postForEntity(url(""), newItem, Category.class).getBody();
+        CategoryDTO created = restTemplate.postForEntity(url(""), newItem, CategoryDTO.class).getBody();
         assertThat(created).isNotNull();
-        assertThat(created.getId()).isNotNull();
-        assertThat(created.getDescription()).isEqualTo("Hot mocha beverages");
+        assertThat(created.id()).isNotNull();
+        assertThat(created.description()).isEqualTo("Hot mocha beverages");
 
-        ResponseEntity<Category> getResponse =
-                restTemplate.getForEntity(url("/" + created.getId()), Category.class);
+        ResponseEntity<CategoryDTO> getResponse =
+                restTemplate.getForEntity(url("/" + created.id()), CategoryDTO.class);
         assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(getResponse.getBody().getName()).isEqualTo("Mocha Coffee");
+        assertThat(getResponse.getBody().name()).isEqualTo("Mocha Coffee");
 
         ResponseEntity<Void> response = restTemplate.exchange(
-                url("/" + created.getId()), HttpMethod.DELETE, null, Void.class);
+                url("/" + created.id()), HttpMethod.DELETE, null, Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
-        ResponseEntity<Category> fetchResponse =
-                restTemplate.getForEntity(url("/" + created.getId()), Category.class);
+        ResponseEntity<CategoryDTO> fetchResponse =
+                restTemplate.getForEntity(url("/" + created.id()), CategoryDTO.class);
         assertThat(fetchResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 }

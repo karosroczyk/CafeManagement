@@ -1,5 +1,6 @@
 package com.cafe.menumanagement.integration.controller;
 
+import com.cafe.menumanagement.dto.MenuItemDTO;
 import com.cafe.menumanagement.entity.Category;
 import com.cafe.menumanagement.entity.MenuItem;
 import com.cafe.menumanagement.service.PaginatedResponse;
@@ -14,12 +15,14 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Import(MenuManagementApplicationTests.MockEurekaConfig.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class MenuManagementApplicationTests {
 	@TestConfiguration
 	static class MockEurekaConfig {
@@ -43,42 +46,40 @@ class MenuManagementApplicationTests {
 
 	@Test
 	void shouldReturnPaginatedMenuItemsAndCheckGetMenuItemPriceById() {
-		MenuItem item1 = new MenuItem();
-		item1.setName("Espresso");
-		item1.setDescription("Strong coffee shot");
-		item1.setPrice(2.5);
-		item1.setCategoryId(1);
+		Category drinks = new Category("Drinks", "Hot drinks");
+		ResponseEntity<Category> categoryResponse =
+				restTemplate.postForEntity("http://localhost:" + port + "/api/categories", drinks, Category.class);
+		assertThat(categoryResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+		Category savedCategory = categoryResponse.getBody();
+		assertThat(savedCategory).isNotNull();
 
-		MenuItem item2 = new MenuItem();
-		item2.setName("Cappuccino");
-		item2.setDescription("Coffee with foam");
-		item2.setPrice(3.0);
-		item2.setCategoryId(1);
+		MenuItemDTO item1 = new MenuItemDTO(1, "Espresso", "Strong coffee shot", 2.5, savedCategory.getId());
+		MenuItemDTO item2 = new MenuItemDTO(2, "Cappuccino", "Coffee with foam", 3.0, savedCategory.getId());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		restTemplate.postForEntity(url(""), new HttpEntity<>(item1, headers), MenuItem.class);
-		restTemplate.postForEntity(url(""), new HttpEntity<>(item2, headers), MenuItem.class);
+		restTemplate.postForEntity(url(""), new HttpEntity<>(item1, headers), MenuItemDTO.class);
+		restTemplate.postForEntity(url(""), new HttpEntity<>(item2, headers), MenuItemDTO.class);
 
-		ResponseEntity<PaginatedResponse<MenuItem>> response = restTemplate.exchange(
+		ResponseEntity<PaginatedResponse<MenuItemDTO>> response = restTemplate.exchange(
 				url("?page=0&size=5&sortBy=name&direction=asc"),
 				HttpMethod.GET,
 				null,
-				new org.springframework.core.ParameterizedTypeReference<PaginatedResponse<MenuItem>>() {}
+				new org.springframework.core.ParameterizedTypeReference<PaginatedResponse<MenuItemDTO>>() {}
 		);
 
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		PaginatedResponse<MenuItem> body = response.getBody();
+		PaginatedResponse<MenuItemDTO> body = response.getBody();
 		assertThat(body).isNotNull();
 		assertThat(body.getData()).isNotEmpty();
 		assertThat(body.getData().size()).isEqualTo(2);
 		assertThat(body.getData())
-				.extracting(MenuItem::getName)
+				.extracting(MenuItemDTO::name)
 				.contains("Espresso", "Cappuccino");
 
 		ResponseEntity<Double> priceResponse =
-				restTemplate.getForEntity(url("/" + body.getData().get(0).getItem_id() + "/price"), Double.class);
+				restTemplate.getForEntity(url("/" + body.getData().get(0).id() + "/price"), Double.class);
 
 		assertThat(priceResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(priceResponse.getBody()).isEqualTo(3.0);
@@ -86,19 +87,15 @@ class MenuManagementApplicationTests {
 
 	@Test
 	void shouldFilterMenuItemsByCategoryName() {
-		Category coffeeCategory = new Category();
-		coffeeCategory.setName("Coffee");
-		coffeeCategory.setDescription("Hot beverages");
+		Category coffeeCategory = new Category("Drinks", "Hot drinks");
 		ResponseEntity<Category> coffeeResponse =
 				restTemplate.postForEntity(urlCategory(""), coffeeCategory, Category.class);
 		Category savedCoffeeCategory = coffeeResponse.getBody();
 		assertThat(coffeeResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 		assertThat(savedCoffeeCategory).isNotNull();
-		assertThat(savedCoffeeCategory.getName()).isEqualTo("Coffee");
+		assertThat(savedCoffeeCategory.getName()).isEqualTo("Drinks");
 
-		Category pastryCategory = new Category();
-		pastryCategory.setName("Pastry");
-		pastryCategory.setDescription("Something to eat");
+		Category pastryCategory = new Category("Pastry", "Something to eat");
 		ResponseEntity<Category> pastryResponse =
 				restTemplate.postForEntity(urlCategory(""), pastryCategory, Category.class);
 		Category savedPastryCategory = pastryResponse.getBody();
@@ -106,59 +103,55 @@ class MenuManagementApplicationTests {
 		assertThat(savedPastryCategory).isNotNull();
 		assertThat(savedPastryCategory.getName()).isEqualTo("Pastry");
 
-		MenuItem item1 = new MenuItem();
-		item1.setName("Latte");
-		item1.setDescription("Milk coffee");
-		item1.setPrice(3.5);
-		item1.setCategoryId(savedCoffeeCategory.getId());
-		restTemplate.postForEntity(url(""), item1, MenuItem.class);
+		MenuItemDTO item1 = new MenuItemDTO(1, "Espresso", "Strong coffee shot", 2.5, savedCoffeeCategory.getId());
+		restTemplate.postForEntity(url(""), item1, MenuItemDTO.class);
 
-		MenuItem item2 = new MenuItem();
-		item2.setName("Muffin");
-		item2.setDescription("Sweet treat");
-		item2.setPrice(2.0);
-		item2.setCategoryId(savedPastryCategory.getId());
-		restTemplate.postForEntity(url(""), item2, MenuItem.class);
+		MenuItemDTO item2 = new MenuItemDTO(2, "Cappuccino", "Coffee with foam", 3.0, savedPastryCategory.getId());
+		restTemplate.postForEntity(url(""), item2, MenuItemDTO.class);
 
-		String filterUrl = url("/filter/category-name?categoryName=Coffee&page=0&size=5&sortBy=name&direction=asc");
-		ResponseEntity<PaginatedResponse<MenuItem>> response = restTemplate.exchange(
+		String filterUrl = url("/filter/category-name?categoryName=Drinks&page=0&size=5&sortBy=name&direction=asc");
+		ResponseEntity<PaginatedResponse<MenuItemDTO>> response = restTemplate.exchange(
 				filterUrl,
 				HttpMethod.GET,
 				null,
-				new org.springframework.core.ParameterizedTypeReference<PaginatedResponse<MenuItem>>() {}
+				new org.springframework.core.ParameterizedTypeReference<PaginatedResponse<MenuItemDTO>>() {}
 		);
 
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody()).isNotNull();
 		assertThat(response.getBody().getData()).isNotNull();
-		assertThat(response.getBody().getData().get(0).getName()).isEqualTo("Cappuccino");
+		assertThat(response.getBody().getData().get(0).name()).isEqualTo("Espresso");
 	}
 
 	@Test
 	void shouldCreateAndFetchMenuItem() {
-		MenuItem newItem = new MenuItem();
-		newItem.setName("Latte");
-		newItem.setDescription("Coffee with milk");
-		newItem.setPrice(3.5);
-		newItem.setCategoryId(1);
+		Category coffeeCategory = new Category("Coffee", "Hot beverages");
+		ResponseEntity<Category> coffeeResponse =
+				restTemplate.postForEntity(urlCategory(""), coffeeCategory, Category.class);
+		Category savedCoffeeCategory = coffeeResponse.getBody();
+		assertThat(coffeeResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+		assertThat(savedCoffeeCategory).isNotNull();
+		assertThat(savedCoffeeCategory.getName()).isEqualTo("Coffee");
+
+		MenuItemDTO newItem = new MenuItemDTO(1, "Latte", "Coffee shot with milk", 2.5, savedCoffeeCategory.getId());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<MenuItem> request = new HttpEntity<>(newItem, headers);
-		ResponseEntity<MenuItem> postResponse =
-				restTemplate.postForEntity(url(""), request, MenuItem.class);
+		HttpEntity<MenuItemDTO> request = new HttpEntity<>(newItem, headers);
+		ResponseEntity<MenuItemDTO> postResponse =
+				restTemplate.postForEntity(url(""), request, MenuItemDTO.class);
 
 		assertThat(postResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-		MenuItem createdItem = postResponse.getBody();
+		MenuItemDTO createdItem = postResponse.getBody();
 		assertThat(createdItem).isNotNull();
-		assertThat(createdItem.getItem_id()).isNotNull();
-		assertThat(createdItem.getName()).isEqualTo("Latte");
+		assertThat(createdItem.id()).isNotNull();
+		assertThat(createdItem.name()).isEqualTo("Latte");
 
 
-		ResponseEntity<MenuItem> getResponse =
-				restTemplate.getForEntity(url("/" + createdItem.getItem_id()), MenuItem.class);
+		ResponseEntity<MenuItemDTO> getResponse =
+				restTemplate.getForEntity(url("/" + createdItem.id()), MenuItemDTO.class);
 		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(getResponse.getBody().getName()).isEqualTo("Latte");
+		assertThat(getResponse.getBody().name()).isEqualTo("Latte");
 	}
 
 	@Test
@@ -171,58 +164,65 @@ class MenuManagementApplicationTests {
 
 	@Test
 	void shouldUpdateMenuItem() {
-		MenuItem newItem = new MenuItem();
-		newItem.setName("Espresso");
-		newItem.setDescription("Strong coffee");
-		newItem.setPrice(2.0);
-		newItem.setCategoryId(1);
+		Category coffeeCategory = new Category("Coffee","Hot beverages");
+		ResponseEntity<Category> coffeeResponse =
+				restTemplate.postForEntity(urlCategory(""), coffeeCategory, Category.class);
+		Category savedCoffeeCategory = coffeeResponse.getBody();
+		assertThat(coffeeResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+		assertThat(savedCoffeeCategory).isNotNull();
+		assertThat(savedCoffeeCategory.getName()).isEqualTo("Coffee");
 
-		MenuItem created = restTemplate.postForEntity(url(""), newItem, MenuItem.class).getBody();
+		MenuItemDTO newItem = new MenuItemDTO(1, "Latte", "Strong coffee", 2.5, savedCoffeeCategory.getId());
+
+		MenuItemDTO created = restTemplate.postForEntity(url(""), newItem, MenuItemDTO.class).getBody();
 		assertThat(created).isNotNull();
-		assertThat(created.getItem_id()).isNotNull();
-		assertThat(created.getDescription()).isEqualTo("Strong coffee");
-		assertThat(created.getPrice()).isEqualTo(2.0);
+		assertThat(created.id()).isNotNull();
+		assertThat(created.description()).isEqualTo("Strong coffee");
+		assertThat(created.price()).isEqualTo(2.5);
 
-		created.setPrice(2.5);
-		created.setDescription("Strong coffee shot");
+		MenuItemDTO updated = new MenuItemDTO(created.id(), "Latte", "Strong coffee shot", 2.5, created.categoryId());
 
-		HttpEntity<MenuItem> request = new HttpEntity<>(created);
-		ResponseEntity<MenuItem> response = restTemplate.exchange(
-				url("/" + created.getItem_id()),
+		HttpEntity<MenuItemDTO> request = new HttpEntity<>(updated);
+		ResponseEntity<MenuItemDTO> response = restTemplate.exchange(
+				url("/" + updated.id()),
 				HttpMethod.PUT,
 				request,
-				MenuItem.class);
+				MenuItemDTO.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.getBody().getPrice()).isEqualTo(2.5);
-		assertThat(response.getBody().getDescription()).contains("shot");
+		assertThat(response.getBody().price()).isEqualTo(2.5);
+		assertThat(response.getBody().description()).contains("shot");
 	}
 
 	@Test
 	void shouldDeleteMenuItem() {
-		MenuItem newItem = new MenuItem();
-		newItem.setName("Mocha");
-		newItem.setDescription("Chocolate coffee");
-		newItem.setPrice(3.0);
-		newItem.setCategoryId(1);
+		Category coffeeCategory = new Category("Coffee","Hot beverages");
+		ResponseEntity<Category> coffeeResponse =
+				restTemplate.postForEntity(urlCategory(""), coffeeCategory, Category.class);
+		Category savedCoffeeCategory = coffeeResponse.getBody();
+		assertThat(coffeeResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+		assertThat(savedCoffeeCategory).isNotNull();
+		assertThat(savedCoffeeCategory.getName()).isEqualTo("Coffee");
 
-		MenuItem created = restTemplate.postForEntity(url(""), newItem, MenuItem.class).getBody();
+		MenuItemDTO newItem = new MenuItemDTO(1, "Mocha", "Chocolate coffee", 3.0, savedCoffeeCategory.getId());
+
+		MenuItemDTO created = restTemplate.postForEntity(url(""), newItem, MenuItemDTO.class).getBody();
 		assertThat(created).isNotNull();
-		assertThat(created.getItem_id()).isNotNull();
-		assertThat(created.getDescription()).isEqualTo("Chocolate coffee");
-		assertThat(created.getPrice()).isEqualTo(3.0);
+		assertThat(created.id()).isNotNull();
+		assertThat(created.description()).isEqualTo("Chocolate coffee");
+		assertThat(created.price()).isEqualTo(3.0);
 
-		ResponseEntity<MenuItem> getResponse =
-				restTemplate.getForEntity(url("/" + created.getItem_id()), MenuItem.class);
+		ResponseEntity<MenuItemDTO> getResponse =
+				restTemplate.getForEntity(url("/" + created.id()), MenuItemDTO.class);
 		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(getResponse.getBody().getName()).isEqualTo("Mocha");
+		assertThat(getResponse.getBody().name()).isEqualTo("Mocha");
 
 		ResponseEntity<Void> response = restTemplate.exchange(
-				url("/" + created.getItem_id()), HttpMethod.DELETE, null, Void.class);
+				url("/" + created.id()), HttpMethod.DELETE, null, Void.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
-		ResponseEntity<MenuItem> fetchResponse =
-				restTemplate.getForEntity(url("/" + created.getItem_id()), MenuItem.class);
+		ResponseEntity<MenuItemDTO> fetchResponse =
+				restTemplate.getForEntity(url("/" + created.id()), MenuItemDTO.class);
 		assertThat(fetchResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 	}
 }

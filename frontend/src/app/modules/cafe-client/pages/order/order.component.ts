@@ -57,24 +57,32 @@ export class OrderComponent implements OnInit {
     });
   }
 
-getMenuItemsByCategoryName(categoryName: string) {
-  this.menuService.getMenuItemsByCategoryName(categoryName).subscribe({
-    next: (res) => {
-      this.menuItemsByCategory[categoryName] = res;
+  getMenuItemsByCategoryName(categoryName: string) {
+    this.menuService.getMenuItemsByCategoryName(categoryName).subscribe({
+      next: (res) => {
+        this.menuItemsByCategory[categoryName] = res;
 
-      const menuItemIds = this.menuItemsByCategory[categoryName].data.map(
-        (item: { item_id: number }) => item.item_id
-      );
-      const quantities = this.menuItemsByCategory[categoryName].data.map(
-        (item: { quantity?: number }) => item.quantity || 0
-      );
-      this.updateMenuItemAvailability(categoryName, menuItemIds, quantities);
-    },
-    error: (err) => {
-      console.error('Error fetching menu items:', err);
-    },
-  });
-}
+        const data: MenuResponse[] = res?.data || [];
+
+        if (data.length === 0) {
+          console.log(`No menu items found for category: ${categoryName}`);
+          return;
+        }
+
+        const menuItemIds: number[] = data.map(item => item.id ?? 1);
+        const quantities: number[] = data.map(item => item.quantity ?? 1);
+
+        if (menuItemIds.length > 0) {
+          this.updateMenuItemAvailability(categoryName, menuItemIds, quantities);
+        } else {
+          console.warn(`No valid menuItemIds found for ${categoryName}`);
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching menu items:', err);
+      },
+    });
+  }
 
   updateMenuItemAvailability(
     categoryName: string,
@@ -97,30 +105,30 @@ getMenuItemsByCategoryName(categoryName: string) {
     );
   }
 
-    addToBasket(menuItem: any) {
-      if (menuItem.quantity === 0) {
-        this.dialog.open(OrderDialogComponent, {
-          data: {
-            title: 'Cannot Add to Basket',
-            message: 'Please select a amount greater than 0 before adding to the basket.',
-          },
-        });
-        return;
-      }
-
-      this.basket.push(menuItem);
-      this.inventoryService.getInventoryItemAvailability(
-        [menuItem.item_id],
-        [1 + menuItem.quantity]
-      ).subscribe(
-        (response: boolean[]) => {
-          if (!response[0]) menuItem.available = false;
+  addToBasket(menuItem: any) {
+    if (menuItem.quantity === 0) {
+      this.dialog.open(OrderDialogComponent, {
+        data: {
+          title: 'Cannot Add to Basket',
+          message: 'Please select a amount greater than 0 before adding to the basket.',
         },
-        (error) => {
-          console.error('Error checking inventory availability:', error);
-        }
-      );
+      });
+      return;
     }
+
+  this.basket.push(menuItem);
+    this.inventoryService.getInventoryItemAvailability(
+      [menuItem.id],
+      [1 + menuItem.quantity]
+    ).subscribe(
+      (response: boolean[]) => {
+        if (!response[0]) menuItem.available = false;
+      },
+      (error) => {
+        console.error('Error checking inventory availability:', error);
+      }
+    );
+  }
 
   removeFromBasket(index: number) {
     this.basket[index].available = true;
@@ -128,43 +136,43 @@ getMenuItemsByCategoryName(categoryName: string) {
     this.basket.splice(index, 1);
   }
 
-    incrementQuantity(menuItem: any): void {
-        if (menuItem.quantity === undefined) menuItem.quantity = 0;
-          this.inventoryService.getInventoryItemAvailability([menuItem.item_id], [menuItem.quantity+1]).subscribe(
-            (response: boolean[]) => {
-                if (!response[0]) menuItem.available = true;
-                else menuItem.quantity++;
-              },
-                 error => {
-                   console.error('Error checking inventory availability:', error);
-              }
-        );
-    }
+  incrementQuantity(menuItem: any): void {
+      if (menuItem.quantity === undefined) menuItem.quantity = 0;
+        this.inventoryService.getInventoryItemAvailability([menuItem.id], [menuItem.quantity+1]).subscribe(
+          (response: boolean[]) => {
+              if (!response[0]) menuItem.available = true;
+              else menuItem.quantity++;
+            },
+               error => {
+                 console.error('Error checking inventory availability:', error);
+            }
+      );
+  }
 
-    decrementQuantity(menuItem: any): void {
-      if (menuItem.quantity > 0) menuItem.quantity--;
-    }
+  decrementQuantity(menuItem: any): void {
+    if (menuItem.quantity > 0) menuItem.quantity--;
+  }
 
-    placeOrder(): void {
-      const menuItemIds = this.basket.map(item => item.item_id || 0);
-      const quantitiesOfMenuItems = this.basket.map(item => item.quantity || 0);
+  placeOrder(): void {
+    const menuItemIds = this.basket.map(item => item.id || 0);
+    const quantitiesOfMenuItems = this.basket.map(item => item.quantity || 0);
 
-      this.userService.getCurrentUser().subscribe({
-        next: (user) => {
-          if (user && user.id !== undefined) {
-              const userId = user.id;
-              this.orderService.placeOrder(userId, menuItemIds, quantitiesOfMenuItems).subscribe(
-                () => {
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => {
+        if (user && user.id !== undefined) {
+            const userId = user.id;
+            this.orderService.placeOrder(userId, menuItemIds, quantitiesOfMenuItems).subscribe(
+              () => {
 //                      this.dialog.open(OrderDialogComponent, {
 //                      data: {
 //                      title: 'Order Placed',
 //                      message: 'Your order has been placed successfully!',
 //                    },
 //                  });
-                    this.successMessage = 'Order placed successfully.';
-                    setTimeout(() => this.successMessage = '', 5000);
-                },
-                (error) => {
+                  this.successMessage = 'Order placed successfully.';
+                  setTimeout(() => this.successMessage = '', 5000);
+              },
+              (error) => {
 //                    const errorMessage = error?.error?.message || 'An unexpected error occurred.';
 //                    this.dialog.open(OrderDialogComponent, {
 //                      data: {
@@ -172,18 +180,18 @@ getMenuItemsByCategoryName(categoryName: string) {
 //                      message: errorMessage,
 //                  },
 //                });
-                  this.failureMessage = 'Failed to place order.';
-                  setTimeout(() => this.failureMessage = '', 5000);
-              }
-            );
-          } else {
-            console.error('User not found');
-          }
-        },
-          error: (err) => {
-          console.error('Error fetching user', err);
+                this.failureMessage = 'Failed to place order.';
+                setTimeout(() => this.failureMessage = '', 5000);
+            }
+          );
+        } else {
+          console.error('User not found');
         }
-      });
-    }
+      },
+        error: (err) => {
+        console.error('Error fetching user', err);
+      }
+    });
+  }
 }
 

@@ -8,7 +8,6 @@ import java.util.List;
 @Entity
 @Table(name = "categories")
 public class Category {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
@@ -23,10 +22,14 @@ public class Category {
     @NotBlank(message = "Short description is required")
     private String description;
 
-    @OneToMany(mappedBy = "categoryId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MenuItem> menuItems;
 
     public Category() {
+    }
+
+    public Category(Integer id) {
+        this.id = id;
     }
 
     public Category(String name, String description) {
@@ -56,6 +59,14 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
+    public void setMenuItems(List<MenuItem> menuItems) {
+        this.menuItems = menuItems;
     }
 
     @Override

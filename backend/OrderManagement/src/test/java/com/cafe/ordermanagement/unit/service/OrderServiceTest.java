@@ -6,6 +6,7 @@ import com.cafe.ordermanagement.exception.DatabaseUniqueValidationException;
 import com.cafe.ordermanagement.exception.ResourceNotFoundException;
 import com.cafe.ordermanagement.service.OrderServiceImpl;
 import com.cafe.ordermanagement.service.PaginatedResponse;
+import com.netflix.discovery.EurekaClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,12 +26,20 @@ import static org.mockito.Mockito.*;
 public class OrderServiceTest {
     @Mock
     private OrderDAOJPA orderDAOJPA;
-    @InjectMocks
+    @Mock
+    private WebClient.Builder webClientBuilder;
+    @Mock
+    private EurekaClient discoveryClient;
     private OrderServiceImpl orderService;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        when(discoveryClient.getNextServerFromEureka(eq("menu"), anyBoolean()))
+                .thenReturn(com.netflix.appinfo.InstanceInfo.Builder.newBuilder().setAppName("menu").build());
+        when(discoveryClient.getNextServerFromEureka(eq("inventory"), anyBoolean()))
+                .thenReturn(com.netflix.appinfo.InstanceInfo.Builder.newBuilder().setAppName("inventory").build());
+
+        orderService = new OrderServiceImpl(orderDAOJPA, webClientBuilder, discoveryClient);
     }
 
     @Test

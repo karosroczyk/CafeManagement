@@ -1,5 +1,6 @@
 package com.cafe.menumanagement.unit.service;
 
+import com.cafe.menumanagement.entity.Category;
 import com.cafe.menumanagement.entity.MenuItem;
 import com.cafe.menumanagement.dao.MenuItemDAOJPA;
 import com.cafe.menumanagement.exception.DatabaseUniqueValidationException;
@@ -38,8 +39,9 @@ class MenuItemServiceTest {
     }
     @Test
     void testGetAllMenuItems() {
-        MenuItem espresso = new MenuItem("Espresso", "Strong black coffee", 2.50, 1, null);
-        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, 1, null);
+        Category drinks = new Category("Drinks", "Hot drinks");
+        MenuItem espresso = new MenuItem("Espresso", "Strong black coffee", 2.50, drinks, null);
+        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, drinks, null);
         String[] sortingFields = {"name", "price"};
         String[] directions = {"asc", "desc"};
 
@@ -63,8 +65,10 @@ class MenuItemServiceTest {
 
     @Test
     void testGetMenuItemsByCategoryName_ReturnsPaginatedResponse() {
-        MenuItem lemonCake = new MenuItem("Lemon cake", "Lemon cake with frosting.", 2.50, 2, null);
-        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, 1, null);
+        Category drinks = new Category("Drinks", "Hot drinks");
+        Category cakes = new Category("Cakes", "Sweet cakes");
+        MenuItem lemonCake = new MenuItem("Lemon cake", "Lemon cake with frosting.", 2.50, cakes, null);
+        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, drinks, null);
         String[] sortingFields = {"name", "price"};
         String[] directions = {"asc", "desc"};
         String categoryName = "Beverages";
@@ -85,7 +89,8 @@ class MenuItemServiceTest {
 
     @Test
     void testgetMenuItemById_Correct() {
-        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, 1, null);
+        Category drinks = new Category("Drinks", "Hot drinks");
+        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, drinks, null);
 
         when(menuItemRepository.findById(1)).thenReturn(Optional.of(cappuccino));
         MenuItem result = menuItemService.getMenuItemById(1);
@@ -112,7 +117,8 @@ class MenuItemServiceTest {
 
     @Test
     void testCreateMenuItem() {
-        MenuItem menuItem = new MenuItem("Latte", "Espresso with steamed milk", 4.00, 1, null);
+        Category drinks = new Category("Drinks", "Hot drinks");
+        MenuItem menuItem = new MenuItem("Latte", "Espresso with steamed milk", 4.00, drinks, null);
 
         when(menuItemRepository.save(menuItem)).thenReturn(menuItem);
         MenuItem result = menuItemService.createMenuItem(menuItem);
@@ -140,8 +146,9 @@ class MenuItemServiceTest {
 
     @Test
     void testUpdateMenuItem_Correct() {
-        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, 1, null);
-        MenuItem updatedCappuccino = new MenuItem("Cappuccino", "Espresso with steamed, hot milk", 3.00, 1, null);
+        Category drinks = new Category("Drinks", "Hot drinks");
+        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, drinks, null);
+        MenuItem updatedCappuccino = new MenuItem("Cappuccino", "Espresso with steamed, hot milk", 3.00, drinks, null);
 
         when(menuItemRepository.findById(1)).thenReturn(Optional.of(cappuccino));
         when(menuItemRepository.save(any(MenuItem.class))).thenReturn(updatedCappuccino);
@@ -155,7 +162,8 @@ class MenuItemServiceTest {
 
     @Test
     void testDeleteMenuItem_Correct() {
-        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, 1, null);
+        Category drinks = new Category("Drinks", "Hot drinks");
+        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with steamed milk", 3.00, drinks, null);
 
         when(menuItemRepository.findById(1)).thenReturn(Optional.of(cappuccino));
         menuItemService.deleteMenuItem(1);
@@ -167,7 +175,8 @@ class MenuItemServiceTest {
     @Test
     void testDeleteMenuItem_ShouldThrowDatabaseUniqueValidation_WhenConstraintViolationOccurs() {
         int id = 1;
-        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with milk", 3.0, 1, null);
+        Category drinks = new Category("Drinks", "Hot drinks");
+        MenuItem cappuccino = new MenuItem("Cappuccino", "Espresso with milk", 3.0, drinks, null);
 
         when(menuItemRepository.findById(id)).thenReturn(Optional.of(cappuccino));
         doThrow(new DatabaseUniqueValidationException("Constraint violation"))

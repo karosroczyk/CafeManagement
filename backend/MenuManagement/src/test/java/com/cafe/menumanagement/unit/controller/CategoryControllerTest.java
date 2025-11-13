@@ -1,6 +1,8 @@
 package com.cafe.menumanagement.unit.controller;
 
 import com.cafe.menumanagement.controller.CategoryController;
+import com.cafe.menumanagement.dto.CategoryDTO;
+import com.cafe.menumanagement.dto.CategoryMapper;
 import com.cafe.menumanagement.entity.Category;
 import com.cafe.menumanagement.exception.InvalidInputException;
 import com.cafe.menumanagement.service.CategoryService;
@@ -47,7 +49,7 @@ public class CategoryControllerTest {
         when(categoryService.getAllCategories(anyInt(), anyInt(), any(String[].class), any(String[].class)))
                 .thenReturn(paginatedResponse);
 
-        ResponseEntity<PaginatedResponse<Category>> response = categoryController.getAllCategories(0, 2, new String[]{"name"}, new String[]{"asc"});
+        ResponseEntity<PaginatedResponse<CategoryDTO>> response = categoryController.getAllCategories(0, 2, new String[]{"name"}, new String[]{"asc"});
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -67,11 +69,11 @@ public class CategoryControllerTest {
         Category category = new Category("Beverages", "Hot and cold drinks");
         when(categoryService.getCategoryById(anyInt())).thenReturn(category);
 
-        ResponseEntity<Category> response = categoryController.getCategoryById(1);
+        ResponseEntity<CategoryDTO> response = categoryController.getCategoryById(1);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals("Beverages", response.getBody().getName());
+        assertEquals("Beverages", response.getBody().name());
         verify(categoryService, times(1)).getCategoryById(anyInt());
     }
 
@@ -89,11 +91,11 @@ public class CategoryControllerTest {
         when(bindingResult.hasErrors()).thenReturn(false);
         when(categoryService.createCategory(any(Category.class))).thenReturn(category);
 
-        ResponseEntity<Category> response = categoryController.createCategory(category, bindingResult);
+        ResponseEntity<CategoryDTO> response = categoryController.createCategory(CategoryMapper.toDTO(category), bindingResult);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(1, response.getBody().getId());
+        assertEquals(1, response.getBody().id());
         verify(categoryService, times(1)).createCategory(any(Category.class));
     }
 
@@ -103,7 +105,8 @@ public class CategoryControllerTest {
         when(bindingResult.getFieldError()).thenReturn(new org.springframework.validation.FieldError("category", "name", "Name is required"));
 
         InvalidInputException exception = assertThrows(InvalidInputException.class, () -> {
-            categoryController.createCategory(new Category(), bindingResult);
+            categoryController.createCategory(
+                    new CategoryDTO(1, "Beverages", "Hot and cold drinks"), bindingResult);
         });
         assertEquals("Name is required", exception.getMessage());
     }
@@ -115,11 +118,11 @@ public class CategoryControllerTest {
         when(bindingResult.hasErrors()).thenReturn(false);
         when(categoryService.updateCategory(anyInt(), any(Category.class))).thenReturn(category);
 
-        ResponseEntity<Category> response = categoryController.updateCategory(1, category, bindingResult);
+        ResponseEntity<CategoryDTO> response = categoryController.updateCategory(1, CategoryMapper.toDTO(category), bindingResult);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(1, response.getBody().getId());
+        assertEquals(1, response.getBody().id());
         verify(categoryService, times(1)).updateCategory(anyInt(), any(Category.class));
     }
 
@@ -129,7 +132,8 @@ public class CategoryControllerTest {
         when(bindingResult.getFieldError()).thenReturn(new org.springframework.validation.FieldError("category", "name", "Name is required"));
 
         InvalidInputException exception = assertThrows(InvalidInputException.class, () -> {
-            categoryController.updateCategory(1, new Category(), bindingResult);
+            categoryController.updateCategory(
+                    1, new CategoryDTO(1, "Beverages", "Hot and cold drinks"), bindingResult);
         });
         assertEquals("Name is required", exception.getMessage());
     }

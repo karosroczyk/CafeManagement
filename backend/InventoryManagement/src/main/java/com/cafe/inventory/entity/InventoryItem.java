@@ -11,16 +11,20 @@ public class InventoryItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+
     @Column(name = "menu_item_id")
     @NotNull(message="MenuItem Id is required")
     @Min(value = 0, message = "MenuItem Id can't be less than 0")
     private Integer menuItemId;
+
     @Column(name = "stock_level")
     @NotNull(message="Stock Level is required")
     @Min(value = 0, message = "Stock Level can't be less than 0")
     private Integer stockLevel;
+
     @Column(name = "is_available")
     private Boolean isAvailable;
+
     public InventoryItem(){}
     public InventoryItem(Integer id, Integer menuItemId, Integer stockLevel, Boolean isAvailable){
         this.id = id;
