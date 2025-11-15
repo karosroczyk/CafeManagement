@@ -6,21 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="7412f433-051c-43fa-bc31-ff6f7b655196" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/controller/MenuItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/controller/MenuItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/controller/OrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/dto/CategoryDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/dto/CategoryDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/dto/MenuItemDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/dto/MenuItemDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/entity/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/entity/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/entity/OrderItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/entity/OrderItem.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/ordermanagement-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/ordermanagement-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/ordermanagement-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/ordermanagement-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/integration/OrderManagementApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/integration/OrderManagementApplicationTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/unit/controller/OrderControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/unit/controller/OrderControllerTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/unit/service/OrderServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/unit/service/OrderServiceTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,23 +53,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ravko/Java_z_Karo/CafeManagement/docker-compose.yml&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/ravko/Java_z_Karo/CafeManagement/.env",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.cafe.ordermanagement.entity" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in inventorymanagement">
+  <component name="RunManager" selected="Application.OrderManagementApplication">
     <configuration default="true" type="AZURE_FUNCTION_SUPPORT" factoryName="Run Functions">
       <option name="appName" />
       <option name="appServicePlanName" />
@@ -158,11 +152,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.OrderManagementApplication" />
         <item itemvalue="JUnit.All in inventorymanagement" />
+        <item itemvalue="Application.InventoryApplication" />
         <item itemvalue="JUnit.All in menumanagement" />
         <item itemvalue="JUnit.All in ordermanagement" />
-        <item itemvalue="Application.OrderManagementApplication" />
-        <item itemvalue="Application.InventoryApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -187,5 +181,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderServiceImpl.java</url>
+          <line>248</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

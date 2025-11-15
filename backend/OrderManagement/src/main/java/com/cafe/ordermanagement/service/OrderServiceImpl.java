@@ -227,17 +227,27 @@ public class OrderServiceImpl implements OrderService{
                 .bodyToMono(Void.class)
                 .block();
 
+        Map<Integer, Double> prices = webClientBuilder.build()
+                .get()
+                .uri(UriComponentsBuilder
+                        .fromHttpUrl(menuServiceUrl + "/api/menuitems/prices")
+                        .queryParam("menuItemIds", menuItemIds.toArray())
+                        .toUriString())
+                .retrieve()
+                .onStatus(
+                        status -> status.is4xxClientError(), response -> response.bodyToMono(String.class)
+                                .flatMap(errorBody -> {
+                                    throw new ClientErrorException("Client error: " + errorBody);}))
+                .onStatus(
+                        status -> status.is5xxServerError(), response -> response.bodyToMono(String.class)
+                                .flatMap(errorBody -> {
+                                    throw new ServerErrorException("Server error: " + errorBody);}))
+                .bodyToMono(new ParameterizedTypeReference<Map<Integer, Double>>() {})
+                .block();
+
         // Calculate total price and update status
-        double totalPrice = placedOrder.getOrderItems().stream()
-                .mapToDouble(orderItem -> {
-                    Double price = webClientBuilder.build()
-                            .get()
-                            .uri(menuServiceUrl  + "/api/menuitems/" + orderItem.getMenuItemId() + "/price")
-                            .retrieve()
-                            .bodyToMono(Double.class)
-                            .block();
-                    return price != null ? price * orderItem.getQuantity() : 0.0;
-                })
+        double totalPrice = prices.values().stream()
+                .mapToDouble(Double::doubleValue)
                 .sum();
         placedOrder.setTotal_price(totalPrice);
         placedOrder.setStatus("PENDING");

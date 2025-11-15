@@ -16,6 +16,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -63,7 +65,13 @@ public class MenuItemServiceImpl implements MenuItemService{
         return this.menuItemDAOJPA.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("MenuItem with id: " + id + " not found."));
     }
+    @Override
+    public Map<Integer, Double> getMenuItemPricesByIds(List<Integer> ids) {
+        List<MenuItem> items = menuItemDAOJPA.findAllById(ids);
 
+        return items.stream()
+                .collect(Collectors.toMap(MenuItem::getId, MenuItem::getPrice));
+    }
     @Override
     @Transactional
     public MenuItem createMenuItem(MenuItem menuItem){

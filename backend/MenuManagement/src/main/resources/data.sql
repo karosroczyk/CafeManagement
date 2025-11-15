@@ -1,3 +1,7 @@
+-- CATEGORIES --
+INSERT IGNORE INTO categories (category_id, description, category_name) VALUES (1, 'Hot pastries', 'Pastries');
+INSERT IGNORE INTO categories (category_id, description, category_name) VALUES (2, 'Sweet cakes', 'Cakes');
+
 -- MENU --
 INSERT IGNORE INTO menuitems (item_id, category_id, created_at, description, image, name, price, updated_at)
 VALUES
@@ -11,6 +15,3 @@ VALUES
 INSERT IGNORE INTO menuitems (item_id, category_id, created_at, description, image, name, price, updated_at)
 VALUES
 (4, 2, '2000-08-05', 'New york style cheesecake', '', 'Cheesecake', 5, '2002-08-05');
-
-INSERT IGNORE INTO categories (category_id, description, category_name) VALUES (1, 'Hot pastries', 'Pastries');
-INSERT IGNORE INTO categories (category_id, description, category_name) VALUES (2, 'Sweet cakes', 'Cakes');

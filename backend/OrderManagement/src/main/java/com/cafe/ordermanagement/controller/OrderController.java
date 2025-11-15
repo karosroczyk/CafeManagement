@@ -50,18 +50,6 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    //TODO: Is it used/working?
-    @GetMapping("/menuitems")
-    public ResponseEntity<PaginatedResponse<MenuItemDTO>> getAllMenuItems(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "2") int size,
-            @RequestParam(defaultValue = "customerId") String[] sortBy,
-            @RequestParam(defaultValue = "asc") String[] direction
-    ) {
-        PaginatedResponse<MenuItemDTO> menuitems = orderService.getAllMenuItems(page, size, sortBy, direction);
-        return ResponseEntity.ok(menuitems);
-    }
-
     @PostMapping
     public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order, BindingResult result){
         if (result.hasErrors())

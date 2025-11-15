@@ -9,6 +9,7 @@ com\cafe\ordermanagement\dto\CategoryDTO.class
 com\cafe\ordermanagement\exception\ResourceNotFoundException.class
 com\cafe\ordermanagement\service\OrderServiceImpl.class
 com\cafe\ordermanagement\exception\ErrorResponse.class
+com\cafe\ordermanagement\service\OrderServiceImpl$5.class
 com\cafe\ordermanagement\entity\Order.class
 com\cafe\ordermanagement\dao\OrderDAOJPA.class
 com\cafe\ordermanagement\service\OrderService.class

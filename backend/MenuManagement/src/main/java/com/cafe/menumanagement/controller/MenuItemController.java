@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/menuitems")
@@ -66,13 +67,17 @@ public class MenuItemController {
         MenuItem menuItem = this.menuItemService.getMenuItemById(id);
         return ResponseEntity.ok(MenuItemMapper.toDTO(menuItem));
     }
-    @GetMapping("/{id}/price")
-    public ResponseEntity<Double> getMenuItemPriceById(@PathVariable Integer id){
-        if(id < 0)
-            throw new InvalidInputException("Invalid id: " + id + " provided.");
 
-        MenuItem menuItem = this.menuItemService.getMenuItemById(id);
-        return ResponseEntity.ok(menuItem.getPrice());
+    @GetMapping("/prices")
+    public ResponseEntity<Map<Integer, Double>> getMenuItemPricesByIds(@RequestParam List<Integer> menuItemIds){
+        if (menuItemIds == null || menuItemIds.isEmpty())
+            throw new InvalidInputException("No ids provided.");
+
+        if (menuItemIds.stream().anyMatch(id -> id < 0))
+            throw new InvalidInputException("Ids contain negative values.");
+
+        Map<Integer, Double> prices = menuItemService.getMenuItemPricesByIds(menuItemIds);
+        return ResponseEntity.ok(prices);
     }
 
     @GetMapping("/filter/category-name")
