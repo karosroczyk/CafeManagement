@@ -6,15 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7412f433-051c-43fa-bc31-ff6f7b655196" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/controller/MenuItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/controller/MenuItemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/java/com/cafe/menumanagement/service/MenuItemServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/resources/data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/controller/OrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthManagement/src/main/java/com/cafe/auth/userManagement/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManagement/src/main/java/com/cafe/auth/userManagement/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthManagement/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManagement/src/main/resources/data.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
