@@ -8,17 +8,36 @@ staff can manage menu items, track and manage inventory stock, and process order
 - [Docker](https://www.docker.com/products/docker-desktop)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 ### Run
-1. Start the full stack using Docker Compose:
+1. Create .env file based on: [`.env.example`](.env.example).
+2. Start the full stack using Docker Compose:
 ```bash
-  docker-compose up -d
+  docker-compose up
 ```
-2. Open the frontend in browser:
+3. Open the frontend in browser:
 ```bash
    http://localhost:8080/login/
 ```
-3. (Optional) Stop the stack:
+- Log in with Preconfigured Users
+
+You can log in using one of the following user types:
+
+| User Type | Email              | Password  |
+|-----------|------------------|-----------|
+| Client    | client@gmail.com   | Test123!  |
+| Employee  | employee@gmail.com | Test123!  |
+| Admin     | admin@gmail.com    | Test123!  |
+
+- Register a New User
+
+You can also register a new user. After registration, an activation email will be sent.
+For testing, you can view the email using MailDev:
 ```bash
-   docker-compose down
+   http://localhost:1080
+```
+
+4. (Optional) Stop the stack:
+```bash
+   docker-compose down -v
 ```
 ## Tech Stack 🛠️
 
