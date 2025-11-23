@@ -18,8 +18,6 @@ export class AuthService {
 
   hasRole(expectedRole: string | string[]): boolean {
     const userRoles = this.tokenService.getRoles();
-    console.log('User Roles:', userRoles);
-    console.log('Expected Role(s):', expectedRole);
 
     if (Array.isArray(expectedRole)) {
       return expectedRole.some(role => userRoles.includes(role));

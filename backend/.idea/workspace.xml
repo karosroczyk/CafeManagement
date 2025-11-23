@@ -6,7 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="7412f433-051c-43fa-bc31-ff6f7b655196" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthManagement/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManagement/src/main/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthManagement/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManagement/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthManagement/src/test/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManagement/src/test/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/src/test/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/src/test/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/test/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/test/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/test/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/test/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/services/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/services/auth/auth.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +62,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/ravko/Java_z_Karo/CafeManagement/.env",
+    "last_opened_file_path": "C:/Users/ravko/Java_z_Karo/CafeManagement/docker-compose.yml",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
