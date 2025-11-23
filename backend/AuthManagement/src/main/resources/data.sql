@@ -13,6 +13,6 @@ INSERT IGNORE INTO role (id, created_date, last_modified_date, name) VALUES (1, 
 INSERT IGNORE INTO role (id, created_date, last_modified_date, name) VALUES (2, '2000-08-05', '2002-08-05', 'ROLE_EMPLOYEE');
 INSERT IGNORE INTO role (id, created_date, last_modified_date, name) VALUES (3, '2000-08-05', '2002-08-05', 'ROLE_ADMIN');
 
-INSERT IGNORE INTO user_roles (user_id, roles_id) VALUES (1, 1);
-INSERT IGNORE INTO user_roles (user_id, roles_id) VALUES (2, 2);
-INSERT IGNORE INTO user_roles (user_id, roles_id) VALUES (3, 3);
+INSERT IGNORE INTO users_roles (user_id, roles_id) VALUES (1, 1);
+INSERT IGNORE INTO users_roles (user_id, roles_id) VALUES (2, 2);
+INSERT IGNORE INTO users_roles (user_id, roles_id) VALUES (3, 3);

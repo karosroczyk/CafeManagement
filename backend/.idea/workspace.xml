@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7412f433-051c-43fa-bc31-ff6f7b655196" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthManagement/src/main/java/com/cafe/auth/userManagement/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManagement/src/main/java/com/cafe/auth/userManagement/entity/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AuthManagement/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManagement/src/main/resources/data.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -182,6 +181,11 @@
           <url>file://$PROJECT_DIR$/OrderManagement/src/main/java/com/cafe/ordermanagement/service/OrderServiceImpl.java</url>
           <line>248</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/AuthManagement/src/main/java/com/cafe/auth/userManagement/entity/User.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
