@@ -19,11 +19,11 @@ const routes: Routes = [
     data: { role: ['ADMIN'] }
   },
 {
-    path: 'profile/:id',
-//    path: 'profile/*',
+//    path: 'profile/:id',
+    path: 'profile',
     component: ProfileComponent,
     canActivate: [roleGuard],
-    data: { role: ['ADMIN'] }
+    data: { role: ['ADMIN'], prerender: false }
 }
 ];
 @NgModule({

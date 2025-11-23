@@ -28,6 +28,8 @@ users: UserResponse[] = [];
   }
 
   editProfile(userId: number): void {
-    this.router.navigate(['/cafe-admin/profile', userId]);
+    this.router.navigate(['/cafe-admin/profile'], {
+      queryParams: { id: userId }
+    });
   }
 }

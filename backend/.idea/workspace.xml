@@ -8,7 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/cafe-admin-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/cafe-admin-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-client/pages/menu-cafe/menu-cafe.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-client/pages/menu-cafe/menu-cafe.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/pages/profile-list/profile-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/pages/profile-list/profile-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/pages/profile/profile.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/pages/profile/profile.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,17 +48,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/ravko/Java_z_Karo/CafeManagement/docker-compose.yml",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ravko/Java_z_Karo/CafeManagement/docker-compose.yml&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.cafe.ordermanagement.entity" />

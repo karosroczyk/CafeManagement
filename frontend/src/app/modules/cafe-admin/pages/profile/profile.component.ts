@@ -30,27 +30,29 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private tokenService: TokenService) {}
 
-  ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    ngOnInit(): void {
+      this.route.queryParams.subscribe(params => {
+      const id = Number(params['id']);
       if (id) {
         this.userService.getUserById(id).subscribe(user => {
-        this.user = user;
-        this.selectedRoleId = this.user.roles?.[0]?.id ?? 1;
-        });
-      }
+            this.user = user;
+            this.selectedRoleId = this.user.roles?.[0]?.id ?? 1;
+          });
+        }
+      });
 
-    this.roleService.getAllRoles().subscribe({
-      next: response => {
+      this.roleService.getAllRoles().subscribe({
+        next: response => {
         this.availableRoles = (response.data ?? []).map(role => ({
-        ...role,
-        name: (role.name ?? '').replace(/^ROLE_/, '')
-        }));
-      },
-      error: err => {
-        console.error('Failed to load available roles', err);
-      }
-    });
-  }
+              ...role,
+              name: (role.name ?? '').replace(/^ROLE_/, '')
+            }));
+          },
+          error: err => {
+            console.error('Failed to load available roles', err);
+        }
+      });
+    }
 
   updateProfile(): void {
     const userId = this.user.id;
