@@ -34,7 +34,6 @@ export class MenuCafeComponent implements OnInit {
           this.pageResponseCategoryResponse = res;
           res.data.forEach((category: any) => {
             this.getMenuItemsByCategoryName(category.name);
-            console.log(res.data)
           });
         } else {
           console.error('Category response data is undefined or empty.');
