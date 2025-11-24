@@ -6,10 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="7412f433-051c-43fa-bc31-ff6f7b655196" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.angular/cache/19.0.3/frontend/.tsbuildinfo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/cafe-admin-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/cafe-admin-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/pages/profile-list/profile-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/pages/profile-list/profile-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/pages/profile/profile.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/modules/cafe-admin/pages/profile/profile.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

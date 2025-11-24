@@ -4,12 +4,19 @@ services:
 # Menu
   menumanagement:
     container_name: menumanagement
-    image: karosroczyk/menumanagement:v.1.0
+    image: karosroczyk/menumanagement:v.1.1
     ports:
       - "8081:8081"
     depends_on:
       db_menu:
         condition: service_healthy
+      eureka:
+        condition: service_started
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_menu:3306/${MYSQL_MENU_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: ${MYSQL_MENU_USER}
@@ -41,7 +48,7 @@ services:
 # Inventory
   inventorymanagement:
     container_name: inventorymanagement
-    image: karosroczyk/inventorymanagement:v.1.0
+    image: karosroczyk/inventorymanagement:v.1.1
     ports:
       - "8082:8082"
     depends_on:
@@ -49,6 +56,11 @@ services:
         condition: service_healthy
       eureka:
         condition: service_started
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8082/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_inventory:3306/${MYSQL_INV_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: ${MYSQL_INV_USER}
@@ -88,6 +100,10 @@ services:
         condition: service_healthy
       eureka:
         condition: service_started
+      menumanagement:
+        condition: service_healthy
+      inventorymanagement:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_order:3306/${MYSQL_ORDER_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: ${MYSQL_ORDER_USER}
