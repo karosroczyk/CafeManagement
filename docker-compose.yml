@@ -10,8 +10,6 @@ services:
     depends_on:
       db_menu:
         condition: service_healthy
-      eureka:
-        condition: service_started
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
       interval: 10s
