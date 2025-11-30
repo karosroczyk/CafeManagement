@@ -5,6 +5,8 @@ import com.cafe.menumanagement.entity.Category;
 import com.cafe.menumanagement.exception.DatabaseUniqueValidationException;
 import com.cafe.menumanagement.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +24,7 @@ public class CategoryServiceImpl implements CategoryService{
         this.categoryDAOJPA = categoryDAOJPA;
     }
     @Override
+    @Cacheable(value = "categoryItems", key = "'all:' + #page + ':' + #size + ':' + #sortBy + ':' + #direction")
     public PaginatedResponse<Category> getAllCategories(int page, int size, String[] sortBy, String[] direction) {
         List<Sort.Order> orders = IntStream.range(0, sortBy.length)
                 .mapToObj(i -> new Sort.Order(Sort.Direction.fromString(direction[i]), sortBy[i]))
@@ -45,6 +48,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
     @Override
     @Transactional
+    @CacheEvict(value = "menuItems", allEntries = true)
     public Category createCategory(Category category) {
         try {
             return this.categoryDAOJPA.save(category);
@@ -55,6 +59,7 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     @Transactional
+    @CacheEvict(value = "menuItems", allEntries = true)
     public Category updateCategory(Integer id, Category category) {
         Category existingCategory = getCategoryById(id);
 
@@ -70,6 +75,7 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     @Transactional
+    @CacheEvict(value = "menuItems", allEntries = true)
     public void deleteCategory(Integer id) {
         getCategoryById(id);
         try {

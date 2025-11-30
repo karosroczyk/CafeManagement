@@ -43,12 +43,14 @@ public class MenuItemControllerTest {
         int size = 2;
         String[] sortBy = {"name"};
         String[] direction = {"asc"};
+        String categoryName = null;
         PaginatedResponse<MenuItem> paginatedResponse = new PaginatedResponse<>(
                 Arrays.asList(new MenuItem(), new MenuItem()), 0, 1, 2, 2);
         when(menuItemService.getAllMenuItems(page, size, sortBy, direction)).thenReturn(paginatedResponse);
 
         // Act
-        ResponseEntity<PaginatedResponse<MenuItemDTO>> response = menuItemController.getAllMenuItems(page, size, sortBy, direction);
+        ResponseEntity<PaginatedResponse<MenuItemDTO>> response =
+                menuItemController.getAllMenuItems(page, size, sortBy, direction, categoryName);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -63,10 +65,11 @@ public class MenuItemControllerTest {
         int size = 0;
         String[] sortBy = {"name"};
         String[] direction = {"asc"};
+        String categoryName = null;
 
         // Act & Assert
         assertThrows(InvalidInputException.class, () -> {
-            menuItemController.getAllMenuItems(page, size, sortBy, direction);
+            menuItemController.getAllMenuItems(page, size, sortBy, direction, categoryName);
         });
     }
 
@@ -108,7 +111,8 @@ public class MenuItemControllerTest {
         when(menuItemService.getMenuItemsByCategoryName(categoryName, page, size, sortBy, direction)).thenReturn(paginatedResponse);
 
         // Act
-        ResponseEntity<PaginatedResponse<MenuItemDTO>> response = menuItemController.getMenuItemsByCategoryName(page, size, sortBy, direction, categoryName);
+        ResponseEntity<PaginatedResponse<MenuItemDTO>> response =
+                menuItemController.getAllMenuItems(page, size, sortBy, direction, categoryName);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -216,7 +220,7 @@ public class MenuItemControllerTest {
         doNothing().when(menuItemService).deleteMenuItem(id);
 
         // Act
-        ResponseEntity<MenuItem> response = menuItemController.deleteMenuItem(id);
+        ResponseEntity<Void> response = menuItemController.deleteMenuItem(id);
 
         // Assert
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());

@@ -5,16 +5,16 @@ import com.cafe.menumanagement.dto.MenuItemMapper;
 import com.cafe.menumanagement.entity.Category;
 import com.cafe.menumanagement.entity.MenuItem;
 import com.cafe.menumanagement.exception.InvalidInputException;
-import com.cafe.menumanagement.exception.ResourceNotFoundException;
 import com.cafe.menumanagement.service.CategoryService;
 import com.cafe.menumanagement.service.MenuItemService;
 import com.cafe.menumanagement.service.PaginatedResponse;
 import jakarta.validation.Valid;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import java.util.concurrent.TimeUnit;
 
 import java.util.List;
 import java.util.Map;
@@ -36,12 +36,18 @@ public class MenuItemController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "2") int size,
             @RequestParam(defaultValue = "name") String[] sortBy,
-            @RequestParam(defaultValue = "asc") String[] direction){
+            @RequestParam(defaultValue = "asc") String[] direction,
+            @RequestParam(required = false) String categoryName){
         if(page < 0 || size <= 0 || sortBy.length != direction.length)
             throw new InvalidInputException("Invalid page: " + page + ", size: " + size + " provided.");
 
-        PaginatedResponse<MenuItem> menuItems =
-                this.menuItemService.getAllMenuItems(page, size, sortBy, direction);
+        PaginatedResponse<MenuItem> menuItems;
+
+        if (categoryName != null && !categoryName.isBlank()) {
+            menuItems = menuItemService.getMenuItemsByCategoryName(categoryName, page, size, sortBy, direction);
+        } else {
+            menuItems = menuItemService.getAllMenuItems(page, size, sortBy, direction);
+        }
 
         List<MenuItemDTO> dtoList = menuItems.getData()
                         .stream()
@@ -56,7 +62,9 @@ public class MenuItemController {
                 menuItems.getSize()
         );
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS))
+                .body(response);
     }
 
     @GetMapping("/{id}")
@@ -78,31 +86,6 @@ public class MenuItemController {
 
         Map<Integer, Double> prices = menuItemService.getMenuItemPricesByIds(menuItemIds);
         return ResponseEntity.ok(prices);
-    }
-
-    @GetMapping("/filter/category-name")
-    public ResponseEntity<PaginatedResponse<MenuItemDTO>> getMenuItemsByCategoryName(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "2") int size,
-            @RequestParam(defaultValue = "name") String[] sortBy,
-            @RequestParam(defaultValue = "asc") String[] direction,
-            @RequestParam String categoryName) {
-        PaginatedResponse<MenuItem> menuItems = this.menuItemService.getMenuItemsByCategoryName(categoryName, page, size, sortBy, direction);
-
-        List<MenuItemDTO> dtoList = menuItems.getData()
-                .stream()
-                .map(menuItem -> MenuItemMapper.toDTO(menuItem))
-                .toList();
-
-        PaginatedResponse<MenuItemDTO> response = new PaginatedResponse<>(
-                dtoList,
-                menuItems.getCurrentPage(),
-                menuItems.getTotalPages(),
-                menuItems.getTotalElements(),
-                menuItems.getSize()
-        );
-
-        return ResponseEntity.ok(response);
     }
     @PostMapping
     public ResponseEntity<MenuItemDTO> createMenuItem(@Valid @RequestBody MenuItemDTO menuItemDTO, BindingResult result){
@@ -136,7 +119,7 @@ public class MenuItemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MenuItem> deleteMenuItem(@PathVariable Integer id){
+    public ResponseEntity<Void> deleteMenuItem(@PathVariable Integer id){
         if(id < 0)
             throw new InvalidInputException("Invalid id: " + id + " provided.");
 

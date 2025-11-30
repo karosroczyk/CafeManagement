@@ -123,9 +123,9 @@ public class InventoryControllerTest {
         );
 
         assertEquals("Invalid id or quantity provided.", quantitiesOfMenuItemsIsNull.getMessage());
-        verify(inventoryService, times(0)).reduceStockByMenuItemId(menuItemIds, null);
+        verify(inventoryService, times(0)).updateStockByMenuItemIds(menuItemIds, null);
         assertEquals("Invalid id or quantity provided.", quantitiesOfMenuItemsIsEmpty.getMessage());
-        verify(inventoryService, times(0)).reduceStockByMenuItemId(menuItemIds, Arrays.asList());
+        verify(inventoryService, times(0)).updateStockByMenuItemIds(menuItemIds, Arrays.asList());
     }
 
     @Test
@@ -197,7 +197,7 @@ public class InventoryControllerTest {
         doNothing().when(inventoryService).deleteInventoryItem(id);
 
         // Act
-        ResponseEntity<InventoryItem> response = inventoryController.deleteInventoryItem(id);
+        ResponseEntity<Void> response = inventoryController.deleteInventoryItem(id);
 
         // Assert
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
@@ -215,16 +215,16 @@ public class InventoryControllerTest {
     }
 
     @Test
-    void testReduceStockByMenuItemId(){
+    void testUpdateStockByMenuItemIdsReduce(){
         List<Integer> menuItemIds = Arrays.asList(101, 102);
-        List<Integer> quantitiesOfMenuItems = Arrays.asList(5, 10);
+        List<Integer> quantitiesOfMenuItems = Arrays.asList(-5, -10);
         InventoryItem item1Updated = new InventoryItem(1, 101, 0, false);
         InventoryItem item2Updated = new InventoryItem(2, 102, 5, true);
 
         List<InventoryItem> updatedInventoryItemList = Arrays.asList(item1Updated, item2Updated);
 
-        when(inventoryService.reduceStockByMenuItemId(menuItemIds, quantitiesOfMenuItems)).thenReturn(updatedInventoryItemList);
-        ResponseEntity<List<InventoryItem>> response = this.inventoryController.reduceStockByMenuItemId(
+        when(inventoryService.updateStockByMenuItemIds(menuItemIds, quantitiesOfMenuItems)).thenReturn(updatedInventoryItemList);
+        ResponseEntity<List<InventoryItem>> response = this.inventoryController.updateStockByMenuItemIds(
                 menuItemIds, quantitiesOfMenuItems);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -232,51 +232,39 @@ public class InventoryControllerTest {
     }
 
     @Test
-    void testReduceStockByMenuItemId_ErrorCases(){
-        List<Integer> quantitiesOfMenuItems = Arrays.asList(5, 10);
+    void testUpdateStockByMenuItemIdsReduce_ErrorCases(){
+        List<Integer> quantitiesOfMenuItems = Arrays.asList(-5, -10);
 
         InvalidInputException menuItemIdsIsNull = assertThrows(
                 InvalidInputException.class,
-                () -> inventoryController.reduceStockByMenuItemId(null, quantitiesOfMenuItems)
+                () -> inventoryController.updateStockByMenuItemIds(null, quantitiesOfMenuItems)
         );
 
         InvalidInputException menuItemIdsIsEmpty = assertThrows(
                 InvalidInputException.class,
-                () -> inventoryController.reduceStockByMenuItemId(Arrays.asList(), quantitiesOfMenuItems)
+                () -> inventoryController.updateStockByMenuItemIds(Arrays.asList(), quantitiesOfMenuItems)
         );
 
         assertEquals("Invalid id or quantity provided.", menuItemIdsIsNull.getMessage());
-        verify(inventoryService, times(0)).reduceStockByMenuItemId(null, quantitiesOfMenuItems);
+        verify(inventoryService, times(0)).updateStockByMenuItemIds(null, quantitiesOfMenuItems);
         assertEquals("Invalid id or quantity provided.", menuItemIdsIsEmpty.getMessage());
-        verify(inventoryService, times(0)).reduceStockByMenuItemId(Arrays.asList(), quantitiesOfMenuItems);
+        verify(inventoryService, times(0)).updateStockByMenuItemIds(Arrays.asList(), quantitiesOfMenuItems);
     }
 
     @Test
-    void testAddStock(){
-        InventoryItem item = new InventoryItem(1, 101, 20, true);
+    void testUpdateStockByMenuItemIdsAdd(){
+        List<Integer> menuItemIds = Arrays.asList(101, 102);
+        List<Integer> quantitiesOfMenuItems = Arrays.asList(5, 10);
+        InventoryItem item1Updated = new InventoryItem(1, 101, 0, false);
+        InventoryItem item2Updated = new InventoryItem(2, 102, 5, true);
 
-        when(inventoryService.addStock(1, 10)).thenReturn(item);
-        ResponseEntity<InventoryItem> response = inventoryController.addStock(1, 10);
+        List<InventoryItem> updatedInventoryItemList = Arrays.asList(item1Updated, item2Updated);
+
+        when(inventoryService.updateStockByMenuItemIds(menuItemIds, quantitiesOfMenuItems)).thenReturn(updatedInventoryItemList);
+        ResponseEntity<List<InventoryItem>> response = this.inventoryController.updateStockByMenuItemIds(
+                menuItemIds, quantitiesOfMenuItems);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(item, response.getBody());
-    }
-
-    @Test
-    void testAddStock_ErrorCases(){
-        InvalidInputException exceptionQuantityLessThenZero = assertThrows(
-                InvalidInputException.class,
-                () -> inventoryController.addStock(1, -5)
-        );
-
-        InvalidInputException exceptionIdLessThenZero = assertThrows(
-                InvalidInputException.class,
-                () -> inventoryController.addStock(-1, 5)
-        );
-
-        assertEquals("Invalid id: 1 or quantity -5 provided.", exceptionQuantityLessThenZero.getMessage());
-        verify(inventoryService, times(0)).addStock(1, -5);
-        assertEquals("Invalid id: -1 or quantity 5 provided.", exceptionIdLessThenZero.getMessage());
-        verify(inventoryService, times(0)).addStock(-1, 5);
+        assertEquals(updatedInventoryItemList, response.getBody());
     }
 }

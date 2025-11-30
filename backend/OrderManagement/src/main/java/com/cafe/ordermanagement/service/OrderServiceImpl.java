@@ -169,15 +169,12 @@ public class OrderServiceImpl implements OrderService{
                             List<Integer> menuItemIds,
                             List<Integer> quantitiesOfMenuItems) {
 
-        List<Integer> filteredQuantities = quantitiesOfMenuItems.stream()
-                .filter(quantity -> !quantity.equals(0))
-                .collect(Collectors.toList());
-
         Order placedOrder = createOrder(new Order(customerId));
-        menuItemIds.stream().forEach(menuItemId -> {
-            OrderItem orderItem = new OrderItem(menuItemId, filteredQuantities.get(menuItemIds.indexOf(menuItemId)));
-            placedOrder.addOrderItem(orderItem);
-        });
+        IntStream.range(0, menuItemIds.size())
+                .forEach(i -> {
+                    OrderItem orderItem = new OrderItem(menuItemIds.get(i), quantitiesOfMenuItems.get(i));
+                    placedOrder.addOrderItem(orderItem);
+                });
 
         if (placedOrder.getOrderItems() == null || placedOrder.getOrderItems().isEmpty())
             throw new ResourceNotFoundException("Choose at least one Menu Item.");
@@ -187,7 +184,7 @@ public class OrderServiceImpl implements OrderService{
                 .uri(UriComponentsBuilder
                         .fromHttpUrl(inventoryServiceUrl + "/availability")
                         .queryParam("menuItemIds", menuItemIds.toArray())
-                        .queryParam("quantitiesOfMenuItems", filteredQuantities.toArray())
+                        .queryParam("quantitiesOfMenuItems", quantitiesOfMenuItems.toArray())
                         .toUriString())
                 .retrieve()
                 .onStatus(
@@ -209,11 +206,15 @@ public class OrderServiceImpl implements OrderService{
                 });
 
         // Reduce the stock for each selected MenuItem with choosen quantity
-        webClientBuilder.build().put()
+        List<Integer> negativeQuantities = quantitiesOfMenuItems.stream()
+                .map(quantity -> quantity*(-1))
+                        .collect(Collectors.toList());
+
+        webClientBuilder.build().patch()
                 .uri(UriComponentsBuilder
-                        .fromHttpUrl(inventoryServiceUrl + "/reduce")
+                        .fromHttpUrl(inventoryServiceUrl + "/stock")
                         .queryParam("menuItemIds", menuItemIds.toArray())
-                        .queryParam("quantitiesOfMenuItems", filteredQuantities.toArray())
+                        .queryParam("quantitiesOfMenuItems", negativeQuantities.toArray())
                         .toUriString())
                 .retrieve()
                 .onStatus(

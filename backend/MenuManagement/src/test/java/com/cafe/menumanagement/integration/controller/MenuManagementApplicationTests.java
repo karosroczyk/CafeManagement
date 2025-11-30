@@ -18,6 +18,9 @@ import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -78,11 +81,12 @@ class MenuManagementApplicationTests {
 				.extracting(MenuItemDTO::name)
 				.contains("Espresso", "Cappuccino");
 
-		ResponseEntity<Double> priceResponse =
-				restTemplate.getForEntity(url("/" + body.getData().get(0).id() + "/price"), Double.class);
+		List<Integer> menuItemIds = List.of(body.getData().get(0).id());
+		ResponseEntity<Map> priceResponse =
+				restTemplate.getForEntity(url("/prices?menuItemIds=" + menuItemIds.get(0)), Map.class);
 
 		assertThat(priceResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(priceResponse.getBody()).isEqualTo(3.0);
+		assertThat(priceResponse.getBody().get("2")).isEqualTo(3.0);
 	}
 
 	@Test
@@ -109,7 +113,7 @@ class MenuManagementApplicationTests {
 		MenuItemDTO item2 = new MenuItemDTO(2, "Cappuccino", "Coffee with foam", 3.0, savedPastryCategory.getId());
 		restTemplate.postForEntity(url(""), item2, MenuItemDTO.class);
 
-		String filterUrl = url("/filter/category-name?categoryName=Drinks&page=0&size=5&sortBy=name&direction=asc");
+		String filterUrl = url("?page=0&size=5&sortBy=name&direction=asc&categoryName=Drinks");
 		ResponseEntity<PaginatedResponse<MenuItemDTO>> response = restTemplate.exchange(
 				filterUrl,
 				HttpMethod.GET,

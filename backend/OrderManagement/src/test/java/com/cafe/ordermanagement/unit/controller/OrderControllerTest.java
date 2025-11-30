@@ -1,6 +1,7 @@
 package com.cafe.ordermanagement.unit.controller;
 
 import com.cafe.ordermanagement.controller.OrderController;
+import com.cafe.ordermanagement.dto.PlaceOrderRequest;
 import com.cafe.ordermanagement.entity.Order;
 import com.cafe.ordermanagement.exception.InvalidInputException;
 import com.cafe.ordermanagement.service.OrderService;
@@ -150,7 +151,7 @@ public class OrderControllerTest {
         when(bindingResult.hasErrors()).thenReturn(false);
         when(orderService.placeOrder(customerId, menuItemIds, quantities)).thenReturn(createdOrder);
 
-        ResponseEntity<Order> response = orderController.placeOrder(customerId, menuItemIds, quantities, bindingResult);
+        ResponseEntity<Order> response = orderController.placeOrder(new PlaceOrderRequest(customerId, menuItemIds, quantities), bindingResult);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(createdOrder, response.getBody());
@@ -165,7 +166,7 @@ public class OrderControllerTest {
                 "order", "customerId", "CustomerId required"));
 
         InvalidInputException ex = assertThrows(InvalidInputException.class,
-                () -> orderController.placeOrder(1, List.of(1), List.of(1), bindingResult));
+                () -> orderController.placeOrder(new PlaceOrderRequest(1, List.of(1), List.of(1)), bindingResult));
 
         assertEquals("CustomerId required", ex.getMessage());
         verifyNoInteractions(orderService);
@@ -209,7 +210,7 @@ public class OrderControllerTest {
         doNothing().when(orderService).deleteOrder(id);
 
         // Act
-        ResponseEntity<Order> response = orderController.deleteOrder(id);
+        ResponseEntity<Void> response = orderController.deleteOrder(id);
 
         // Assert
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());

@@ -17,23 +17,26 @@ export class MenuService extends BaseService {
     super(config, http);
   }
 
-  /**
-   * Get all menu items with pagination.
-   */
-  getAllMenuItems(
-    page: number = 0,
-    size: number = 2,
-    sortBy: string[] = ['name'],
-    direction: string[] = ['asc']
-  ): Observable<PageResponse<MenuResponse>> {
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', size)
-      .set('sortBy', sortBy.join(','))
-      .set('direction', direction.join(','));
+    /** Get all menu items (optionally filtered by category) */
+    getAllMenuItems(
+        categoryName?: string,
+        page: number = 0,
+        size: number = 2,
+        sortBy: string[] = ['name'],
+        direction: string[] = ['asc']
+    ): Observable<PageResponse<MenuResponse>> {
+        let params = new HttpParams()
+        .set('page', page)
+        .set('size', size)
+        .set('sortBy', sortBy.join(','))
+        .set('direction', direction.join(','));
 
-    return this.http.get<PageResponse<MenuResponse>>(this.baseUrl, { params });
-  }
+        if (categoryName) {
+            params = params.set('categoryName', categoryName);
+        }
+
+        return this.http.get<PageResponse<MenuResponse>>(this.baseUrl, { params });
+    }
 
   /**
    * Get a menu item by ID.
@@ -47,26 +50,6 @@ export class MenuService extends BaseService {
    */
   getMenuItemPriceById(id: number): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}/${id}/price`);
-  }
-
-  /**
-   * Get menu items by category name.
-   */
-  getMenuItemsByCategoryName(
-    categoryName: string,
-    page: number = 0,
-    size: number = 2,
-    sortBy: string[] = ['name'],
-    direction: string[] = ['asc']
-  ): Observable<PageResponse<MenuResponse>> {
-    let params = new HttpParams()
-      .set('categoryName', categoryName)
-      .set('page', page)
-      .set('size', size)
-      .set('sortBy', sortBy.join(','))
-      .set('direction', direction.join(','));
-
-    return this.http.get<PageResponse<MenuResponse>>(`${this.baseUrl}/filter/category-name`, { params });
   }
 
   /**

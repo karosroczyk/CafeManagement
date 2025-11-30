@@ -38,7 +38,6 @@ public class Routes {
         return GatewayRouterFunctions.route("inventory-routes")
                 .route(RequestPredicates.path("/api/inventory"), HandlerFunctions.http(inventoryServiceUrl))
                 .route(RequestPredicates.path("/api/inventory/*"), HandlerFunctions.http(inventoryServiceUrl))
-                .route(RequestPredicates.path("/api/inventory/*/add"), HandlerFunctions.http(inventoryServiceUrl))
                 .build();
     }
 
@@ -48,8 +47,8 @@ public class Routes {
                 .route(RequestPredicates.path("/orders/customer/*"), HandlerFunctions.http(orderServiceUrl))
                 .route(RequestPredicates.path("/orders"), HandlerFunctions.http(orderServiceUrl))
                 .route(RequestPredicates.path("/orders*"), HandlerFunctions.http(orderServiceUrl))
-                .route(RequestPredicates.path("/orders/placeOrder*"), HandlerFunctions.http(orderServiceUrl))
-                .route(RequestPredicates.path("/orders/placeOrder/*"), HandlerFunctions.http(orderServiceUrl))
+                .route(RequestPredicates.path("/orders/items*"), HandlerFunctions.http(orderServiceUrl))
+                .route(RequestPredicates.path("/orders/items/*"), HandlerFunctions.http(orderServiceUrl))
                 .route(RequestPredicates.path("/orderMenuItemIdKeys/order/*"), HandlerFunctions.http(orderServiceUrl))
                 .build();
     }

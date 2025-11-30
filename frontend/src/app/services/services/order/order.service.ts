@@ -51,19 +51,21 @@ export class OrderService extends BaseService {
 
   // Place an order with menu items and quantities
   placeOrder(customerId: number, menuItemIds: number[], quantitiesOfMenuItems: number[]): Observable<OrderResponse> {
-    let params = new HttpParams()
-      .set('menuItemIds', menuItemIds.join(','))
-      .set('quantitiesOfMenuItems', quantitiesOfMenuItems.join(','));
+    const body = {
+      customerId: customerId,
+      menuItemIds: menuItemIds,
+      quantitiesOfMenuItems: quantitiesOfMenuItems
+      };
 
-  const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
 
-    return this.http.post<OrderResponse>(`${this.apiUrl}/placeOrder`,
-        customerId, { params, headers });
+    return this.http.post<OrderResponse>(`${this.apiUrl}/items`,
+        body, { headers });
   }
 
   // Update an order

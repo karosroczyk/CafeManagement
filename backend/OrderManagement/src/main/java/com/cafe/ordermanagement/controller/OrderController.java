@@ -1,6 +1,7 @@
 package com.cafe.ordermanagement.controller;
 
 import com.cafe.ordermanagement.dto.MenuItemDTO;
+import com.cafe.ordermanagement.dto.PlaceOrderRequest;
 import com.cafe.ordermanagement.entity.Order;
 import com.cafe.ordermanagement.exception.InvalidInputException;
 import com.cafe.ordermanagement.service.OrderService;
@@ -59,15 +60,17 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
-    @PostMapping("/placeOrder")
-    public ResponseEntity<Order> placeOrder(@Valid @RequestBody Integer customerId,
-                                            @RequestParam List<Integer> menuItemIds,
-                                            @RequestParam List<Integer> quantitiesOfMenuItems,
-                                            BindingResult result){
+    @PostMapping("/items")
+    public ResponseEntity<Order> placeOrder(
+            @Valid @RequestBody PlaceOrderRequest orderRequest, BindingResult result){
         if (result.hasErrors())
             throw new InvalidInputException(result.getFieldError().getDefaultMessage());
 
-        Order createdOrder = this.orderService.placeOrder(customerId, menuItemIds, quantitiesOfMenuItems);
+        if(orderRequest.menuItemIds().size() != orderRequest.quantitiesOfMenuItems().size())
+            throw new InvalidInputException("All choosen MenuItems must have corresponding quantities.");
+
+        Order createdOrder =
+                this.orderService.placeOrder(orderRequest.customerId(), orderRequest.menuItemIds(), orderRequest.quantitiesOfMenuItems());
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
@@ -85,7 +88,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Order> deleteOrder(@PathVariable Integer id){
+    public ResponseEntity<Void> deleteOrder(@PathVariable Integer id){
         if(id < 0)
             throw new InvalidInputException("Invalid id: " + id + " provided.");
 

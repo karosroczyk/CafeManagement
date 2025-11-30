@@ -21,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -129,55 +130,73 @@ class InventoryItemApplicationTests {
 
 	@Test
 	void shouldAddStock() {
-		InventoryItem item = new InventoryItem(null, 1, 5, true);
+		InventoryItem item = new InventoryItem(null, 1, 10, true);
 		InventoryItem created = restTemplate.postForEntity(url(""), item, InventoryItem.class).getBody();
+		assertNotNull(created);
+		int addedQuantity = 5;
 
-		ResponseEntity<InventoryItem> response = restTemplate.exchange(
-				url("/" + created.getId() + "/add"),
-				HttpMethod.PUT,
-				new HttpEntity<>(5),
-				InventoryItem.class
+		String requestUrl = url("/stock?menuItemIds=" + created.getId() + "&quantitiesOfMenuItems=" + addedQuantity);
+
+		ResponseEntity<InventoryItem[]> response = restTemplate.exchange(
+				requestUrl,
+				HttpMethod.PATCH,
+				HttpEntity.EMPTY,
+				InventoryItem[].class
 		);
 
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.getBody().getStockLevel()).isEqualTo(10);
-		assertTrue(response.getBody().isAvailable());
+		assertThat(response.getBody()).isNotNull();
+		assertThat(response.getBody().length).isEqualTo(1);
+
+		InventoryItem updated = response.getBody()[0];
+		assertThat(updated.getStockLevel()).isEqualTo(15);
+		assertTrue(updated.isAvailable());
 	}
 
 	@Test
-	void shouldReduceStock() {
-		InventoryItem item1 = new InventoryItem(1, 3, 10, true);
-		InventoryItem item2 = new InventoryItem(2, 4, 5, true);
-		restTemplate.postForEntity(url(""), item1, InventoryItem.class);
-		restTemplate.postForEntity(url(""), item2, InventoryItem.class);
+	void shouldAReduceStock() {
+		InventoryItem item = new InventoryItem(null, 1, 10, true);
+		InventoryItem created = restTemplate.postForEntity(url(""), item, InventoryItem.class).getBody();
+		assertNotNull(created);
+		int addedQuantity = -5;
 
-		ResponseEntity<List<InventoryItem>> response = restTemplate.exchange(
-				url("/reduce?menuItemIds=3,4&quantitiesOfMenuItems=3,5"),
-				HttpMethod.PUT,
-				null,
-				new org.springframework.core.ParameterizedTypeReference<List<InventoryItem>>() {}
+		String requestUrl = url("/stock?menuItemIds=" + created.getId() + "&quantitiesOfMenuItems=" + addedQuantity);
+
+		ResponseEntity<InventoryItem[]> response = restTemplate.exchange(
+				requestUrl,
+				HttpMethod.PATCH,
+				HttpEntity.EMPTY,
+				InventoryItem[].class
 		);
 
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.getBody().get(0).getStockLevel()).isEqualTo(7);
-		assertTrue(response.getBody().get(0).isAvailable());
-		assertThat(response.getBody().get(1).getStockLevel()).isEqualTo(0);
-		assertFalse(response.getBody().get(1).isAvailable());
+		assertThat(response.getBody()).isNotNull();
+		assertThat(response.getBody().length).isEqualTo(1);
+
+		InventoryItem updated = response.getBody()[0];
+		assertThat(updated.getStockLevel()).isEqualTo(5);
+		assertTrue(updated.isAvailable());
 	}
 
 	@Test
 	void shouldReturnNotFoundStockToReduce() {
-		InventoryItem item1 = new InventoryItem(1, 3, 10, true);
-		restTemplate.postForEntity(url(""), item1, InventoryItem.class);
+		InventoryItem item1 = new InventoryItem(null, 3, 10, true);
+		InventoryItem created = restTemplate.postForEntity(url(""), item1, InventoryItem.class).getBody();
+		assertNotNull(created);
+
+		int fakeId = 999;
+		int quantity = -5;
+
+		String requestUrl = url("/stock?menuItemIds=" + fakeId + "&quantitiesOfMenuItems=" + quantity);
 
 		ResponseEntity<String> response = restTemplate.exchange(
-				url("/reduce?menuItemIds=3&quantitiesOfMenuItems=30"),
-				HttpMethod.PUT,
-				null,
+				requestUrl,
+				HttpMethod.PATCH,
+				HttpEntity.EMPTY,
 				String.class
 		);
 
-		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 	}
 
 	@Test

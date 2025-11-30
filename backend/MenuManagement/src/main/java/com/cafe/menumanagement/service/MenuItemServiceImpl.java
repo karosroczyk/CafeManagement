@@ -7,6 +7,8 @@ import com.cafe.menumanagement.exception.ResourceNotFoundException;
 import com.netflix.discovery.EurekaClient;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +33,7 @@ public class MenuItemServiceImpl implements MenuItemService{
     }
 
     @Override
+    @Cacheable(value = "menuItems", key = "'all:' + #page + ':' + #size + ':' + #sortBy + ':' + #direction")
     public PaginatedResponse<MenuItem> getAllMenuItems(int page, int size, String[] sortBy, String[] direction) {
         List<Sort.Order> orders = IntStream.range(0, sortBy.length)
                 .mapToObj(i -> new Sort.Order(Sort.Direction.fromString(direction[i]), sortBy[i]))
@@ -47,6 +50,7 @@ public class MenuItemServiceImpl implements MenuItemService{
     }
 
     @Override
+    @Cacheable(value = "menuItems", key = "'all:' + #page + ':' + #size + ':' + #sortBy + ':' + #direction")
     public PaginatedResponse<MenuItem> getMenuItemsByCategoryName(String categoryName, int page, int size, String[] sortBy, String[] direction){
         List<Sort.Order> orders = IntStream.range(0, sortBy.length)
                 .mapToObj(i -> new Sort.Order(Sort.Direction.fromString(direction[i]), sortBy[i]))
@@ -74,6 +78,7 @@ public class MenuItemServiceImpl implements MenuItemService{
     }
     @Override
     @Transactional
+    @CacheEvict(value = "menuItems", allEntries = true)
     public MenuItem createMenuItem(MenuItem menuItem){
         try {
             return this.menuItemDAOJPA.save(menuItem);
@@ -83,6 +88,7 @@ public class MenuItemServiceImpl implements MenuItemService{
     }
     @Override
     @Transactional
+    @CacheEvict(value = "menuItems", allEntries = true)
     public MenuItem updateMenuItem(Integer id, MenuItem menuItem){
         MenuItem foundMenuItem = getMenuItemById(id);
 
@@ -101,6 +107,7 @@ public class MenuItemServiceImpl implements MenuItemService{
 
     @Override
     @Transactional
+    @CacheEvict(value = "menuItems", allEntries = true)
     public void deleteMenuItem(Integer id) {
         getMenuItemById(id);
         try {

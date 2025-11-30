@@ -2,17 +2,17 @@ package com.cafe.menumanagement.controller;
 
 import com.cafe.menumanagement.dto.CategoryDTO;
 import com.cafe.menumanagement.dto.CategoryMapper;
-import com.cafe.menumanagement.dto.MenuItemDTO;
-import com.cafe.menumanagement.dto.MenuItemMapper;
 import com.cafe.menumanagement.entity.Category;
 import com.cafe.menumanagement.exception.InvalidInputException;
 import com.cafe.menumanagement.service.CategoryService;
 import com.cafe.menumanagement.service.PaginatedResponse;
 import jakarta.validation.Valid;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import java.util.concurrent.TimeUnit;
 
 import java.util.List;
 
@@ -48,7 +48,9 @@ public class CategoryController {
                 categories.getSize()
         );
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS))
+                .body(response);
     }
 
     @GetMapping("/{id}")

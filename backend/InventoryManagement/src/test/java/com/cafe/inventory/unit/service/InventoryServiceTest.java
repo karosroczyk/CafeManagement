@@ -229,9 +229,9 @@ class InventoryServiceTest {
     }
 
     @Test
-    void reduceStockByMenuItemId(){
+    void updateStockByMenuItemIds_Reduce(){
         List<Integer> menuItemIds = Arrays.asList(101, 102);
-        List<Integer> quantities = Arrays.asList(5, 10);
+        List<Integer> quantities = Arrays.asList(-5, -10);
         InventoryItem item1 = new InventoryItem(1, 101, 5, true);
         InventoryItem item1Updated = new InventoryItem(1, 101, 0, false);
         InventoryItem item2 = new InventoryItem(2, 102, 15, true);
@@ -241,7 +241,7 @@ class InventoryServiceTest {
         when(inventoryDAOJPA.findByMenuItemId(102)).thenReturn(Optional.of(item2));
         when(inventoryDAOJPA.save(item1)).thenReturn(item1Updated);
         when(inventoryDAOJPA.save(item2)).thenReturn(item2Updated);
-        List<InventoryItem> savedInventoryItems = inventoryService.reduceStockByMenuItemId(menuItemIds, quantities);
+        List<InventoryItem> savedInventoryItems = inventoryService.updateStockByMenuItemIds(menuItemIds, quantities);
 
         assertEquals(item1Updated.getStockLevel(), savedInventoryItems.get(0).getStockLevel());
         assertFalse(item1Updated.isAvailable());
@@ -250,16 +250,16 @@ class InventoryServiceTest {
     }
 
     @Test
-    void reduceStockByMenuItemId_NotEnoughStockToReduce(){
+    void updateStockByMenuItemIds_Reduce_NotEnoughStockToReduce(){
         List<Integer> menuItemIds = Arrays.asList(101);
-        List<Integer> quantities = Arrays.asList(10);
+        List<Integer> quantities = Arrays.asList(-10);
         InventoryItem item1 = new InventoryItem(1, 101, 5, true);
         InventoryItem item1Updated = new InventoryItem(1, 101, 0, false);
 
         when(inventoryDAOJPA.findByMenuItemId(101)).thenReturn(Optional.of(item1));
         InvalidInputException exception = assertThrows(
                 InvalidInputException.class,
-                () -> inventoryService.reduceStockByMenuItemId(menuItemIds, quantities)
+                () -> inventoryService.updateStockByMenuItemIds(menuItemIds, quantities)
         );
 
         assertEquals("Not enough stock to reduce.", exception.getMessage());
@@ -267,34 +267,39 @@ class InventoryServiceTest {
     }
 
     @Test
-    void testAddStock(){
-        Integer itemId = 1;
-        Integer itemQuantity = 5;
-        InventoryItem item = new InventoryItem(itemId, 101, 0, false);
-        InventoryItem itemUpdated = new InventoryItem(itemId, 101, itemQuantity, true);
+    void updateStockByMenuItemIds_Add(){
+        List<Integer> menuItemIds = Arrays.asList(101, 102);
+        List<Integer> quantities = Arrays.asList(5, 10);
+        InventoryItem item1 = new InventoryItem(1, 101, 5, true);
+        InventoryItem item1Updated = new InventoryItem(1, 101, 10, true);
+        InventoryItem item2 = new InventoryItem(2, 102, 15, true);
+        InventoryItem item2Updated = new InventoryItem(2, 102, 25, true);
 
-        when(inventoryDAOJPA.findById(itemId)).thenReturn(Optional.of(item));
-        when(inventoryDAOJPA.save(any(InventoryItem.class))).thenReturn(itemUpdated);
+        when(inventoryDAOJPA.findByMenuItemId(101)).thenReturn(Optional.of(item1));
+        when(inventoryDAOJPA.findByMenuItemId(102)).thenReturn(Optional.of(item2));
+        when(inventoryDAOJPA.save(item1)).thenReturn(item1Updated);
+        when(inventoryDAOJPA.save(item2)).thenReturn(item2Updated);
+        List<InventoryItem> savedInventoryItems = inventoryService.updateStockByMenuItemIds(menuItemIds, quantities);
 
-        InventoryItem result = inventoryService.addStock(itemId, itemQuantity);
-
-        assertEquals(itemUpdated.getStockLevel(), result.getStockLevel());
-        assertTrue(result.isAvailable());
+        assertEquals(item1Updated.getStockLevel(), savedInventoryItems.get(0).getStockLevel());
+        assertTrue(item1Updated.isAvailable());
+        assertEquals(item2Updated.getStockLevel(), savedInventoryItems.get(1).getStockLevel());
+        assertTrue(item2Updated.isAvailable());
     }
 
     @Test
-    void testAddStock_AddZeroNotAvailable(){
+    void updateStockByMenuItemIds_Add_ZeroNotAvailable(){
         Integer itemId = 1;
         Integer itemQuantity = 0;
         InventoryItem item = new InventoryItem(itemId, 101, 0, false);
         InventoryItem itemUpdated = new InventoryItem(itemId, 101, 0, false);
 
-        when(inventoryDAOJPA.findById(itemId)).thenReturn(Optional.of(item));
+        when(inventoryDAOJPA.findByMenuItemId(101)).thenReturn(Optional.of(item));
         when(inventoryDAOJPA.save(any(InventoryItem.class))).thenReturn(itemUpdated);
 
-        InventoryItem result = inventoryService.addStock(itemId, itemQuantity);
+        List<InventoryItem> result = inventoryService.updateStockByMenuItemIds(Arrays.asList(101), Arrays.asList(itemQuantity));
 
-        assertEquals(0, result.getStockLevel());
-        assertFalse(result.isAvailable());
+        assertEquals(0, result.get(0).getStockLevel());
+        assertFalse(result.get(0).isAvailable());
     }
 }

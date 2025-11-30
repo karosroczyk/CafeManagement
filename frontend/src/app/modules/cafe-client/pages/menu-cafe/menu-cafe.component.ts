@@ -46,7 +46,7 @@ export class MenuCafeComponent implements OnInit {
   }
 
 getMenuItemsByCategoryName(categoryName: string) {
-  this.menuService.getMenuItemsByCategoryName(categoryName).subscribe({
+  this.menuService.getAllMenuItems(categoryName).subscribe({
     next: (res) => {
       this.menuItemsByCategory[categoryName] = res;
 

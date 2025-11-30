@@ -12,6 +12,5 @@ public interface InventoryService {
     InventoryItem createInventoryItem(InventoryItem category);
     InventoryItem updateInventoryItem(Integer id, InventoryItem category);
     void deleteInventoryItem(Integer id);
-    List<InventoryItem> reduceStockByMenuItemId(List<Integer> menuItemIds, List<Integer> quantities);
-    InventoryItem addStock(Integer id, Integer quantity);
+    List<InventoryItem> updateStockByMenuItemIds(List<Integer> menuItemIds, List<Integer> quantities);
 }

@@ -168,7 +168,7 @@ class OrderManagementApplicationTests {
 
         when(orderService.placeOrder(customerId, menuItemIds, quantities)).thenReturn(createdOrder);
 
-        mockMvc.perform(post("/orders/placeOrder")
+        mockMvc.perform(post("/orders/items")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customerId))
                         .param("menuItemIds", "10", "20")
