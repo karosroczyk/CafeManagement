@@ -14,6 +14,7 @@ com\cafe\ordermanagement\entity\Order.class
 com\cafe\ordermanagement\dao\OrderDAOJPA.class
 com\cafe\ordermanagement\service\OrderService.class
 com\cafe\ordermanagement\config\WebConfig.class
+com\cafe\ordermanagement\dto\PlaceOrderRequest.class
 com\cafe\ordermanagement\exception\InvalidInputException.class
 com\cafe\ordermanagement\exception\GlobalExceptionHandler.class
 com\cafe\ordermanagement\service\OrderServiceImpl$1.class

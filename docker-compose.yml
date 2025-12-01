@@ -90,7 +90,7 @@ services:
 # Order
   ordermanagement:
     container_name: ordermanagement
-    image: karosroczyk/ordermanagement:v.1.0
+    image: karosroczyk/ordermanagement:v.1.1
     ports:
       - "8083:8083"
     depends_on:
@@ -133,7 +133,7 @@ services:
 # User
   usermanagement:
     container_name: usermanagement
-    image: karosroczyk/usermanagement:v.1.0
+    image: karosroczyk/usermanagement:v.1.1
     ports:
       - "8088:8088"
     depends_on:
@@ -183,7 +183,7 @@ services:
       - "1025:1025"
 
   frontend:
-    image: karosroczyk/frontend:v.1.0
+    image: karosroczyk/frontend:v.1.1
     container_name: frontend
     ports:
       - "8080:80"

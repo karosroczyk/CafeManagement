@@ -4,6 +4,7 @@ C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\dao\OrderDAOJPA.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\dto\CategoryDTO.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\dto\MenuItemDTO.java
+C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\dto\PlaceOrderRequest.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\entity\Order.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\entity\OrderItem.java
 C:\Users\ravko\Java_z_Karo\CafeManagement\backend\OrderManagement\src\main\java\com\cafe\ordermanagement\exception\ClientErrorException.java
