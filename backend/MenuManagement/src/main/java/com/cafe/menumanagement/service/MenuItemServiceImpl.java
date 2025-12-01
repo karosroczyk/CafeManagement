@@ -50,7 +50,6 @@ public class MenuItemServiceImpl implements MenuItemService{
     }
 
     @Override
-    @Cacheable(value = "menuItems", key = "'all:' + #page + ':' + #size + ':' + #sortBy + ':' + #direction")
     public PaginatedResponse<MenuItem> getMenuItemsByCategoryName(String categoryName, int page, int size, String[] sortBy, String[] direction){
         List<Sort.Order> orders = IntStream.range(0, sortBy.length)
                 .mapToObj(i -> new Sort.Order(Sort.Direction.fromString(direction[i]), sortBy[i]))
