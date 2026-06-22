@@ -5,16 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7412f433-051c-43fa-bc31-ff6f7b655196" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/AuthManagement/src/main/resources/application-dev.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application-dev.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MenuManagement/src/main/resources/application-dev.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OrderManagement/src/main/resources/application-dev.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/../.env.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/controller/OrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/dto/PlaceOrderRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/dto/PlaceOrderRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/com/cafe/ordermanagement/service/OrderServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthManagement/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManagement/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthManagement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManagement/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthManagement/src/test/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/AuthManagement/src/test/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManagement/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MenuManagement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MenuManagement/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderManagement/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/classes/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OrderManagement/target/ordermanagement-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/ordermanagement-0.0.1-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OrderManagement/target/ordermanagement-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/ordermanagement-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/integration/OrderManagementApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/integration/OrderManagementApplicationTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/unit/controller/OrderControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/OrderManagement/target/test-classes/com/cafe/ordermanagement/unit/controller/OrderControllerTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +69,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/ravko/Java_z_Karo/CafeManagement/docker-compose.yml",
+    "last_opened_file_path": "C:/Users/ravko/Java_z_Karo/CafeConfig",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
@@ -102,9 +111,41 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AuthManagementApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="JWT_SECRET" value="404E635266556A58633272357538782F413F4428472B4B6250645367566B5970F" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="com.cafe.auth.AuthManagementApplication" />
+      <module name="auth" />
+      <option name="VM_PARAMETERS" value="-Dspring.profiles.active=dev" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cafe.auth.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InventoryApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.cafe.inventory.InventoryApplication" />
+      <module name="inventorymanagement" />
+      <option name="VM_PARAMETERS" value="-Dspring.profiles.active=dev" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cafe.inventory.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MenuManagementApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.cafe.menumanagement.MenuManagementApplication" />
       <module name="menumanagement" />
+      <option name="VM_PARAMETERS" value="-Dspring.profiles.active=dev" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.cafe.menumanagement.*" />
@@ -115,32 +156,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in menumanagement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="menumanagement" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="All in ordermanagement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="OrderManagementApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.cafe.ordermanagement.OrderManagementApplication" />
       <module name="ordermanagement" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="com.cafe.inventory in inventorymanagement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="inventorymanagement" />
+      <option name="VM_PARAMETERS" value="-Dspring.profiles.active=dev" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.cafe.inventory.*" />
+          <option name="PATTERN" value="com.cafe.ordermanagement.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.cafe.inventory" />
-      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -161,11 +186,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.OrderManagementApplication" />
+        <item itemvalue="Application.InventoryApplication" />
         <item itemvalue="Application.MenuManagementApplication" />
+        <item itemvalue="Application.AuthManagementApplication" />
         <item itemvalue="JUnit.com.cafe.ordermanagement in ordermanagement" />
-        <item itemvalue="JUnit.All in ordermanagement" />
-        <item itemvalue="JUnit.All in menumanagement" />
-        <item itemvalue="JUnit.com.cafe.inventory in inventorymanagement" />
       </list>
     </recent_temporary>
   </component>

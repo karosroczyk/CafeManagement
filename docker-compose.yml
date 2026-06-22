@@ -4,7 +4,7 @@ services:
 # Menu
   menumanagement:
     container_name: menumanagement
-    image: karosroczyk/menumanagement:v.1.1
+    image: karosroczyk/menumanagement:v.1.2
     ports:
       - "8081:8081"
     depends_on:
@@ -19,7 +19,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_menu:3306/${MYSQL_MENU_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: ${MYSQL_MENU_USER}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_MENU_PASSWORD}
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8081
@@ -46,7 +45,7 @@ services:
 # Inventory
   inventorymanagement:
     container_name: inventorymanagement
-    image: karosroczyk/inventorymanagement:v.1.1
+    image: karosroczyk/inventorymanagement:v.1.2
     ports:
       - "8082:8082"
     depends_on:
@@ -63,7 +62,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_inventory:3306/${MYSQL_INV_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: ${MYSQL_INV_USER}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_INV_PASSWORD}
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8082
@@ -90,7 +88,7 @@ services:
 # Order
   ordermanagement:
     container_name: ordermanagement
-    image: karosroczyk/ordermanagement:v.1.1
+    image: karosroczyk/ordermanagement:v.1.2
     ports:
       - "8083:8083"
     depends_on:
@@ -106,7 +104,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_order:3306/${MYSQL_ORDER_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: ${MYSQL_ORDER_USER}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_ORDER_PASSWORD}
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8083
@@ -133,7 +130,7 @@ services:
 # User
   usermanagement:
     container_name: usermanagement
-    image: karosroczyk/usermanagement:v.1.1
+    image: karosroczyk/usermanagement:v.1.2
     ports:
       - "8088:8088"
     depends_on:
@@ -145,10 +142,10 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_user:3306/${MYSQL_USER_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER_USER}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_USER_PASSWORD}
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8088
+      JWT_SECRET: ${JWT_SECRET}
 
   db_user:
     image: mysql:8.0
