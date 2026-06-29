@@ -4,7 +4,7 @@ services:
 # Menu
   menumanagement:
     container_name: menumanagement
-    image: karosroczyk/menumanagement:v.1.2
+    image: karosroczyk/menumanagement:v.1.3
     ports:
       - "8081:8081"
     depends_on:
@@ -22,6 +22,7 @@ services:
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8081
+      CONFIG_SERVER_URL: http://configserver:8888
 
   db_menu:
     image: mysql:8.0
@@ -45,13 +46,15 @@ services:
 # Inventory
   inventorymanagement:
     container_name: inventorymanagement
-    image: karosroczyk/inventorymanagement:v.1.2
+    image: karosroczyk/inventorymanagement:v.1.3
     ports:
       - "8082:8082"
     depends_on:
       db_inventory:
         condition: service_healthy
       eureka:
+        condition: service_started
+      configserver:
         condition: service_started
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8082/actuator/health" ]
@@ -65,6 +68,7 @@ services:
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8082
+      CONFIG_SERVER_URL: http://configserver:8888
 
   db_inventory:
     image: mysql:8.0
@@ -88,13 +92,15 @@ services:
 # Order
   ordermanagement:
     container_name: ordermanagement
-    image: karosroczyk/ordermanagement:v.1.2
+    image: karosroczyk/ordermanagement:v.1.3
     ports:
       - "8083:8083"
     depends_on:
       db_order:
         condition: service_healthy
       eureka:
+        condition: service_started
+      configserver:
         condition: service_started
       menumanagement:
         condition: service_healthy
@@ -107,6 +113,7 @@ services:
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8083
+      CONFIG_SERVER_URL: http://configserver:8888
 
   db_order:
     image: mysql:8.0
@@ -137,6 +144,8 @@ services:
       db_user:
         condition: service_healthy
       eureka:
+        condition: service_started
+      configserver:
         condition: service_started
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db_user:3306/${MYSQL_USER_DB}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
@@ -171,6 +180,12 @@ services:
     container_name: discoveryserver
     ports:
       - "8762:8761"
+
+  configserver:
+    image: karosroczyk/configserver:v.1.0
+    container_name: configserver
+    ports:
+      - "8888:8888"
 
   maildev:
     image: maildev/maildev
