@@ -4,7 +4,8 @@ services:
 # Menu
   menumanagement:
     container_name: menumanagement
-    image: karosroczyk/menumanagement:v.1.3
+    build:
+      context: ./backend/MenuManagement
     ports:
       - "8081:8081"
     depends_on:
@@ -46,7 +47,8 @@ services:
 # Inventory
   inventorymanagement:
     container_name: inventorymanagement
-    image: karosroczyk/inventorymanagement:v.1.3
+    build:
+      context: ./backend/InventoryManagement
     ports:
       - "8082:8082"
     depends_on:
@@ -92,7 +94,8 @@ services:
 # Order
   ordermanagement:
     container_name: ordermanagement
-    image: karosroczyk/ordermanagement:v.1.3
+    build:
+      context: ./backend/OrderManagement
     ports:
       - "8083:8083"
     depends_on:
@@ -137,7 +140,8 @@ services:
 # User
   usermanagement:
     container_name: usermanagement
-    image: karosroczyk/usermanagement:v.1.2
+    build:
+      context: ./backend/AuthManagement
     ports:
       - "8088:8088"
     depends_on:
@@ -176,13 +180,15 @@ services:
       retries: 10
 
   eureka:
-    image: karosroczyk/discoveryserver:v.1.0
+    build:
+      context: ./backend/DiscoveryServer
     container_name: discoveryserver
     ports:
       - "8762:8761"
 
   configserver:
-    image: karosroczyk/configserver:v.1.0
+    build:
+      context: ./backend/ConfigServer
     container_name: configserver
     ports:
       - "8888:8888"
@@ -195,7 +201,8 @@ services:
       - "1025:1025"
 
   frontend:
-    image: karosroczyk/frontend:v.1.1
+    build:
+      context: ./frontend
     container_name: frontend
     ports:
       - "8080:80"
