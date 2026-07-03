@@ -11,7 +11,7 @@ staff can manage menu items, track and manage inventory stock, and process order
 1. Create .env file based on: [`.env.example`](.env.example).
 2. Start the full stack using Docker Compose:
 ```bash
-  docker-compose up
+  docker-compose up --build
 ```
 3. Open the frontend in browser:
 ```bash
