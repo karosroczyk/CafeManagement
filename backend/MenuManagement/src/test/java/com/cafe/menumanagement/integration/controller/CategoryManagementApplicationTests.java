@@ -1,19 +1,12 @@
 package com.cafe.menumanagement.integration.controller;
 
 import com.cafe.menumanagement.dto.CategoryDTO;
-import com.cafe.menumanagement.entity.Category;
-import com.cafe.menumanagement.entity.Category;
 import com.cafe.menumanagement.service.PaginatedResponse;
-import com.netflix.discovery.EurekaClient;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -22,16 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@Import(CategoryManagementApplicationTests.MockEurekaConfig.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CategoryManagementApplicationTests {
-    @TestConfiguration
-    static class MockEurekaConfig {
-        @Bean
-        public EurekaClient mockEurekaClient() {
-            return Mockito.mock(EurekaClient.class);
-        }
-    }
     @LocalServerPort
     private int port;
 

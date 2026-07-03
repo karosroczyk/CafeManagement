@@ -50,9 +50,10 @@ For testing, you can view the email using MailDev:
 - ![Spring Data JPA](https://img.shields.io/badge/-Spring%20Data%20JPA-6DB33F?logo=hibernate&logoColor=white)
   ![Hibernate](https://img.shields.io/badge/-Hibernate-59666C?logo=hibernate&logoColor=white)
   ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?logo=mysql&logoColor=white)
-  
-- ![Eureka Discovery](https://img.shields.io/badge/-Eureka%20Discovery-6DB33F?logo=spring&logoColor=white)
+
+- ![Discovery Server](https://img.shields.io/badge/-Discovery%20Server-6DB33F?logo=spring&logoColor=white)
   ![API Gateway](https://img.shields.io/badge/-API%20Gateway-000000?logo=apachesuperset&logoColor=white)
+  ![Spring Cloud Config](https://img.shields.io/badge/-Spring%20Cloud%20Config-6DB33F?logo=spring&logoColor=white)
   ![WebClient](https://img.shields.io/badge/-WebClient-2496ED?logo=spring&logoColor=white)
 
 - ![Maven](https://img.shields.io/badge/-Maven-C71A36?logo=apachemaven&logoColor=white)
@@ -81,6 +82,7 @@ Internally, each service follows a layered architecture:
 - **DAO / Repository** – manages database access using JPA/Hibernate.
 
 Services register with Eureka Discovery Server for dynamic discovery, and the API Gateway centralizes routing and authentication.
+The system also uses Spring Cloud Config and client-side load balancing.
 
 ### Services Overview 🌐
 - Provide a REST API with full CRUD, pagination, sorting
@@ -91,7 +93,6 @@ Services register with Eureka Discovery Server for dynamic discovery, and the AP
 #### 1. Menu Management Service 📋
 
 The Menu Management Service is responsible for managing menu items and categories.
-
 Example endpoints:
 - GET /api/menuitems?page=0&size=5 – fetch all menu items
 - GET /api/menuitems/filter/category-name?categoryName=Coffee – filter by category
@@ -146,11 +147,19 @@ Example endpoints:
 ---
 ### Eureka Discovery Server 🧭
 
-The Discovery Server is a Spring Boot application using Eureka, acting as a service registry
+The **Discovery Server** is a Spring Boot application using Eureka, acting as a service registry
 for all microservices. It allows services to register themselves and discover other services dynamically.
 **API Gateway** runs on port 8088. The Menu, Inventory, and Order Management services are also connected
 through this port, requiring Bearer Token authentication when accessed via the gateway.
 These services can still be accessed directly on their individual ports without authentication.
+The system also uses client-side **load balancing** to distribute requests across multiple instances of the same service.
+
+---
+### Spring Cloud Config Server ⚙️
+
+The **Spring Cloud Config Server** provides centralized external configuration management for all microservices,
+with properties stored in a shared Git repository. 
+In this project, the config repository is available here: https://github.com/karosroczyk/CafeConfig
 
 ---
 ### Security and Roles 🛡️

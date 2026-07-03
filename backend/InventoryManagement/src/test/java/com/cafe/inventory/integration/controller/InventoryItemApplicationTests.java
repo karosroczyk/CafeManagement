@@ -2,18 +2,11 @@ package com.cafe.inventory.integration.controller;
 
 import com.cafe.inventory.entity.InventoryItem;
 import com.cafe.inventory.service.PaginatedResponse;
-import com.netflix.discovery.EurekaClient;
-import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -22,21 +15,12 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@Import(InventoryItemApplicationTests.MockEurekaConfig.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class InventoryItemApplicationTests {
-	@TestConfiguration
-	static class MockEurekaConfig {
-		@Bean
-		public EurekaClient mockEurekaClient() {
-			return Mockito.mock(EurekaClient.class);
-		}
-	}
 	@LocalServerPort
 	private int port;
 

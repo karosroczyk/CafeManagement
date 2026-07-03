@@ -6,7 +6,6 @@ import com.cafe.ordermanagement.entity.OrderItem;
 import com.cafe.ordermanagement.exception.*;
 import com.cafe.ordermanagement.dao.OrderDAOJPA;
 import com.cafe.ordermanagement.entity.Order;
-import com.netflix.discovery.EurekaClient;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -30,17 +29,10 @@ public class OrderServiceImpl implements OrderService{
     private final OrderDAOJPA orderDAOJPA;
     @Autowired
     private WebClient.Builder webClientBuilder;
-    private String menuServiceUrl;
-    private String inventoryServiceUrl;
-    @Autowired
-    private EurekaClient discoveryClient;
 
-    public OrderServiceImpl(OrderDAOJPA orderDAOJPA, WebClient.Builder webClientBuilder, EurekaClient discoveryClient){
+    public OrderServiceImpl(OrderDAOJPA orderDAOJPA, WebClient.Builder webClientBuilder){
         this.orderDAOJPA = orderDAOJPA;
         this.webClientBuilder = webClientBuilder;
-        this.discoveryClient = discoveryClient;
-        this.menuServiceUrl = discoveryClient.getNextServerFromEureka("menu", false).getHomePageUrl();
-        this.inventoryServiceUrl = discoveryClient.getNextServerFromEureka("inventory", false).getHomePageUrl() + "/api/inventory";
     }
 
     @Override
@@ -72,7 +64,8 @@ public class OrderServiceImpl implements OrderService{
     }
 
     public PaginatedResponse<MenuItemDTO> getAllMenuItems(int page, int size, String[] sortBy, String[] direction) {
-        String uri = UriComponentsBuilder.fromHttpUrl(menuServiceUrl + "/api/menuitems")
+        String uri = UriComponentsBuilder
+                .fromHttpUrl("http://menu/api/menuitems")
                 .queryParam("page", page)
                 .queryParam("size", size)
                 .queryParam("sortBy", (Object[]) sortBy)
@@ -97,7 +90,8 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public PaginatedResponse<CategoryDTO> getAllMenuItemCategories(
             int page, int size, String[] sortBy, String[] direction) {
-        String categoryUri = UriComponentsBuilder.fromHttpUrl(menuServiceUrl + "/api/categories")
+        String categoryUri = UriComponentsBuilder
+                .fromHttpUrl("http://menu/api/categories")
                 .queryParam("page", page)
                 .queryParam("size", size)
                 .queryParam("sortBy", (Object[]) sortBy)
@@ -126,7 +120,8 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public PaginatedResponse<MenuItemDTO> getAllMenuItemsByCategory(
             int page, int size, String[] sortBy, String[] direction, String categoryName){
-        String uri = UriComponentsBuilder.fromHttpUrl(menuServiceUrl + "/api/menuitems/filter/category-name")
+        String uri = UriComponentsBuilder
+                .fromHttpUrl("http://menu/api/menuitems/filter/category-name")
                 .queryParam("page", page)
                 .queryParam("size", size)
                 .queryParam("sortBy", (Object[]) sortBy)
@@ -182,7 +177,7 @@ public class OrderServiceImpl implements OrderService{
         // Check if each selected MenuItem with choosen quantity is available
         List<Boolean> areMenuItemsAvailable = webClientBuilder.build().get()
                 .uri(UriComponentsBuilder
-                        .fromHttpUrl(inventoryServiceUrl + "/availability")
+                        .fromHttpUrl("http://inventory/api/inventory/availability")
                         .queryParam("menuItemIds", menuItemIds.toArray())
                         .queryParam("quantitiesOfMenuItems", quantitiesOfMenuItems.toArray())
                         .toUriString())
@@ -212,7 +207,7 @@ public class OrderServiceImpl implements OrderService{
 
         webClientBuilder.build().patch()
                 .uri(UriComponentsBuilder
-                        .fromHttpUrl(inventoryServiceUrl + "/stock")
+                        .fromHttpUrl("http://inventory/api/inventory/stock")
                         .queryParam("menuItemIds", menuItemIds.toArray())
                         .queryParam("quantitiesOfMenuItems", negativeQuantities.toArray())
                         .toUriString())
@@ -231,7 +226,7 @@ public class OrderServiceImpl implements OrderService{
         Map<Integer, Double> prices = webClientBuilder.build()
                 .get()
                 .uri(UriComponentsBuilder
-                        .fromHttpUrl(menuServiceUrl + "/api/menuitems/prices")
+                        .fromHttpUrl("http://menu/api/menuitems/prices")
                         .queryParam("menuItemIds", menuItemIds.toArray())
                         .toUriString())
                 .retrieve()

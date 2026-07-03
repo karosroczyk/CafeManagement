@@ -1,14 +1,12 @@
 package com.cafe.ordermanagement.integration;
 
+import com.cafe.ordermanagement.dto.PlaceOrderRequest;
 import com.cafe.ordermanagement.entity.Order;
 import com.cafe.ordermanagement.exception.InvalidInputException;
 import com.cafe.ordermanagement.service.PaginatedResponse;
 import com.cafe.ordermanagement.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.EurekaClient;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,27 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class OrderManagementApplicationTests {
     @TestConfiguration
     static class TestConfig {
-
-        @Bean
-        public EurekaClient eurekaClient() {
-            EurekaClient mockClient = Mockito.mock(EurekaClient.class);
-            InstanceInfo menuInstance = InstanceInfo.Builder.newBuilder()
-                    .setAppName("menu")
-                    .setHomePageUrl("http://localhost:8081", null)
-                    .build();
-            InstanceInfo inventoryInstance = InstanceInfo.Builder.newBuilder()
-                    .setAppName("inventory")
-                    .setHomePageUrl("http://localhost:8082", null)
-                    .build();
-
-            Mockito.when(mockClient.getNextServerFromEureka("menu", false))
-                    .thenReturn(menuInstance);
-            Mockito.when(mockClient.getNextServerFromEureka("inventory", false))
-                    .thenReturn(inventoryInstance);
-
-            return mockClient;
-        }
-
         @Bean
         public WebClient.Builder webClientBuilder() {
             return WebClient.builder();
@@ -163,6 +139,9 @@ class OrderManagementApplicationTests {
         List<Integer> menuItemIds = List.of(10, 20);
         List<Integer> quantities = List.of(2, 3);
 
+        PlaceOrderRequest request =
+                new PlaceOrderRequest(customerId, menuItemIds, quantities);
+
         Order createdOrder = new Order(customerId);
         createdOrder.setId(100);
 
@@ -170,9 +149,7 @@ class OrderManagementApplicationTests {
 
         mockMvc.perform(post("/orders/items")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(customerId))
-                        .param("menuItemIds", "10", "20")
-                        .param("quantitiesOfMenuItems", "2", "3"))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(100))
                 .andExpect(jsonPath("$.customerId").value(1));
