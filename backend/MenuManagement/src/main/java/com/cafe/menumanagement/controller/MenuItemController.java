@@ -9,6 +9,7 @@ import com.cafe.menumanagement.service.CategoryService;
 import com.cafe.menumanagement.service.MenuItemService;
 import com.cafe.menumanagement.service.PaginatedResponse;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,9 @@ public class MenuItemController {
     private final MenuItemService menuItemService;
     private final CategoryService categoryService;
 
+    @Value("${server.port}")
+    private int port;
+
     public MenuItemController(MenuItemService menuItemService, CategoryService categoryService)
         { this.menuItemService = menuItemService;
           this.categoryService = categoryService;
@@ -42,6 +46,8 @@ public class MenuItemController {
             throw new InvalidInputException("Invalid page: " + page + ", size: " + size + " provided.");
 
         PaginatedResponse<MenuItem> menuItems;
+
+        System.out.println("Request handled by port: " + port);
 
         if (categoryName != null && !categoryName.isBlank()) {
             menuItems = menuItemService.getMenuItemsByCategoryName(categoryName, page, size, sortBy, direction);

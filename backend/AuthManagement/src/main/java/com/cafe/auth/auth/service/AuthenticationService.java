@@ -1,7 +1,5 @@
 package com.cafe.auth.auth.service;
 
-//import com.alibou.book.email.EmailService;
-//import com.alibou.book.email.EmailTemplateName;
 import com.cafe.auth.auth.AuthenticationRequest;
 import com.cafe.auth.auth.AuthenticationResponse;
 import com.cafe.auth.auth.RegistrationRequest;
@@ -93,20 +91,6 @@ public class AuthenticationService {
         tokenRepository.save(savedToken);
     }
 
-    public String generateAndSaveActivationToken(User user) {
-        // Generate a token
-        String generatedToken = generateActivationCode(6);
-        var token = Token.builder()
-                .token(generatedToken)
-                .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusMinutes(15))
-                .user(user)
-                .build();
-        tokenRepository.save(token);
-
-        return generatedToken;
-    }
-
     public void sendValidationEmail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
 
@@ -118,6 +102,19 @@ public class AuthenticationService {
                 newToken,
                 "Account activation"
         );
+    }
+
+    public String generateAndSaveActivationToken(User user) {
+        String generatedToken = generateActivationCode(6);
+        var token = Token.builder()
+                .token(generatedToken)
+                .createdAt(LocalDateTime.now())
+                .expiresAt(LocalDateTime.now().plusMinutes(15))
+                .user(user)
+                .build();
+        tokenRepository.save(token);
+
+        return generatedToken;
     }
 
     public String generateActivationCode(int length) {
