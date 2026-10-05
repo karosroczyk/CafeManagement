@@ -81,8 +81,10 @@ Internally, each service follows a layered architecture:
 - **Service** – contains business logic and orchestrates calls to other services.
 - **DAO / Repository** – manages database access using JPA/Hibernate.
 
-Services register with Eureka Discovery Server for dynamic discovery, and the API Gateway centralizes routing and authentication.
-The system also uses Spring Cloud Config and client-side load balancing.
+Services register with the Eureka Discovery Server for dynamic service discovery. The API Gateway serves as the central
+entry point for client requests, handling routing, JWT validation, and authorization. Authentication and JWT generation 
+are handled separately by the Auth Management service. The system also uses Spring Cloud Config and client-side load 
+balancing for centralized configuration and efficient service communication.
 
 ### Services Overview 🌐
 - Provide a REST API with full CRUD, pagination, sorting
@@ -130,19 +132,33 @@ Example endpoints:
 ---
 #### 4. Auth Management Service 👤
 
-The Auth Service handles user management, authentication, and role-based access control.
-It ensures secure registration, login with email activation, and proper role enforcement for all users.
+The Auth Management Service handles user management, registration, and authentication. It verifies user credentials, 
+manages email-based account activation, and generates JWT tokens upon successful authentication.
 
-The User Service uses Spring Security and JWT to provide:
-- Authentication — validate credentials and issue JWT tokens
-- Authorization — restrict access based on user roles (e.g., admin, client)
-- Email Service — send account activation emails with secure tokens
+The service uses Spring Security to authenticate users and provides:
 
-Example endpoints:
-- GET /api/user/{id} – fetch user by ID
-- POST /api/user/email – fetch user details by email
+- **Authentication** — validate user credentials and issue JWT tokens.
+- **User Management** — manage user accounts and retrieve user information.
+- **Email Service** — send account activation emails using secure tokens.
 
 📂 **Folder**: [`AuthManagement`](./backend/AuthManagement)
+
+---
+### API Gateway 🚪
+
+The API Gateway acts as the central entry point for client requests and routes them to the appropriate backend microservices.
+It uses Spring Cloud Gateway, Eureka Service Discovery, and client-side load balancing to support communication between services.
+
+The API Gateway uses Spring Security and JWT to provide:
+
+- **Request Routing** — forward requests to the appropriate microservice.
+- **JWT Validation** — validate incoming JWT tokens before allowing access to protected endpoints.
+- **Authorization** — enforce access rules based on user roles and permissions.
+
+The Auth Management Service is responsible for authenticating credentials and generating JWTs, 
+while the API Gateway validates tokens and enforces access rules for incoming requests.
+
+📂 **Folder**: [`APIGateway`](./backend/ApiGateway)
 
 ---
 ### Eureka Discovery Server 🧭
@@ -154,12 +170,16 @@ through this port, requiring Bearer Token authentication when accessed via the g
 These services can still be accessed directly on their individual ports without authentication.
 The system also uses client-side **load balancing** to distribute requests across multiple instances of the same service.
 
+📂 **Folder**: [`EurekaDiscovery`](./backend/DiscoveryServer) 
+
 ---
 ### Spring Cloud Config Server ⚙️
 
 The **Spring Cloud Config Server** provides centralized external configuration management for all microservices,
 with properties stored in a shared Git repository. 
 In this project, the config repository is available here: https://github.com/karosroczyk/CafeConfig
+
+📂 **Folder**: [`ConfigServer`](./backend/ConfigServer)
 
 ---
 ### Security and Roles 🛡️
