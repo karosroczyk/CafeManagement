@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 
 import java.util.List;
@@ -22,9 +24,7 @@ public class SecurityConfig {
 
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers(
                                 "/auth/**",
@@ -51,7 +51,7 @@ public class SecurityConfig {
 
                 .addFilterAt(
                         jwtAuthWebFilter,
-                        org.springframework.security.config.web.server.SecurityWebFiltersOrder.AUTHENTICATION
+                        SecurityWebFiltersOrder.AUTHENTICATION
                 )
 
                 .build();
@@ -61,7 +61,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         return exchange -> {
-            var config = new org.springframework.web.cors.CorsConfiguration();
+            var config = new CorsConfiguration();
 
             config.setAllowedOrigins(List.of(
                     "http://localhost:4200",
