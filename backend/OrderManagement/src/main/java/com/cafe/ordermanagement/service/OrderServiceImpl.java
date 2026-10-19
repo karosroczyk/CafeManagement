@@ -1,5 +1,7 @@
 package com.cafe.ordermanagement.service;
 
+import com.cafe.ordermanagement.config.InventoryClient;
+import com.cafe.ordermanagement.config.MenuClient;
 import com.cafe.ordermanagement.dto.MenuItemDTO;
 import com.cafe.ordermanagement.dto.CategoryDTO;
 import com.cafe.ordermanagement.entity.OrderItem;
@@ -7,6 +9,7 @@ import com.cafe.ordermanagement.exception.*;
 import com.cafe.ordermanagement.dao.OrderDAOJPA;
 import com.cafe.ordermanagement.entity.Order;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,17 +27,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
     @Autowired
     private final OrderDAOJPA orderDAOJPA;
+    private final MenuClient menuClient;
+    private final InventoryClient inventoryClient;
     @Autowired
     private WebClient.Builder webClientBuilder;
-
-    public OrderServiceImpl(OrderDAOJPA orderDAOJPA, WebClient.Builder webClientBuilder){
-        this.orderDAOJPA = orderDAOJPA;
-        this.webClientBuilder = webClientBuilder;
-    }
-
     @Override
     public PaginatedResponse<Order> getAllOrders(int page, int size, String[] sortBy, String[] direction) {
         List<Sort.Order> orders = IntStream.range(0, sortBy.length)
@@ -174,24 +174,7 @@ public class OrderServiceImpl implements OrderService{
         if (placedOrder.getOrderItems() == null || placedOrder.getOrderItems().isEmpty())
             throw new ResourceNotFoundException("Choose at least one Menu Item.");
 
-        // Check if each selected MenuItem with choosen quantity is available
-        List<Boolean> areMenuItemsAvailable = webClientBuilder.build().get()
-                .uri(UriComponentsBuilder
-                        .fromHttpUrl("http://inventory/api/inventory/availability")
-                        .queryParam("menuItemIds", menuItemIds.toArray())
-                        .queryParam("quantitiesOfMenuItems", quantitiesOfMenuItems.toArray())
-                        .toUriString())
-                .retrieve()
-                .onStatus(
-                        status -> status.is4xxClientError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    throw new ClientErrorException("Client error: " + errorBody);}))
-                .onStatus(
-                        status -> status.is5xxServerError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    throw new ServerErrorException("Server error: " + errorBody);}))
-                .bodyToMono(new ParameterizedTypeReference<List<Boolean>>() {})
-                .block();
+        List<Boolean> areMenuItemsAvailable = inventoryClient.checkAvailability(menuItemIds, quantitiesOfMenuItems);
 
         IntStream.range(0, areMenuItemsAvailable.size())
                 .filter(i -> !areMenuItemsAvailable.get(i))
@@ -205,41 +188,9 @@ public class OrderServiceImpl implements OrderService{
                 .map(quantity -> quantity*(-1))
                         .collect(Collectors.toList());
 
-        webClientBuilder.build().patch()
-                .uri(UriComponentsBuilder
-                        .fromHttpUrl("http://inventory/api/inventory/stock")
-                        .queryParam("menuItemIds", menuItemIds.toArray())
-                        .queryParam("quantitiesOfMenuItems", negativeQuantities.toArray())
-                        .toUriString())
-                .retrieve()
-                .onStatus(
-                        status -> status.is4xxClientError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    throw new ClientErrorException("Client error: " + errorBody);}))
-                .onStatus(
-                        status -> status.is5xxServerError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    throw new ServerErrorException("Server error: " + errorBody);}))
-                .bodyToMono(Void.class)
-                .block();
+        inventoryClient.decreaseStock(menuItemIds, negativeQuantities);
 
-        Map<Integer, Double> prices = webClientBuilder.build()
-                .get()
-                .uri(UriComponentsBuilder
-                        .fromHttpUrl("http://menu/api/menuitems/prices")
-                        .queryParam("menuItemIds", menuItemIds.toArray())
-                        .toUriString())
-                .retrieve()
-                .onStatus(
-                        status -> status.is4xxClientError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    throw new ClientErrorException("Client error: " + errorBody);}))
-                .onStatus(
-                        status -> status.is5xxServerError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    throw new ServerErrorException("Server error: " + errorBody);}))
-                .bodyToMono(new ParameterizedTypeReference<Map<Integer, Double>>() {})
-                .block();
+        Map<Integer, Double> prices = menuClient.getPrices(menuItemIds);
 
         // Calculate total price and update status
         double totalPrice = prices.values().stream()
