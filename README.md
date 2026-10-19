@@ -53,9 +53,10 @@ For testing, you can view the email using MailDev:
 
 - ![Discovery Server](https://img.shields.io/badge/-Discovery%20Server-6DB33F?logo=spring&logoColor=white)
   ![API Gateway](https://img.shields.io/badge/-API%20Gateway-000000?logo=apachesuperset&logoColor=white)
-  ![Spring Cloud Config](https://img.shields.io/badge/-Spring%20Cloud%20Config-6DB33F?logo=spring&logoColor=white)
+  ![Centralized Configuration](https://img.shields.io/badge/-Centralized%20Configuration-6A4C93?logo=spring&logoColor=white)
+  ![Load Balancing](https://img.shields.io/badge/-Load%20Balancing-F28C28?logo=spring&logoColor=white)
   ![WebClient](https://img.shields.io/badge/-WebClient-2496ED?logo=spring&logoColor=white)
-
+                                                 
 - ![Maven](https://img.shields.io/badge/-Maven-C71A36?logo=apachemaven&logoColor=white)
 
 - ![JUnit 5](https://img.shields.io/badge/-JUnit5-25A162?logo=JUnit5&logoColor=white)
