@@ -11,16 +11,12 @@ import com.cafe.ordermanagement.entity.Order;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Mono;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,8 +29,6 @@ public class OrderServiceImpl implements OrderService{
     private final OrderDAOJPA orderDAOJPA;
     private final MenuClient menuClient;
     private final InventoryClient inventoryClient;
-    @Autowired
-    private WebClient.Builder webClientBuilder;
     @Override
     public PaginatedResponse<Order> getAllOrders(int page, int size, String[] sortBy, String[] direction) {
         List<Sort.Order> orders = IntStream.range(0, sortBy.length)
@@ -63,97 +57,16 @@ public class OrderServiceImpl implements OrderService{
                 .orElseThrow(() -> new ResourceNotFoundException("Customer with id: " + customer_id + " not found."));
     }
 
-    public PaginatedResponse<MenuItemDTO> getAllMenuItems(int page, int size, String[] sortBy, String[] direction) {
-        String uri = UriComponentsBuilder
-                .fromHttpUrl("http://menu/api/menuitems")
-                .queryParam("page", page)
-                .queryParam("size", size)
-                .queryParam("sortBy", (Object[]) sortBy)
-                .queryParam("direction", (Object[]) direction)
-                .toUriString();
-
-        return webClientBuilder.build().get()
-            .uri(uri)
-            .retrieve()
-                .onStatus(
-                        status -> status.is4xxClientError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    throw new ClientErrorException("Client error: " + errorBody);}))
-                .onStatus(
-                        status -> status.is5xxServerError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    throw new ServerErrorException("Server error: " + errorBody);}))
-            .bodyToMono(new ParameterizedTypeReference<PaginatedResponse<MenuItemDTO>>() {})
-            .block();
-    }
-
-    @Override
-    public PaginatedResponse<CategoryDTO> getAllMenuItemCategories(
-            int page, int size, String[] sortBy, String[] direction) {
-        String categoryUri = UriComponentsBuilder
-                .fromHttpUrl("http://menu/api/categories")
-                .queryParam("page", page)
-                .queryParam("size", size)
-                .queryParam("sortBy", (Object[]) sortBy)
-                .queryParam("direction", (Object[]) direction)
-                .toUriString();
-
-        return webClientBuilder.build().get()
-                .uri(categoryUri)
-                .retrieve()
-                .onStatus(
-                        status -> status.is4xxClientError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    throw new ClientErrorException("Client error: " + errorBody);
-                                }))
-                .onStatus(
-                        status -> status.is5xxServerError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    System.err.println("Server Error: " + errorBody);
-                                    return Mono.error(new ServerErrorException("Server error: " + errorBody));
-                                }))
-                .bodyToMono(new ParameterizedTypeReference<PaginatedResponse<CategoryDTO>>() {
-                })
-                .block();
-    }
-
-    @Override
-    public PaginatedResponse<MenuItemDTO> getAllMenuItemsByCategory(
-            int page, int size, String[] sortBy, String[] direction, String categoryName){
-        String uri = UriComponentsBuilder
-                .fromHttpUrl("http://menu/api/menuitems/filter/category-name")
-                .queryParam("page", page)
-                .queryParam("size", size)
-                .queryParam("sortBy", (Object[]) sortBy)
-                .queryParam("direction", (Object[]) direction)
-                .queryParam("categoryName", categoryName)
-                .toUriString();
-
-        return webClientBuilder.build().get()
-                .uri(uri)
-                .retrieve()
-                .onStatus(
-                        status -> status.is4xxClientError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    throw new ClientErrorException("Client error: " + errorBody);}))
-                .onStatus(
-                        status -> status.is5xxServerError(), response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> {
-                                    throw new ServerErrorException("Server error: " + errorBody);}))
-                .bodyToMono(new ParameterizedTypeReference<PaginatedResponse<MenuItemDTO>>() {})
-                .block();
-    }
-
     @Override
     public Map<String, List<MenuItemDTO>> getMenuItemsGroupedByCategory(
             int page, int size, String[] sortBy, String[] direction){
         Map<String, List<MenuItemDTO>> categorizedMenuItems = new LinkedHashMap<>();
         List<CategoryDTO> categories =
-                this.getAllMenuItemCategories(page, size, sortBy, direction).getData();
+                menuClient.getAllMenuItemCategories(page, size, sortBy, direction).getData();
 
         categories.stream().forEach(
                 category -> {categorizedMenuItems.put(
-                        category.name(), this.getAllMenuItemsByCategory(page, size, sortBy, direction, category.name()).getData());});
+                        category.name(), menuClient.getAllMenuItemsByCategory(page, size, sortBy, direction, category.name()).getData());});
 
         return categorizedMenuItems;
     }
@@ -190,12 +103,11 @@ public class OrderServiceImpl implements OrderService{
 
         inventoryClient.decreaseStock(menuItemIds, negativeQuantities);
 
-        Map<Integer, Double> prices = menuClient.getPrices(menuItemIds);
-
-        // Calculate total price and update status
-        double totalPrice = prices.values().stream()
-                .mapToDouble(Double::doubleValue)
+        List<Double> priceList = new ArrayList<>(menuClient.getPrices(menuItemIds).values());
+        double totalPrice = IntStream.range(0, priceList.size())
+                .mapToDouble(i -> priceList.get(i) * quantitiesOfMenuItems.get(i))
                 .sum();
+
         placedOrder.setTotal_price(totalPrice);
         placedOrder.setStatus("PENDING");
 

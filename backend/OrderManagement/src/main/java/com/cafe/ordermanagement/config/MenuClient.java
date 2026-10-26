@@ -2,13 +2,17 @@ package com.cafe.ordermanagement.config;
 
 import com.cafe.ordermanagement.dto.CategoryDTO;
 import com.cafe.ordermanagement.dto.MenuItemDTO;
+import com.cafe.ordermanagement.exception.ClientErrorException;
 import com.cafe.ordermanagement.exception.ResourceNotFoundException;
+import com.cafe.ordermanagement.exception.ServerErrorException;
 import com.cafe.ordermanagement.service.PaginatedResponse;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;

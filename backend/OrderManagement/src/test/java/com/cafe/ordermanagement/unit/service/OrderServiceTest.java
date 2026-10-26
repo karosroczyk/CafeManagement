@@ -1,5 +1,7 @@
 package com.cafe.ordermanagement.unit.service;
 
+import com.cafe.ordermanagement.config.InventoryClient;
+import com.cafe.ordermanagement.config.MenuClient;
 import com.cafe.ordermanagement.dao.OrderDAOJPA;
 import com.cafe.ordermanagement.entity.Order;
 import com.cafe.ordermanagement.exception.DatabaseUniqueValidationException;
@@ -25,12 +27,14 @@ public class OrderServiceTest {
     @Mock
     private OrderDAOJPA orderDAOJPA;
     @Mock
-    private WebClient.Builder webClientBuilder;
+    private MenuClient menuClient;
+    @Mock
+    private InventoryClient inventoryClient;
     private OrderServiceImpl orderService;
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        orderService = new OrderServiceImpl(orderDAOJPA, webClientBuilder);
+        orderService = new OrderServiceImpl(orderDAOJPA, menuClient, inventoryClient);
     }
 
     @Test
