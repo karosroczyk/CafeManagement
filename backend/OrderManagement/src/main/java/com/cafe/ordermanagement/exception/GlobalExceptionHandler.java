@@ -65,6 +65,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<ErrorResponse> handleResponseStatusException(ResponseStatusException ex) {
+        ErrorResponse error = new ErrorResponse();
+        error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        error.setMessage(ex.getMessage());
+        error.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
         Map<String, String> response = new HashMap<>();
