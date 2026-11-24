@@ -186,6 +186,16 @@ services:
     ports:
       - "8762:8761"
 
+  apigateway:
+    build:
+      context: ./backend/ApiGateway
+    container_name: apigateway
+    ports:
+      - "8089:8089"
+    depends_on:
+      eureka:
+        condition: service_started
+
   configserver:
     build:
       context: ./backend/ConfigServer

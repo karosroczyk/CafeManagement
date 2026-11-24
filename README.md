@@ -55,6 +55,7 @@ For testing, you can view the email using MailDev:
   ![API Gateway](https://img.shields.io/badge/-API%20Gateway-000000?logo=apachesuperset&logoColor=white)
   ![Centralized Configuration](https://img.shields.io/badge/-Centralized%20Configuration-6A4C93?logo=spring&logoColor=white)
   ![Load Balancing](https://img.shields.io/badge/-Load%20Balancing-F28C28?logo=spring&logoColor=white)
+  ![Circuit Breaker](https://img.shields.io/badge/-Circuit%20Breaker-D9534F?logo=spring&logoColor=white)
   ![WebClient](https://img.shields.io/badge/-WebClient-2496ED?logo=spring&logoColor=white)
                                                  
 - ![Maven](https://img.shields.io/badge/-Maven-C71A36?logo=apachemaven&logoColor=white)
@@ -123,6 +124,9 @@ and ensures consistent order processing and stock validation.
 The Order Service uses **WebClient** to communicate with:
 - **Menu Service** — to fetch item details and prices.
 - **Inventory Service** — to validate and reduce stock availability.
+
+**Resilience and fault tolerance:** The service uses the **Circuit Breaker** pattern (**Resilience4j**) to handle failures when 
+communicating with other microservices.
 
 Example endpoints:
 - GET /orders/customer/{customerId} – fetch all orders by customer
